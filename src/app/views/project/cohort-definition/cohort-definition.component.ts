@@ -86,7 +86,7 @@ export class CohortDefinitionComponent {
     if (node.op_type === 'MIN_OR') {
       return 'At least ' + node.op_criteria + ' of: '
     } else if (node.op_type === 'NOT') {
-      return 'Must not have any of: '
+      return 'None of: '
     } else {
       return 'All of: '
     }
