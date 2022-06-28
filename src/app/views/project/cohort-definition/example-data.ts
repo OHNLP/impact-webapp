@@ -3,7 +3,7 @@ export const example_cohort_definition = [
   {
     node_type: 'boolean',
     op_type: 'AND',
-    op_criteria: 'NA',
+    op_criteria: 'root',
     children: [
       {node_type: 'file', op_type: 'Diagnosis', op_criteria: 'Hypertension'},
       {

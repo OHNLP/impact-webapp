@@ -92,3 +92,9 @@ export class CohortDefinitionComponent {
     }
   }
 }
+
+export enum ItemTypes {
+  Diagnosis,
+  Drug,
+  Procedure
+}
