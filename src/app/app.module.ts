@@ -27,6 +27,8 @@ import { CohortBrowserComponent } from './views/project/cohort-browser/cohort-br
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {FormsModule} from "@angular/forms";
 import { ProjectListComponent } from './views/global/project-list/project-list.component';
+import { CohortDefinitionComponent } from './views/project/cohort-definition/cohort-definition.component';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ProjectListComponent } from './views/global/project-list/project-list.c
     PatientSummaryComponent,
     ProjectSummaryComponent,
     CohortBrowserComponent,
-    ProjectListComponent
+    ProjectListComponent,
+    CohortDefinitionComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { ProjectListComponent } from './views/global/project-list/project-list.c
     MatPaginatorModule,
     MatTableModule,
     MatButtonToggleModule,
-    FormsModule
+    FormsModule,
+    MatTreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

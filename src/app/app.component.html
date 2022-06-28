@@ -25,7 +25,7 @@
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>search</mat-icon>
-        Query Definition</a>
+        Cohort Definition</a>
       <a mat-list-item (click)="applicationStatus.activeView = view.PROJECT_COHORT_BROWSER"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -50,6 +50,7 @@
     </mat-toolbar>
     <app-project-list *ngIf="applicationStatus.activeView === view.GLOBAL_PROJECT_LIST"></app-project-list>
     <app-project-summary *ngIf="applicationStatus.activeView === view.PROJECT_DASHBOARD"></app-project-summary>
+    <app-cohort-definition *ngIf="applicationStatus.activeView === view.PROJECT_QUERY_DEFINITION"></app-cohort-definition>
     <app-cohort-browser *ngIf="applicationStatus.activeView === view.PROJECT_COHORT_BROWSER"></app-cohort-browser>
     <app-patient-view *ngIf="applicationStatus.activeView === view.PROJECT_RELEVANCE_PATIENT_VIEW"></app-patient-view>
   </mat-sidenav-content>
