@@ -1,0 +1,37 @@
+<mat-tab-group [(selectedIndex)]="tabindex">
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button mat-button [matMenuTriggerFor]="menu" style="color: rgba(0,0,0,100)" >
+        {{this.appState.activePatient?.mrn}} - {{this.appState.activePatient?.name}} <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>check</mat-icon>
+          <label>Include Patient in Cohort</label>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>close</mat-icon>
+          <label>Exclude Patient from Cohort</label>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>skip_next</mat-icon>
+          <label>Skip to Next Patient</label>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>skip_previous</mat-icon>
+          <label>Return to Previous Patient</label>
+        </button>
+      </mat-menu>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Summary" (click)="this.appState.activePatientView = view.SUMMARY">
+    <app-patient-summary *ngIf="this.tabindex === 1"></app-patient-summary>
+  </mat-tab>
+  <mat-tab label="Structured Data"
+           (click)="this.appState.activePatientView = view.STRUCTURED_DATA">Structured Data
+  </mat-tab>
+  <mat-tab label="Unstructured Data"
+           (click)="this.appState.activePatientView = view.UNSTRUCTURED_DATA">
+    <app-document-summary *ngIf="this.tabindex === 3"></app-document-summary>
+  </mat-tab>
+</mat-tab-group>

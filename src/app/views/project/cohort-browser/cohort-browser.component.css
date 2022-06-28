@@ -1,0 +1,12 @@
+.mat-column-actions {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.included {
+  background-color: #60A15F
+}
+
+.excluded {
+  background-color: #a1605f
+}

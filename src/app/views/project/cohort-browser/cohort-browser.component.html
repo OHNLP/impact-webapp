@@ -1,0 +1,48 @@
+<table mat-table [dataSource]="dataSource" style="width:100%">
+  <ng-container matColumnDef="mrn">
+    <th mat-header-cell *matHeaderCellDef>Record Number</th>
+    <td mat-cell *matCellDef="let pat">
+      {{pat.mrn}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let pat">
+      {{pat.name}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let pat">
+      {{getStatus(pat)}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let pat">
+      <button
+        mat-button
+        (click)="openPatient(pat)">
+        <mat-icon>open_in_new</mat-icon> Details</button>
+      <button mat-button
+              (click)="pat.inclusion = inclusionState.INCLUDE"
+              [disabled]="pat.inclusion === inclusionState.INCLUDE"
+      ><mat-icon>check</mat-icon> Include</button>
+      <button mat-button
+              (click)="pat.inclusion = inclusionState.EXCLUDE"
+              [disabled]="pat.inclusion === inclusionState.EXCLUDE"
+      ><mat-icon>close</mat-icon> Exclude</button>
+      <button mat-button (click)="pat.inclusion = inclusionState.UNJUDGED"><mat-icon>refresh</mat-icon> Reset</button>
+
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['mrn', 'name', 'status', 'actions']"></tr>
+  <tr mat-row *matRowDef="let pat; columns: ['mrn', 'name', 'status', 'actions']"
+      [class.included]="pat.inclusion === inclusionState.INCLUDE"
+      [class.excluded]="pat.inclusion === inclusionState.EXCLUDE">
+
+  </tr>
+</table>
+
+<mat-paginator #paginator [pageSizeOptions]="[10,15,20,50,100]" showFirstLastButtons></mat-paginator>
+
