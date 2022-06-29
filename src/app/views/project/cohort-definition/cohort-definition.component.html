@@ -1,18 +1,19 @@
 <div style="text-align: center; background-color: white">
-  <button mat-button>
+  <button mat-button (click)="resetTreeEmpty()">
     <mat-icon>refresh</mat-icon> Reset to Empty
   </button>
   <button mat-button>
     <mat-icon>save</mat-icon> Save Changes
   </button>
 </div>
+
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
     <button mat-icon-button disabled></button>
     <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
-      {{ node.node_type === 'file' ? 'description' : 'folder' }}
+      {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
     </mat-icon>
-    {{node.node_type === 'boolean' ? getNodeNameForBooleanOp(node) : node.op_type + ": " + node.op_criteria}}
+    {{getNodeName(node)}}
     <button mat-icon-button *ngIf="node.op_criteria !== 'root'"><mat-icon>edit</mat-icon></button>
     <button mat-icon-button *ngIf="node.op_criteria !== 'root'"><mat-icon>delete</mat-icon></button>
   </mat-tree-node>
@@ -24,10 +25,10 @@
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
     </button>
-    <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
-      {{ node.node_type ==='file' ? 'description' : 'folder' }}
+    <mat-icon class="type-icon" [attr.aria-label]="node.node_type + 'icon'">
+      {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
     </mat-icon>
-    {{node.node_type === 'boolean' ? getNodeNameForBooleanOp(node) : node.op_type + ": " + node.op_criteria}}
+    {{getNodeName(node)}}
     <button mat-icon-button><mat-icon>add</mat-icon></button>
     <button mat-icon-button *ngIf="node.op_criteria !== 'root'"><mat-icon>edit</mat-icon></button>
     <button mat-icon-button *ngIf="node.op_criteria !== 'root'"><mat-icon>delete</mat-icon></button>

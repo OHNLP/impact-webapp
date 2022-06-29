@@ -29,6 +29,7 @@ import {FormsModule} from "@angular/forms";
 import { ProjectListComponent } from './views/global/project-list/project-list.component';
 import { CohortDefinitionComponent } from './views/project/cohort-definition/cohort-definition.component';
 import { MatTreeModule } from '@angular/material/tree';
+import { CohortDefinitionItemEditorModalComponent } from './views/project/cohort-definition/cohort-definition-item-editor-modal/cohort-definition-item-editor-modal.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatTreeModule } from '@angular/material/tree';
     ProjectSummaryComponent,
     CohortBrowserComponent,
     ProjectListComponent,
-    CohortDefinitionComponent
+    CohortDefinitionComponent,
+    CohortDefinitionItemEditorModalComponent
   ],
   imports: [
     BrowserModule,
