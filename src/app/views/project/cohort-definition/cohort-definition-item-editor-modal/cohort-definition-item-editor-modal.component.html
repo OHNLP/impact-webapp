@@ -1,1 +1,42 @@
-<p>cohort-definition-item-editor-modal works!</p>
+<h2 mat-dialog-title>Edit Cohort Definition</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>
+      Logical Type
+    </mat-label>
+    <mat-select [(ngModel)]="data.node_type">
+      <mat-option *ngFor="let val of nodeTypes" [value]="val" >
+        {{val}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>
+      Match Type
+    </mat-label>
+    <mat-select *ngIf="data.node_type === nodeType.BOOLEAN"  [(ngModel)]="data.op_type">
+      <mat-option *ngFor="let val of booleanOpTypes" [value]="val">
+        {{val}}
+      </mat-option>
+    </mat-select>
+    <mat-select *ngIf="data.node_type === nodeType.ENTITY" [(ngModel)]="data.op_type">
+      <mat-option *ngFor="let val of entityTypes" [value]="val">
+        {{val}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="(data.node_type === nodeType.BOOLEAN && data.op_type === booleanOpType.MIN_OR)
+           || data.node_type === nodeType.ENTITY">
+    <mat-label *ngIf="data.node_type === nodeType.BOOLEAN && data.op_type === booleanOpType.MIN_OR">
+      Minimum Matching Children
+    </mat-label>
+    <mat-label *ngIf="data.node_type === nodeType.ENTITY">
+      Match Criteria
+    </mat-label>
+    <input matNativeControl [(ngModel)]="data.op_criteria">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="{node: this.data, commit: false}">Cancel</button>
+  <button mat-button [mat-dialog-close]="{node: this.data, commit: true}">Ok</button>
+</mat-dialog-actions>

@@ -1,28 +1,18 @@
 import {Component} from '@angular/core';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import {example_cohort_definition} from './example-data';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {NestedTreeControl} from '@angular/cdk/tree';
 import {BooleanOperationType, CohortDefinition, EntityType, NodeType} from "../../../models/cohort-definition";
 import {
+  CohortDefinitionEditorData,
   CohortDefinitionItemEditorModalComponent
 } from "./cohort-definition-item-editor-modal/cohort-definition-item-editor-modal.component";
 import {MatDialog} from "@angular/material/dialog";
-
-
-/**
- * Flattened tree node that has been created from a FileNode through the flattener. Flattened
- * nodes include level index and whether they can be expanded or not.
- */
-export interface FlatTreeNode {
-  node_type: NodeType;
-  op_type: BooleanOperationType | EntityType;
-  op_criteria?: string;
-  level: number;
-  expandable: boolean;
-}
+import {ApplicationStatusService} from "../../../services/application-status.service";
+import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
 
 export const base_empty_criteria = [
   {
+    node_id: crypto.randomUUID(),
     node_type: NodeType.BOOLEAN,
     op_type: BooleanOperationType.AND,
     op_criteria: 'root',
@@ -38,55 +28,31 @@ export const base_empty_criteria = [
 export class CohortDefinitionComponent {
 
   /** The TreeControl controls the expand/collapse state of tree nodes.  */
-  treeControl: FlatTreeControl<FlatTreeNode>;
-
-  /** The TreeFlattener is used to generate the flat list of items from hierarchical data. */
-  treeFlattener: MatTreeFlattener<CohortDefinition, FlatTreeNode>;
+  treeControl: NestedTreeControl<CohortDefinition, CohortDefinition>;
 
   /** The MatTreeFlatDataSource connects the control and flattener to provide data. */
-  dataSource: MatTreeFlatDataSource<CohortDefinition, FlatTreeNode>;
+  dataSource: MatTreeNestedDataSource<CohortDefinition>;
 
-  /** Reference to the Editor Modal for cohort definition items*/
-  dialogRef: any;
+  /** The unmodified tree for comparison purposes to determine if changes need to be saved */
+  unmodifiedTree: CohortDefinition;
 
-  constructor() {
-    this.treeFlattener = new MatTreeFlattener(
-      this.transformer,
-      this.getLevel,
-      this.isExpandable,
-      this.getChildren);
+  /** The tree in it's currently possibly modified state that is sync'ed to end-user display */
+  workingTree: CohortDefinition;
 
-    this.treeControl = new FlatTreeControl(this.getLevel, this.isExpandable);
-    this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-    this.dataSource.data = example_cohort_definition; // TODO replace with service call
+  constructor(
+    appstatus: ApplicationStatusService,
+    middleware: MiddlewareAdapterService,
+    public dialog: MatDialog
+  ) {
+    this.unmodifiedTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
+    this.workingTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
+    this.treeControl = new NestedTreeControl<CohortDefinition>(node => node.children);
+    this.dataSource = new MatTreeNestedDataSource<CohortDefinition>();
+    this.dataSource.data = [this.workingTree];
+    this.treeControl.dataNodes = this.dataSource.data
     this.treeControl.expandAll()
   }
 
-  /** Transform the data to something the tree can read. */
-  transformer(node: CohortDefinition, level: number): FlatTreeNode {
-    return {
-      node_type: node.node_type,
-      op_type: node.op_type,
-      op_criteria: node.op_criteria,
-      level,
-      expandable: node.node_type === NodeType.BOOLEAN
-    };
-  }
-
-  /** Get the level of the node */
-  getLevel(node: FlatTreeNode): number {
-    return node.level;
-  }
-
-  /** Get whether the node is expanded or not. */
-  isExpandable(node: FlatTreeNode): boolean {
-    return node.expandable;
-  }
-
-  /** Get whether the node has children or not. */
-  hasChild(index: number, node: FlatTreeNode): boolean {
-    return node.expandable;
-  }
 
   /** Get the children for the node. */
   getChildren(node: CohortDefinition): CohortDefinition[] | null | undefined {
@@ -97,7 +63,9 @@ export class CohortDefinitionComponent {
     return NodeType
   }
 
-  getNodeName(node: FlatTreeNode): string {
+  hasChild = (_: number, node: CohortDefinition) => node.node_type === NodeType.BOOLEAN;
+
+  getNodeName(node: CohortDefinition): string {
     if (node.node_type === NodeType.BOOLEAN) {
       if (node.op_type === BooleanOperationType.MIN_OR) {
         return 'At least ' + node.op_criteria + ' of: '
@@ -107,12 +75,74 @@ export class CohortDefinitionComponent {
         return 'All of: '
       }
     } else {
-      return EntityType[node.op_type] + ": " + node.op_criteria
+      return node.op_type + ": " + node.op_criteria
     }
   }
 
   resetTreeEmpty() {
     this.dataSource.data = base_empty_criteria
+    this.treeControl.dataNodes = this.dataSource.data
     this.treeControl.expandAll()
+  }
+
+  newNode(): CohortDefinition { // TODO implement changes to backing
+    return {
+      node_id: crypto.randomUUID(),
+      node_type: NodeType.BOOLEAN,
+      op_type: BooleanOperationType.MIN_OR,
+      op_criteria: '1',
+      children: []
+    }
+  }
+
+  openEditorDialog(node: CohortDefinition, parent?: CohortDefinition): void {
+    const dialogRef = this.dialog.open(CohortDefinitionItemEditorModalComponent, {
+      width: '80%',
+      data: {
+        node_id: node.node_id,
+        node_type: node.node_type,
+        op_type: node.op_type,
+        op_criteria: node.op_criteria,
+        children: node.children
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: CohortDefinitionEditorData) => {
+      console.log('The dialog was closed');
+      if (result.commit) {
+        console.log('Committing Changes') // TODO
+        if (parent) {
+          console.log('Adding new node to parent node ' + node.node_id)
+          if (!parent.children) {
+            parent.children = []
+          }
+          parent.children.push(result.node)
+        } else {
+          console.log('Editing existing node ' + node.node_id)
+          node.node_type = result.node.node_type
+          node.op_type = result.node.op_type
+          node.op_criteria = result.node.op_criteria
+          node.children = result.node.children
+        }
+      }
+    });
+  }
+
+  public findNodeByNodeId(node_id: string): CohortDefinition | undefined {
+    return this.findNodeByNodeIdRecurs(node_id, this.workingTree)
+  }
+
+  private findNodeByNodeIdRecurs(node_id: string, curr: CohortDefinition): CohortDefinition | undefined {
+    if (curr.node_id === node_id) {
+      return curr
+    } else {
+      for (let node of (curr.children ? curr.children : [])) {
+        let val = this.findNodeByNodeIdRecurs(node_id, node);
+        if (val) {
+          return val;
+        }
+      }
+      return;
+    }
   }
 }

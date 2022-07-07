@@ -1,4 +1,5 @@
 export interface CohortDefinition {
+  node_id: string;
   node_type: NodeType;
   op_type: BooleanOperationType | EntityType;
   op_criteria: string;
@@ -6,18 +7,19 @@ export interface CohortDefinition {
 }
 
 export enum NodeType {
-  BOOLEAN,
-  ENTITY
+  BOOLEAN = "Logical",
+  RELATIONAL = "Relational",
+  ENTITY = "Entity"
 }
 
 export enum BooleanOperationType {
-  AND,
-  MIN_OR,
-  NOT
+  AND = "Must Have All Of",
+  MIN_OR = "Must Have at Minimum x Occurrences Of",
+  NOT = "Must Not Have"
 }
 
 export enum EntityType {
-  Diagnosis,
-  Drug,
-  Procedure
+  DIAGNOSIS = "Diagnosis",
+  DRUG = "Drug",
+  PROCEDURE = "Procedure"
 }
