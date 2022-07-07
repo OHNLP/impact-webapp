@@ -1,6 +1,12 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {BooleanOperationType, CohortDefinition, EntityType, NodeType} from "../../../../models/cohort-definition";
+import {
+  BooleanOperationType, BooleanOperationTypeToDisplayNameMap,
+  CohortDefinition,
+  EntityType, EntityTypeToDisplayNameMap,
+  NodeType,
+  NodeTypeToDisplayNameMap
+} from "../../../../models/cohort-definition";
 
 export interface CohortDefinitionEditorData {
   node: CohortDefinition,
@@ -31,11 +37,25 @@ export class CohortDefinitionItemEditorModalComponent {
     return NodeType
   }
 
+  get nodeTypeNames(): Record<NodeType, string> {
+    return NodeTypeToDisplayNameMap
+  }
+
   get booleanOpType(): typeof BooleanOperationType {
     return BooleanOperationType
+  }
+
+  get booleanOpTypeNames(): Record<BooleanOperationType, string> {
+    return BooleanOperationTypeToDisplayNameMap
   }
 
   get entityType(): typeof EntityType {
     return EntityType
   }
+
+  get entityTypeNames(): Record<EntityType, string> {
+    return EntityTypeToDisplayNameMap
+  }
+
+
 }

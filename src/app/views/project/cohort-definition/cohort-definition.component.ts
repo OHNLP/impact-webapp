@@ -1,7 +1,13 @@
-import {Component} from '@angular/core';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {Component, ViewChild} from '@angular/core';
+import {MatTree, MatTreeNestedDataSource} from '@angular/material/tree';
 import {NestedTreeControl} from '@angular/cdk/tree';
-import {BooleanOperationType, CohortDefinition, EntityType, NodeType} from "../../../models/cohort-definition";
+import {
+  BooleanOperationType,
+  CohortDefinition,
+  EntityType,
+  EntityTypeToDisplayNameMap,
+  NodeType
+} from "../../../models/cohort-definition";
 import {
   CohortDefinitionEditorData,
   CohortDefinitionItemEditorModalComponent
@@ -14,8 +20,8 @@ export const base_empty_criteria = [
   {
     node_id: crypto.randomUUID(),
     node_type: NodeType.BOOLEAN,
-    op_type: BooleanOperationType.AND,
-    op_criteria: 'root',
+    value_type: BooleanOperationType.AND,
+    value: 'root',
     children: []
   }
 ]
@@ -26,6 +32,8 @@ export const base_empty_criteria = [
   styleUrls: ['./cohort-definition.component.css']
 })
 export class CohortDefinitionComponent {
+  /** Reference to the Tree itself */
+  @ViewChild('tree') tree!: MatTree<any>;
 
   /** The TreeControl controls the expand/collapse state of tree nodes.  */
   treeControl: NestedTreeControl<CohortDefinition, CohortDefinition>;
@@ -67,15 +75,17 @@ export class CohortDefinitionComponent {
 
   getNodeName(node: CohortDefinition): string {
     if (node.node_type === NodeType.BOOLEAN) {
-      if (node.op_type === BooleanOperationType.MIN_OR) {
-        return 'At least ' + node.op_criteria + ' of: '
-      } else if (node.op_type === BooleanOperationType.NOT) {
+      if (node.value_type === BooleanOperationType.MIN_OR) {
+        return 'At least ' + node.value + ' of: '
+      } else if (node.value_type === BooleanOperationType.NOT) {
         return 'None of: '
       } else {
         return 'All of: '
       }
+    } else if (node.node_type === NodeType.ENTITY) {
+      return EntityTypeToDisplayNameMap[(<EntityType>node.value_type)] + ": " + node.value
     } else {
-      return node.op_type + ": " + node.op_criteria
+      return node.value_type + ": " + node.value
     }
   }
 
@@ -85,12 +95,12 @@ export class CohortDefinitionComponent {
     this.treeControl.expandAll()
   }
 
-  newNode(): CohortDefinition { // TODO implement changes to backing
+  newNode(): CohortDefinition {
     return {
       node_id: crypto.randomUUID(),
       node_type: NodeType.BOOLEAN,
-      op_type: BooleanOperationType.MIN_OR,
-      op_criteria: '1',
+      value_type: BooleanOperationType.MIN_OR,
+      value: '1',
       children: []
     }
   }
@@ -101,8 +111,8 @@ export class CohortDefinitionComponent {
       data: {
         node_id: node.node_id,
         node_type: node.node_type,
-        op_type: node.op_type,
-        op_criteria: node.op_criteria,
+        value_type: node.value_type,
+        value: node.value,
         children: node.children
       }
     });
@@ -112,7 +122,7 @@ export class CohortDefinitionComponent {
       if (result.commit) {
         console.log('Committing Changes') // TODO
         if (parent) {
-          console.log('Adding new node to parent node ' + node.node_id)
+          console.log('Adding new node to parent node ' + parent.node_id)
           if (!parent.children) {
             parent.children = []
           }
@@ -120,11 +130,14 @@ export class CohortDefinitionComponent {
         } else {
           console.log('Editing existing node ' + node.node_id)
           node.node_type = result.node.node_type
-          node.op_type = result.node.op_type
-          node.op_criteria = result.node.op_criteria
+          node.value_type = result.node.value_type
+          node.value = result.node.value
           node.children = result.node.children
         }
       }
+      const data = this.dataSource.data;
+      this.dataSource.data = [];
+      this.dataSource.data = data;
     });
   }
 
@@ -143,6 +156,31 @@ export class CohortDefinitionComponent {
         }
       }
       return;
+    }
+  }
+
+  public deleteNode(node: CohortDefinition): void {
+    this.deleteNodeRecurs(node.node_id, this.workingTree);
+    // Force-refresh tree render
+    const data = this.dataSource.data;
+    this.dataSource.data = [];
+    this.dataSource.data = data;
+  }
+
+  private deleteNodeRecurs(node_id: string, curr: CohortDefinition) {
+    if (!curr.children) {
+      return
+    }
+    for (let node of curr.children) {
+      if (node.node_id === node_id) {
+        let idx = curr.children.indexOf(node)
+        if (idx > -1) {
+          curr.children?.splice(idx, 1)
+          return
+        }
+      } else {
+        this.deleteNodeRecurs(node_id, node)
+      }
     }
   }
 }

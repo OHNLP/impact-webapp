@@ -9,17 +9,17 @@
   </button>
 </div>
 
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="cohort-definition-tree">
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" #tree class="cohort-definition-tree">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
     <button mat-icon-button disabled></button>
     <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
       {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
     </mat-icon>
     {{getNodeName(node)}}
-    <button mat-icon-button *ngIf="node.op_criteria !== 'root'" (click)="openEditorDialog(node)">
+    <button mat-icon-button *ngIf="node.value !== 'root'" (click)="openEditorDialog(node)">
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="node.op_criteria !== 'root'">
+    <button mat-icon-button *ngIf="node.value !== 'root'" (click)="deleteNode(node)">
       <mat-icon>delete</mat-icon>
     </button>
   </mat-tree-node>
@@ -39,10 +39,10 @@
       <button mat-icon-button (click)="openEditorDialog(newNode(), node)">
         <mat-icon>add</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="node.op_criteria !== 'root'" (click)="openEditorDialog(node)">
+      <button mat-icon-button *ngIf="node.value !== 'root'" (click)="openEditorDialog(node)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="node.op_criteria !== 'root'">
+      <button mat-icon-button *ngIf="node.value !== 'root'" (click)="deleteNode(node)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
