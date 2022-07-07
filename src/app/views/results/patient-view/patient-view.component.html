@@ -1,8 +1,9 @@
 <mat-tab-group [(selectedIndex)]="tabindex">
   <mat-tab disabled>
     <ng-template mat-tab-label>
-      <button mat-button [matMenuTriggerFor]="menu" style="color: rgba(0,0,0,100)" >
-        {{this.appState.activePatient?.mrn}} - {{this.appState.activePatient?.name}} <mat-icon>arrow_drop_down</mat-icon>
+      <button mat-button [matMenuTriggerFor]="menu" style="color: rgba(0,0,0,100)">
+        {{this.appState.activePatient?.mrn}} - {{this.appState.activePatient?.name}}
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
@@ -25,13 +26,20 @@
     </ng-template>
   </mat-tab>
   <mat-tab label="Summary" (click)="this.appState.activePatientView = view.SUMMARY">
-    <app-patient-summary *ngIf="this.tabindex === 1"></app-patient-summary>
+    <ng-template matTabContent>
+      <app-patient-summary *ngIf="this.tabindex === 1"></app-patient-summary>
+    </ng-template>
   </mat-tab>
   <mat-tab label="Structured Data"
-           (click)="this.appState.activePatientView = view.STRUCTURED_DATA">Structured Data
+           (click)="this.appState.activePatientView = view.STRUCTURED_DATA">
+    <ng-template matTabContent>
+      Structured Data
+    </ng-template>
   </mat-tab>
   <mat-tab label="Unstructured Data"
            (click)="this.appState.activePatientView = view.UNSTRUCTURED_DATA">
-    <app-document-summary *ngIf="this.tabindex === 3"></app-document-summary>
+    <ng-template matTabContent>
+      <app-document-summary *ngIf="this.tabindex === 3"></app-document-summary>
+    </ng-template>
   </mat-tab>
 </mat-tab-group>
