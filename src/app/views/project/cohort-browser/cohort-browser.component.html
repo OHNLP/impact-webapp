@@ -23,16 +23,27 @@
       <button
         mat-button
         (click)="openPatient(pat)">
-        <mat-icon>open_in_new</mat-icon> Details</button>
+        <mat-icon>open_in_new</mat-icon>
+        Details
+      </button>
       <button mat-button
-              (click)="pat.inclusion = inclusionState.INCLUDE"
+              (click)="updateInclusionState(pat, inclusionState.INCLUDE)"
               [disabled]="pat.inclusion === inclusionState.INCLUDE"
-      ><mat-icon>check</mat-icon> Include</button>
+      >
+        <mat-icon>check</mat-icon>
+        Include
+      </button>
       <button mat-button
-              (click)="pat.inclusion = inclusionState.EXCLUDE"
+              (click)="updateInclusionState(pat, inclusionState.EXCLUDE)"
               [disabled]="pat.inclusion === inclusionState.EXCLUDE"
-      ><mat-icon>close</mat-icon> Exclude</button>
-      <button mat-button (click)="pat.inclusion = inclusionState.UNJUDGED"><mat-icon>refresh</mat-icon> Reset</button>
+      >
+        <mat-icon>close</mat-icon>
+        Exclude
+      </button>
+      <button mat-button (click)="updateInclusionState(pat, inclusionState.UNJUDGED)">
+        <mat-icon>refresh</mat-icon>
+        Reset
+      </button>
 
     </td>
   </ng-container>

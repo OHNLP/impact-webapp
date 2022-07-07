@@ -4,6 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ApplicationStatusService} from "../../../services/application-status.service";
 import {View} from "../../views";
+import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
 
 @Component({
   selector: 'app-cohort-browser',
@@ -12,23 +13,15 @@ import {View} from "../../views";
 })
 export class CohortBrowserComponent implements OnInit {
 
+  private dirty: boolean = false // Tracks whether changes to cohort relevance have been made
   private cohort: Array<PatInfo> = []
   public dataSource!: MatTableDataSource<PatInfo>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
-  constructor(public applicationStatus: ApplicationStatusService) { }
+  constructor(public applicationStatus: ApplicationStatusService, private middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
-    // TODO remove debug init
-    let i = 0
-    while (i < 1000) {
-      let pat = new PatInfo()
-      pat.mrn = i.toString()
-      pat.name = "Test Patient " + i.toString()
-      this.cohort.push(pat)
-      i += 1
-    }
-    // TODO end debug init
+    this.cohort = this.middleware.rest.getRetrievedCohort(this.applicationStatus.activeProject?.uid)
     this.dataSource = new MatTableDataSource()
     this.dataSource.paginator = this.paginator
     this.dataSource.data = this.cohort
@@ -52,5 +45,13 @@ export class CohortBrowserComponent implements OnInit {
       case CohortInclusion.EXCLUDE:
         return "Excluded";
     }
+  }
+
+  public updateInclusionState(pat: PatInfo, state: CohortInclusion) {
+    if (this.applicationStatus.activeProject) {
+      pat.inclusion = state
+      this.middleware.rest.writeRetrievedCohort(this.applicationStatus.activeProject.uid, this.cohort)
+    }
+
   }
 }
