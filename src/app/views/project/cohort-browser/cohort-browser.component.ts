@@ -21,10 +21,12 @@ export class CohortBrowserComponent implements OnInit {
   constructor(public applicationStatus: ApplicationStatusService, private middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
-    this.cohort = this.middleware.rest.getRetrievedCohort(this.applicationStatus.activeProject?.uid)
-    this.dataSource = new MatTableDataSource()
-    this.dataSource.paginator = this.paginator
-    this.dataSource.data = this.cohort
+    if (this.applicationStatus.activeProject) {
+      this.cohort = this.middleware.rest.getRetrievedCohort(this.applicationStatus.activeProject.uid)
+      this.dataSource = new MatTableDataSource()
+      this.dataSource.paginator = this.paginator
+      this.dataSource.data = this.cohort
+    }
   }
 
   get inclusionState(): typeof CohortInclusion {

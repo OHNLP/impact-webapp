@@ -51,8 +51,12 @@ export class CohortDefinitionComponent {
     middleware: MiddlewareAdapterService,
     public dialog: MatDialog
   ) {
-    this.unmodifiedTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
-    this.workingTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
+    if (appstatus.activeProject) {
+      this.unmodifiedTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
+      this.workingTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
+    } else {
+      throw new Error("Cohort definition attempted without active project")
+    }
     this.treeControl = new NestedTreeControl<CohortDefinition>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<CohortDefinition>();
     this.dataSource.data = [this.workingTree];

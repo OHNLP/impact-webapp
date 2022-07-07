@@ -4,18 +4,15 @@ import {example_cohort_definition} from "../../../views/project/cohort-definitio
 import {PatInfo} from "../../../models/pat-info";
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
-  getCohortCriteria(project_uid?: string): CohortDefinition {
-    if (!project_uid) {
-      throw new Error("getCohortCriteria called without a project UID")
-    }
+  getCohortCriteria(project_uid: string): CohortDefinition {
     return example_cohort_definition;
   }
 
-  writeCohortCriteria(project_uid?: string, definition?: CohortDefinition): boolean {
+  writeCohortCriteria(project_uid: string, definition?: CohortDefinition): boolean {
     return false;
   }
 
-  getRetrievedCohort(project_uid?: string): Array<PatInfo> {
+  getRetrievedCohort(project_uid: string): Array<PatInfo> {
     let cohort = []
     let i = 0
     while (i < 1000) {
@@ -28,7 +25,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return cohort;
   }
 
-  writeRetrievedCohort(project_uid: string, cohort: Array<PatInfo>): boolean {
+  writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean {
     return false;
   }
 }
