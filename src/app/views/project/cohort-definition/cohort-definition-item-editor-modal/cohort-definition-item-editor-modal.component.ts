@@ -8,11 +8,6 @@ import {
   NodeTypeToDisplayNameMap
 } from "../../../../models/cohort-definition";
 
-export interface CohortDefinitionEditorData {
-  node: CohortDefinition,
-  commit: boolean
-}
-
 @Component({
   selector: 'app-cohort-definition-item-editor-modal',
   templateUrl: './cohort-definition-item-editor-modal.component.html',
@@ -28,10 +23,6 @@ export class CohortDefinitionItemEditorModalComponent {
     public dialogRef: MatDialogRef<CohortDefinitionItemEditorModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CohortDefinition,
   ) {}
-
-  onNoClick(): void {
-    this.dialogRef.close({node: this.data, commit: false}); // TODO debug change to false
-  }
 
   get nodeType(): typeof NodeType {
     return NodeType

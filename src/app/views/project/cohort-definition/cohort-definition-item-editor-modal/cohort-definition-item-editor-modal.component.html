@@ -42,6 +42,6 @@
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="{node: this.data, commit: false}">Cancel</button>
-  <button mat-button [mat-dialog-close]="{node: this.data, commit: true}">Ok</button>
+  <button mat-button [mat-dialog-close]="">Cancel</button>
+  <button mat-button [mat-dialog-close]="this.data">Ok</button>
 </mat-dialog-actions>

@@ -9,7 +9,6 @@ import {
   NodeType
 } from "../../../models/cohort-definition";
 import {
-  CohortDefinitionEditorData,
   CohortDefinitionItemEditorModalComponent
 } from "./cohort-definition-item-editor-modal/cohort-definition-item-editor-modal.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -117,23 +116,24 @@ export class CohortDefinitionComponent {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: CohortDefinitionEditorData) => {
+    dialogRef.afterClosed().subscribe((result: CohortDefinition) => {
       console.log('The dialog was closed');
-      if (result.commit) {
-        console.log('Committing Changes') // TODO
-        if (parent) {
-          console.log('Adding new node to parent node ' + parent.node_id)
-          if (!parent.children) {
-            parent.children = []
-          }
-          parent.children.push(result.node)
-        } else {
-          console.log('Editing existing node ' + node.node_id)
-          node.node_type = result.node.node_type
-          node.value_type = result.node.value_type
-          node.value = result.node.value
-          node.children = result.node.children
+      if (!result) {
+        return
+      }
+      console.log("Committing changes")
+      if (parent) {
+        console.log('Adding new node to parent node ' + parent.node_id)
+        if (!parent.children) {
+          parent.children = []
         }
+        parent.children.push(result)
+      } else {
+        console.log('Editing existing node ' + node.node_id)
+        node.node_type = result.node_type
+        node.value_type = result.value_type
+        node.value = result.value
+        node.children = result.children
       }
       const data = this.dataSource.data;
       this.dataSource.data = [];
