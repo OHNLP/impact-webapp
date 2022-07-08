@@ -1,16 +1,19 @@
 <!-- TODO handle bad styling on small width screens (e.g. mobile) -->
 <div style="text-align: center">
-  <button mat-button (click)="refreshViewToPatientRelative(-1)">
+  <button mat-button (click)="refreshViewToPatientRelative(-1)" [disabled]="this.appState.activePatientIdx === 0">
     <mat-icon>skip_previous</mat-icon>
   </button>
-  <button mat-button (click)="writePatientJudgement(cohortInclusion.INCLUDE); refreshViewToPatientRelative(1)">
+  <button mat-button (click)="writePatientJudgement(cohortInclusion.INCLUDE); refreshViewToPatientRelative(1)"
+          [disabled]="this.appState.activePatient.inclusion === cohortInclusion.INCLUDE">
     <mat-icon>check</mat-icon>
   </button>
   {{this.appState.activePatientIdx + 1}}&nbsp;/&nbsp;{{this.appState.activeCohortSize}}
-  <button mat-button (click)="writePatientJudgement(cohortInclusion.INCLUDE); refreshViewToPatientRelative(1)">
+  <button mat-button (click)="writePatientJudgement(cohortInclusion.EXCLUDE); refreshViewToPatientRelative(1)"
+          [disabled]="this.appState.activePatient.inclusion === cohortInclusion.INCLUDE">
     <mat-icon>close</mat-icon>
   </button>
-  <button mat-button (click)="refreshViewToPatientRelative(1)">
+  <button mat-button (click)="refreshViewToPatientRelative(1)"
+          [disabled]="this.appState.activePatientIdx + 1 === this.appState.activeCohortSize">
     <mat-icon>skip_next</mat-icon>
   </button>
 </div>
