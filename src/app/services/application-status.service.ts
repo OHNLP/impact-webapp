@@ -12,6 +12,8 @@ export class ApplicationStatusService {
   private _activePatientView: PatientView = PatientView.SUMMARY
   private _activePatient: PatInfo | undefined // TODO remove debug
   private _activeProject: Project | undefined// TODO remove debug
+  private _activePatientIdx: number = 0;
+  private _activeCohortSize: number = 0;
   constructor() { }
 
   get activeView(): View {
@@ -44,6 +46,22 @@ export class ApplicationStatusService {
 
   set activeProject(value: Project | undefined) {
     this._activeProject = value;
+  }
+
+  get activePatientIdx(): number {
+    return this._activePatientIdx;
+  }
+
+  set activePatientIdx(value: number) {
+    this._activePatientIdx = value;
+  }
+
+  get activeCohortSize(): number {
+    return this._activeCohortSize;
+  }
+
+  set activeCohortSize(value: number) {
+    this._activeCohortSize = value;
   }
 
   public resetView(): void {

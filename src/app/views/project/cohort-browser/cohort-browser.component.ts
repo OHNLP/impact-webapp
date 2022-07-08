@@ -36,6 +36,7 @@ export class CohortBrowserComponent implements OnInit {
   public openPatient(pat: PatInfo): void {
     this.applicationStatus.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
     this.applicationStatus.activePatient = pat
+    this.applicationStatus.activePatientIdx = this.cohort.indexOf(pat)
   }
 
   public getStatus(pat: PatInfo): string {

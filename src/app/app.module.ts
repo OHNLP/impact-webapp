@@ -36,6 +36,10 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
+import {
+  PatientNavSnackbarComponent
+} from "./views/results/patient-view/patient-nav-snackbar/patient-nav-snackbar.component";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -48,7 +52,8 @@ import {MatInputModule} from "@angular/material/input";
     CohortBrowserComponent,
     ProjectListComponent,
     CohortDefinitionComponent,
-    CohortDefinitionItemEditorModalComponent
+    CohortDefinitionItemEditorModalComponent,
+    PatientNavSnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +79,8 @@ import {MatInputModule} from "@angular/material/input";
     MatDialogModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

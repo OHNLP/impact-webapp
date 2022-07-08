@@ -1,0 +1,16 @@
+<!-- TODO handle bad styling on small width screens (e.g. mobile) -->
+<div style="text-align: center">
+  <button mat-button (click)="refreshViewToPatientRelative(-1)">
+    <mat-icon>skip_previous</mat-icon>
+  </button>
+  <button mat-button (click)="writePatientJudgement(cohortInclusion.INCLUDE); refreshViewToPatientRelative(1)">
+    <mat-icon>check</mat-icon>
+  </button>
+  {{this.appState.activePatientIdx + 1}}&nbsp;/&nbsp;{{this.appState.activeCohortSize}}
+  <button mat-button (click)="writePatientJudgement(cohortInclusion.INCLUDE); refreshViewToPatientRelative(1)">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button mat-button (click)="refreshViewToPatientRelative(1)">
+    <mat-icon>skip_next</mat-icon>
+  </button>
+</div>

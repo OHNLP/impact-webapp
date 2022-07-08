@@ -5,6 +5,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {ApplicationStatusService} from "../../../services/application-status.service";
 import {PatInfo} from "../../../models/pat-info";
 import {View} from "../../views";
+import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
 
 @Component({
   selector: 'app-project-list',
@@ -17,7 +18,7 @@ export class ProjectListComponent implements OnInit {
   public dataSource!: MatTableDataSource<Project>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
-  constructor(public applicationStatus: ApplicationStatusService) { }
+  constructor(public applicationStatus: ApplicationStatusService, public middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
     // TODO remove debug init
@@ -36,6 +37,7 @@ export class ProjectListComponent implements OnInit {
 
   setActiveProject(prj: Project) {
     this.applicationStatus.activeProject = prj
+    this.applicationStatus.activeCohortSize = this.middleware.rest.getRetrievedCohort(prj.uid).length
     this.applicationStatus.activeView = View.PROJECT_DASHBOARD
   }
 }
