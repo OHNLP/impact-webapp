@@ -9,7 +9,7 @@
   </button>
   {{this.appState.activePatientIdx + 1}}&nbsp;/&nbsp;{{this.appState.activeCohortSize}}
   <button mat-button (click)="writePatientJudgement(cohortInclusion.EXCLUDE); refreshViewToPatientRelative(1)"
-          [disabled]="this.appState.activePatient!.inclusion === cohortInclusion.INCLUDE">
+          [disabled]="this.appState.activePatient!.inclusion === cohortInclusion.EXCLUDE">
     <mat-icon>close</mat-icon>
   </button>
   <button mat-button (click)="refreshViewToPatientRelative(1)"
