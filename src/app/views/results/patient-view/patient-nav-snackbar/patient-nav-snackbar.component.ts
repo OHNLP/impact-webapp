@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApplicationStatusService} from "../../../../services/application-status.service";
 import {CohortInclusion} from "../../../../models/pat-info";
 import {MiddlewareAdapterService} from "../../../../services/middleware-adapter.service";
-import {View} from "../../../views";
+import {PatientView, View} from "../../../views";
 
 @Component({
   selector: 'app-patient-nav-snackbar',
@@ -35,6 +35,8 @@ export class PatientNavSnackbarComponent implements OnInit {
       this.appState.activePatientIdx = this.appState.activePatientIdx + incr
       this.appState.activePatient = this._middleware.rest.getRetrievedCohort(this.appState.activeProject!.uid)[this.appState.activePatientIdx]
       // Hackishly refresh view by setting view to something else and changing back
+      this.appState.activePatientView = PatientView.SUMMARY
+      this.appState.activePatientViewTabIndex = 1
       this.appState.activeView = View.PROJECT_DASHBOARD
       this.appState.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
     }

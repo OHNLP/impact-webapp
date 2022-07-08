@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {PatientView, View} from "../views/views";
 import {PatInfo} from "../models/pat-info";
 import {Project} from "../models/project";
@@ -10,11 +10,14 @@ import {PatientViewComponent} from "../views/results/patient-view/patient-view.c
 export class ApplicationStatusService {
   private _activeView: View = View.GLOBAL_DASHBOARD
   private _activePatientView: PatientView = PatientView.SUMMARY
+  private _activePatientViewTabIndex: number = 1
   private _activePatient: PatInfo | undefined // TODO remove debug
   private _activeProject: Project | undefined// TODO remove debug
   private _activePatientIdx: number = 0;
   private _activeCohortSize: number = 0;
-  constructor() { }
+
+  constructor() {
+  }
 
   get activeView(): View {
     return this._activeView
@@ -30,6 +33,14 @@ export class ApplicationStatusService {
 
   set activePatientView(view: PatientView) {
     this._activePatientView = view
+  }
+
+  get activePatientViewTabIndex(): number {
+    return this._activePatientViewTabIndex;
+  }
+
+  set activePatientViewTabIndex(value: number) {
+    this._activePatientViewTabIndex = value;
   }
 
   get activePatient(): PatInfo | undefined {

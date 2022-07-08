@@ -11,7 +11,6 @@ import {PatientNavSnackbarComponent} from "./patient-nav-snackbar/patient-nav-sn
 })
 export class PatientViewComponent implements OnInit, OnDestroy {
 
-  public tabindex: number = 1
   private _snackBarRef: MatSnackBarRef<PatientNavSnackbarComponent> | undefined;
 
   constructor(public appState: ApplicationStatusService, private _snackBar: MatSnackBar) { }

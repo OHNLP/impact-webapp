@@ -1,4 +1,4 @@
-<mat-tab-group [(selectedIndex)]="tabindex">
+<mat-tab-group [(selectedIndex)]="this.appState.activePatientViewTabIndex">
   <mat-tab disabled>
     <ng-template mat-tab-label>
       <div style="color: rgba(0,0,0,100)">
@@ -8,7 +8,7 @@
   </mat-tab>
   <mat-tab label="Summary" (click)="this.appState.activePatientView = view.SUMMARY">
     <ng-template matTabContent>
-      <app-patient-summary *ngIf="this.tabindex === 1"></app-patient-summary>
+      <app-patient-summary *ngIf="this.appState.activePatientViewTabIndex === 1"></app-patient-summary>
     </ng-template>
   </mat-tab>
   <mat-tab label="Structured Data"
@@ -20,7 +20,7 @@
   <mat-tab label="Unstructured Data"
            (click)="this.appState.activePatientView = view.UNSTRUCTURED_DATA">
     <ng-template matTabContent>
-      <app-document-summary *ngIf="this.tabindex === 3"></app-document-summary>
+      <app-document-summary *ngIf="this.appState.activePatientViewTabIndex === 3"></app-document-summary>
     </ng-template>
   </mat-tab>
 </mat-tab-group>
