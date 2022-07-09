@@ -7,20 +7,18 @@
     </ng-template>
   </mat-tab>
   <mat-tab label="Summary" (click)="this.appState.activePatientView = view.SUMMARY">
-    <ng-template matTabContent>
-      <app-patient-summary *ngIf="this.appState.activePatientViewTabIndex === 1"></app-patient-summary>
-    </ng-template>
+    <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
   </mat-tab>
   <mat-tab label="Structured Data"
            (click)="this.appState.activePatientView = view.STRUCTURED_DATA">
     <ng-template matTabContent>
-      Structured Data
+      <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
     </ng-template>
   </mat-tab>
   <mat-tab label="Unstructured Data"
            (click)="this.appState.activePatientView = view.UNSTRUCTURED_DATA">
     <ng-template matTabContent>
-      <app-document-summary *ngIf="this.appState.activePatientViewTabIndex === 3"></app-document-summary>
+      <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
     </ng-template>
   </mat-tab>
 </mat-tab-group>

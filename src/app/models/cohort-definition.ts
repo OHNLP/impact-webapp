@@ -3,6 +3,7 @@ export interface CohortDefinition {
   node_type: NodeType;
   value_type: BooleanOperationType | EntityType;
   value: string;
+  match_state: CriteriaMatchState | undefined;
   children?: CohortDefinition[];
 }
 
@@ -60,14 +61,21 @@ export enum BinaryRelationalType {
   LTE = "LTE",
   GT = "GT",
   GTE = "GTE",
-  EQ = "=",
+  EQ = "EQ",
   IN = "IN"
 }
-
-
 
 export enum ValueType {
   CONCEPT = "CONCEPT",
   NUMERIC = "NUMERIC",
   VALUE_LIST = "VALUE_LIST"
+}
+
+export enum CriteriaMatchState {
+  CONFIRMED_MATCH,
+  ALGORITHMIC_MATCH,
+  ALGORITHMIC_MATCH_NLP,
+  ALGORITHMIC_MISMATCH_NLP,
+  ALGORITHMIC_MISMATCH,
+  CONFIRMED_MISMATCH
 }

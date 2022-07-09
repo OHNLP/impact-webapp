@@ -15,6 +15,7 @@ export class ApplicationStatusService {
   private _activeProject: Project | undefined// TODO remove debug
   private _activePatientIdx: number = 0;
   private _activeCohortSize: number = 0;
+  private _selectedPatientCriteriaFilter: string | undefined
 
   constructor() {
   }
@@ -73,6 +74,15 @@ export class ApplicationStatusService {
 
   set activeCohortSize(value: number) {
     this._activeCohortSize = value;
+  }
+
+
+  get selectedPatientCriteriaFilter(): string | undefined {
+    return this._selectedPatientCriteriaFilter;
+  }
+
+  set selectedPatientCriteriaFilter(value: string | undefined) {
+    this._selectedPatientCriteriaFilter = value;
   }
 
   public resetView(): void {

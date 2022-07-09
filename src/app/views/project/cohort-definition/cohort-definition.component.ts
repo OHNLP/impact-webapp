@@ -21,7 +21,8 @@ export const base_empty_criteria = [
     node_type: NodeType.BOOLEAN,
     value_type: BooleanOperationType.AND,
     value: 'root',
-    children: []
+    children: [],
+    match_state: undefined
   }
 ]
 
@@ -104,6 +105,7 @@ export class CohortDefinitionComponent {
       node_type: NodeType.BOOLEAN,
       value_type: BooleanOperationType.MIN_OR,
       value: '1',
+      match_state: undefined,
       children: []
     }
   }
