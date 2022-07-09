@@ -1,24 +1,68 @@
-<div class="grid-container">
-  <h1 class="mat-h1">{{this.appState.activePatient?.mrn}} - {{this.appState.activePatient?.name}}</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+<mat-sidenav-container>
+  <mat-sidenav #criteriaselector class="sidenav"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false"
+               position="end">
+    <button mat-mini-fab
+            color="primary"
+            class="cohort-description-sidenav-toggle"
+            (click)="criteriaselector.toggle()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <mat-toolbar>
+      Patient Definition
+    </mat-toolbar>
+    <mat-nav-list>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" #tree class="patient-cohort-description-tree">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+          <a mat-list-item>
+            <!-- Manual Padding Based on Levels -->
+            <span *ngIf="node.level > 0" [style]="{'display': 'inline-block', 'width': 20 * node.level + 'px'}"></span>
+            <button mat-icon-button disabled></button>
+            <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
+              {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
+            </mat-icon>
+            {{getNodeName(node)}}
+          </a>
+        </mat-tree-node>
+
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild">
+          <div class="mat-tree-node">
+            <a mat-list-item>
+              <!-- Manual Padding Based on Levels -->
+              <span *ngIf="node.level > 0"
+                    [style]="{'display': 'inline-block', 'width': 20 * node.level + 'px'}"></span>
+              <button mat-icon-button matTreeNodeToggle
+                      [attr.aria-label]="'Toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              <mat-icon class="type-icon" [attr.aria-label]="node.node_type + 'icon'">
+                {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
+              </mat-icon>
+              {{getNodeName(node)}}
+            </a>
+          </div>
+          <!-- There is inline padding applied to this div using styles.
+                    This padding value depends on the mat-icon-button width.  -->
+          <div [class.patient-cohort-description-tree-invisible]="!treeControl.isExpanded(node)"
+               role="group">
+            <ng-container matTreeNodeOutlet></ng-container>
+          </div>
+        </mat-tree-node>
+      </mat-tree>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content style="min-height:100vh">
+    <button mat-mini-fab
+            color="primary"
+            class="cohort-description-sidenav-toggle-right"
+            (click)="criteriaselector.toggle()"
+            *ngIf="!criteriaselector.opened">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    Test
+  </mat-sidenav-content>
+</mat-sidenav-container>
