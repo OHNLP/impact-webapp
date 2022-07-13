@@ -75,6 +75,7 @@ export class ApplicationStatusService {
 
   set activePatientIdx(value: number) {
     this._activePatientIdx = value;
+    this.selectedPatientCriteriaFilter = undefined
   }
 
   get activeCohortSize(): number {
