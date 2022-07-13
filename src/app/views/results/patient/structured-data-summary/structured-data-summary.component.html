@@ -1,0 +1,43 @@
+<table mat-table [dataSource]="dataSource" style="width:100%">
+  <ng-container matColumnDef="code">
+    <th mat-header-cell *matHeaderCellDef>Code</th>
+    <td mat-cell *matCellDef="let data">
+      {{data.code_system}}&nbsp;{{data.code}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="desc">
+    <th mat-header-cell *matHeaderCellDef>Description</th>
+    <td mat-cell *matCellDef="let data">
+      {{data.desc}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="dtm">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let data">
+      {{data.dtm}}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let data">
+      <button mat-button>
+        <mat-icon>check</mat-icon>
+        <label>Mark Relevant</label>
+      </button>
+      <button mat-button>
+        <mat-icon>close</mat-icon>
+        <label>Mark Irrelevant</label>
+      </button>
+      <button mat-button>
+        <mat-icon>swap_vert</mat-icon>
+        <label>Mark Partially Relevant</label>
+      </button>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="['code', 'desc', 'dtm', 'actions']"></tr>
+
+  <tr mat-row *matRowDef="let data; columns: ['code', 'desc', 'dtm', 'actions']"></tr>
+</table>
+
+<mat-paginator #paginator [pageSizeOptions]="[10,15,20,50,100]" showFirstLastButtons></mat-paginator>
+<!--TODO remove 5 option for pagination -->

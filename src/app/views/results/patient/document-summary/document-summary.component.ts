@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AnnotatableText, ClinicalDocument} from "../../../../models/clinical-document";
+import {AnnotatableText, ClinicalData} from "../../../../models/clinical-data";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 
@@ -10,8 +10,8 @@ import {MatPaginator} from "@angular/material/paginator";
 })
 export class DocumentSummaryComponent implements OnInit {
 
-  private documents: Array<ClinicalDocument> = []
-  public dataSource!: MatTableDataSource<ClinicalDocument>;
+  private documents: Array<ClinicalData> = []
+  public dataSource!: MatTableDataSource<ClinicalData>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
   constructor() { }
@@ -20,7 +20,7 @@ export class DocumentSummaryComponent implements OnInit {
     // TODO Remove debug/filler
     let i = 0
     while (i < 10) {
-      let doc = new ClinicalDocument();
+      let doc = new ClinicalData();
       doc.id = i.toString()
       doc.summary = new AnnotatableText()
       doc.summary.text = "Random test text 1\n\nRandom test text 2"

@@ -41,6 +41,7 @@ import {
 } from "./views/results/patient-view/patient-nav-snackbar/patient-nav-snackbar.component";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { PatientReviewDefinitionSelectionWrapperComponent } from './views/results/patient/patient-review-definition-selection-wrapper/patient-review-definition-selection-wrapper.component';
+import { StructuredDataSummaryComponent } from './views/results/patient/structured-data-summary/structured-data-summary.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { PatientReviewDefinitionSelectionWrapperComponent } from './views/result
     CohortDefinitionComponent,
     CohortDefinitionItemEditorModalComponent,
     PatientNavSnackbarComponent,
-    PatientReviewDefinitionSelectionWrapperComponent
+    PatientReviewDefinitionSelectionWrapperComponent,
+    StructuredDataSummaryComponent
   ],
   imports: [
     BrowserModule,

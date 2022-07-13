@@ -1,4 +1,4 @@
-<mat-sidenav-container>
+<mat-sidenav-container class="criteria-selector-container">
   <mat-sidenav #criteriaselector class="sidenav"
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -61,7 +61,7 @@
       </mat-tree>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content style="min-height:100vh">
+  <mat-sidenav-content style="flex-grow: 1">
     <button mat-mini-fab
             color="primary"
             class="cohort-description-sidenav-toggle-right"
@@ -70,6 +70,7 @@
       <mat-icon>chevron_left</mat-icon>
     </button>
     <app-patient-summary *ngIf="this.appstatus.activePatientViewTabIndex === 1"></app-patient-summary>
+    <app-structured-data-summary *ngIf="this.appstatus.activePatientViewTabIndex === 2"></app-structured-data-summary>
     <app-document-summary *ngIf="this.appstatus.activePatientViewTabIndex === 3"></app-document-summary>
   </mat-sidenav-content>
 </mat-sidenav-container>

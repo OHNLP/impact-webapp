@@ -1,24 +1,27 @@
-<mat-tab-group [(selectedIndex)]="this.appState.activePatientViewTabIndex">
-  <mat-tab disabled>
-    <ng-template mat-tab-label>
-      <div style="color: rgba(0,0,0,100)">
-        {{this.appState.activePatient?.mrn}} - {{this.appState.activePatient?.name}}
-      </div>
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="Summary" (click)="this.appState.activePatientView = view.SUMMARY">
-    <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
-  </mat-tab>
-  <mat-tab label="Structured Data"
-           (click)="this.appState.activePatientView = view.STRUCTURED_DATA">
-    <ng-template matTabContent>
+<div id="patient-view-wrapper">
+  <mat-tab-group id="patient-view-tab-group" [(selectedIndex)]="this.appState.activePatientViewTabIndex">
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <div style="color: rgba(0,0,0,100)">
+          {{this.appState.activePatient?.mrn}} - {{this.appState.activePatient?.name}}
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Summary" (click)="this.appState.activePatientView = view.SUMMARY">
       <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="Unstructured Data"
-           (click)="this.appState.activePatientView = view.UNSTRUCTURED_DATA">
-    <ng-template matTabContent>
-      <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
+    </mat-tab>
+    <mat-tab label="Structured Data"
+             (click)="this.appState.activePatientView = view.STRUCTURED_DATA">
+      <ng-template matTabContent>
+        <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Unstructured Data"
+             (click)="this.appState.activePatientView = view.UNSTRUCTURED_DATA">
+      <ng-template matTabContent>
+        <app-patient-review-definition-selection-wrapper></app-patient-review-definition-selection-wrapper>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+

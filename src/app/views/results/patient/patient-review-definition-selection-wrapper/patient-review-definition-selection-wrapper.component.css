@@ -1,3 +1,10 @@
+.criteria-selector-container {
+  position: inherit;
+  height: 100%;
+  display: inherit;
+  transform: inherit;
+}
+
 .type-icon {
   color: #757575;
   margin-right: 5px;
