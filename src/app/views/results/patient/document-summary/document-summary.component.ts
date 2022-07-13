@@ -1,7 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AnnotatableText, ClinicalData} from "../../../../models/clinical-data";
+import {AnnotatableText, ClinicalDocument} from "../../../../models/clinical-data";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import {ApplicationStatusService} from "../../../../services/application-status.service";
+import {MiddlewareAdapterService} from "../../../../services/middleware-adapter.service";
 
 @Component({
   selector: 'app-document-summary',
@@ -10,26 +12,18 @@ import {MatPaginator} from "@angular/material/paginator";
 })
 export class DocumentSummaryComponent implements OnInit {
 
-  private documents: Array<ClinicalData> = []
-  public dataSource!: MatTableDataSource<ClinicalData>;
+  private documents: Array<ClinicalDocument> = []
+  public dataSource!: MatTableDataSource<ClinicalDocument>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
-  constructor() { }
+  constructor(private _appstate: ApplicationStatusService,private _middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
-    // TODO Remove debug/filler
-    let i = 0
-    while (i < 10) {
-      let doc = new ClinicalData();
-      doc.id = i.toString()
-      doc.summary = new AnnotatableText()
-      doc.summary.text = "Random test text 1\n\nRandom test text 2"
-      doc.summary.algorithmSpans = [[7, 11], [17, 18]]
-      doc.summary.userSpans = [[12, 16]]
-      this.documents.push(doc)
-      i += 1
-    }
-    //TODO End DEBUG
+    this.documents = this._middleware.rest.getUnstructuredEvidence(
+      this._appstate.activeProject!.uid,
+      this._appstate.activePatient!.mrn,
+      this._appstate.selectedPatientCriteriaFilter
+    )
     this.dataSource = new MatTableDataSource()
     this.dataSource.paginator = this.paginator
     this.dataSource.data = this.documents

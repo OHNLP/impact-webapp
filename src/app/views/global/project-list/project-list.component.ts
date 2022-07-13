@@ -21,23 +21,10 @@ export class ProjectListComponent implements OnInit {
   constructor(public applicationStatus: ApplicationStatusService, public middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
-    // TODO remove debug init
-    let i = 0
-    while (i < 100) {
-      let project = new Project()
-      project.name = "Test project " + i.toString()
-      this.projects.push(project)
-      i += 1
-    }
-    // TODO end debug init
+    this.projects = this.middleware.rest.getProjectList()
     this.dataSource = new MatTableDataSource()
     this.dataSource.paginator = this.paginator
     this.dataSource.data = this.projects
   }
 
-  setActiveProject(prj: Project) {
-    this.applicationStatus.activeProject = prj
-    this.applicationStatus.activeCohortSize = this.middleware.rest.getRetrievedCohort(prj.uid).length
-    this.applicationStatus.activeView = View.PROJECT_DASHBOARD
-  }
 }

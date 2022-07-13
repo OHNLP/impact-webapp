@@ -3,6 +3,7 @@ import {PatientView, View} from "../views/views";
 import {PatInfo} from "../models/pat-info";
 import {Project} from "../models/project";
 import {PatientViewComponent} from "../views/results/patient-view/patient-view.component";
+import {MiddlewareAdapterService} from "./middleware-adapter.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,13 @@ export class ApplicationStatusService {
   private _activeView: View = View.GLOBAL_DASHBOARD
   private _activePatientView: PatientView = PatientView.SUMMARY
   private _activePatientViewTabIndex: number = 1
-  private _activePatient: PatInfo | undefined // TODO remove debug
-  private _activeProject: Project | undefined// TODO remove debug
+  private _activePatient: PatInfo | undefined
+  private _activeProject: Project | undefined
   private _activePatientIdx: number = 0;
   private _activeCohortSize: number = 0;
   private _selectedPatientCriteriaFilter: string | undefined
 
-  constructor() {
+  constructor(private _middleware: MiddlewareAdapterService) {
   }
 
   get activeView(): View {
@@ -57,7 +58,15 @@ export class ApplicationStatusService {
   }
 
   set activeProject(value: Project | undefined) {
-    this._activeProject = value;
+    const refresh = this._activeProject !== value
+    if (refresh) {
+      this._activeProject = value;
+      this.activeView = View.PROJECT_DASHBOARD
+      this.selectedPatientCriteriaFilter = undefined
+      if (value) {
+        this._activeCohortSize = this._middleware.rest.getRetrievedCohort(value.uid).length
+      }
+    }
   }
 
   get activePatientIdx(): number {
@@ -71,11 +80,6 @@ export class ApplicationStatusService {
   get activeCohortSize(): number {
     return this._activeCohortSize;
   }
-
-  set activeCohortSize(value: number) {
-    this._activeCohortSize = value;
-  }
-
 
   get selectedPatientCriteriaFilter(): string | undefined {
     return this._selectedPatientCriteriaFilter;

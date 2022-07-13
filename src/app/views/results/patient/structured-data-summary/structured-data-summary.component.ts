@@ -1,7 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AnnotatableText, ClinicalData, StructuredData} from "../../../../models/clinical-data";
+import {AnnotatableText, ClinicalDocument, StructuredData} from "../../../../models/clinical-data";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
+import {MiddlewareAdapterService} from "../../../../services/middleware-adapter.service";
+import {ApplicationStatusService} from "../../../../services/application-status.service";
 
 @Component({
   selector: 'app-structured-data-summary',
@@ -13,21 +15,14 @@ export class StructuredDataSummaryComponent implements OnInit {
   public dataSource!: MatTableDataSource<StructuredData>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
-  constructor() { }
+  constructor(private _appstate: ApplicationStatusService,private _middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
-    // TODO Remove debug/filler
-    let i = 0
-    while (i < 100) {
-      this.dataelements.push({
-        code_system: 'ICD-9-CM',
-        code: i.toString(),
-        desc: "Full text name of " + i.toString(),
-        dtm: new Date(1900, 0, 1)
-      })
-      i += 1
-    }
-    //TODO End DEBUG
+    this.dataelements = this._middleware.rest.getStructuredEvidence(
+      this._appstate.activeProject!.uid,
+      this._appstate.activePatient!.mrn,
+      this._appstate.selectedPatientCriteriaFilter
+    )
     this.dataSource = new MatTableDataSource()
     this.dataSource.paginator = this.paginator
     this.dataSource.data = this.dataelements

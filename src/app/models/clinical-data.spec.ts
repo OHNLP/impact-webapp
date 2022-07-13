@@ -1,7 +1,7 @@
-import { ClinicalData } from './clinical-data';
+import { ClinicalDocument } from './clinical-data';
 
 describe('DocSummary', () => {
   it('should create an instance', () => {
-    expect(new ClinicalData()).toBeTruthy();
+    expect(new ClinicalDocument()).toBeTruthy();
   });
 });

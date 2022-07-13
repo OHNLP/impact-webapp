@@ -13,7 +13,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let project">
-      <button mat-button (click)="setActiveProject(project)">
+      <button mat-button (click)="this.applicationStatus.activeProject = project">
         <mat-icon>folder_open</mat-icon> Open
       </button>
       <button mat-button>
