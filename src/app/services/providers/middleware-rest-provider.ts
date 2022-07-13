@@ -4,6 +4,9 @@ import {ClinicalDocument, StructuredData} from "../../models/clinical-data";
 import {Project} from "../../models/project";
 
 export abstract class MiddlewareRestProvider {
+  /* ===== Global/User Information Methods ===== */
+  public abstract getUserName(): string
+
   /* ===== Project Management Methods ===== */
   public abstract getProjectList(): Array<Project>
 

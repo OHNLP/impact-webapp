@@ -7,6 +7,10 @@ import {Project} from "../../../models/project";
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
+  getUserName(): string {
+    return "Mock User";
+  }
+
   getProjectList(): Array<Project> {
     let i = 0;
     let projects = []
@@ -19,7 +23,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     }
     return projects;
   }
-  
+
   getCohortCriteria(project_uid: string): CohortDefinition {
     return example_cohort_definition;
   }

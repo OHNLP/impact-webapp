@@ -7,6 +7,7 @@ import {PatientView, View} from "./views/views";
 import {Project} from "./models/project";
 import {PatientViewComponent} from "./views/results/patient-view/patient-view.component";
 import {ApplicationStatusService} from "./services/application-status.service";
+import {MiddlewareAdapterService} from "./services/middleware-adapter.service";
 
 @Component({
   selector: 'app-root',
@@ -22,11 +23,15 @@ export class AppComponent {
   showProjectOptions: boolean = true;
 
 
-  constructor(private breakpointObserver: BreakpointObserver, public applicationStatus: ApplicationStatusService) {}
+  constructor(private breakpointObserver: BreakpointObserver,
+              public applicationStatus: ApplicationStatusService,
+              public middleware: MiddlewareAdapterService) {
+  }
 
   public get view(): typeof View {
     return View
   }
+
   public get patientView(): typeof PatientView {
     return PatientView
   }

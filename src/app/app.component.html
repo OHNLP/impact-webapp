@@ -45,7 +45,17 @@
           (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <span>Cohort Assessment Tool - {{title}}</span>
+        <span *ngIf="(isHandset$ | async) === false">Cohort Assessment Tool - {{title}}</span>
+        <span style="flex: 1 1 auto"></span>
+        <button mat-icon-button *ngIf="(isHandset$ | async)">
+          <mat-icon>person</mat-icon>
+        </button>
+        <button mat-button *ngIf="(isHandset$ | async) === false">
+          <mat-icon>person</mat-icon>
+          {{middleware.rest.getUserName()}}
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+
       </mat-toolbar-row>
     </mat-toolbar>
     <app-project-list *ngIf="applicationStatus.activeView === view.GLOBAL_PROJECT_LIST"></app-project-list>
