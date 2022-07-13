@@ -30,9 +30,9 @@
 }
 
 .cohort-description-sidenav-toggle-right {
-  position: absolute;
+  position: sticky;
   z-index: 100; /* TODO use something less hacky */
-  right: -20px;
+  left: calc(100% - 50px);
   top: 50%;
 }
 
