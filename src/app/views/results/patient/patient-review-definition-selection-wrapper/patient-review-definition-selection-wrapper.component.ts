@@ -66,7 +66,7 @@ export class PatientReviewDefinitionSelectionWrapperComponent implements OnInit 
       this.getChildren);
     this.treeControl = new FlatTreeControl(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-    let root = middleware.rest.getCohortCriteria(this.appstatus.activeProject!.uid)
+    let root = middleware.rest.getCohortCriteria(this.appstatus.activeProject!.uid)  // TODO this should be based on patient
     let children = root.children
     if (!children) {
       children = []
