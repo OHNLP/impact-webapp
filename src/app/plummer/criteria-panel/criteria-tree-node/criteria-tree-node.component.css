@@ -1,0 +1,64 @@
+.node-content {
+    padding: 5px 0 0 0;
+}
+.tree-node-info {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+}
+
+.tree-node-info-title {
+    font-size: 13px;
+    height: 17px;
+    cursor: pointer;
+    width: auto;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.active-tree-node-info-title {
+    font-weight: bold;
+    font-style: italic;
+}
+.tree-node-info-description {
+    font-size: 12px;
+    line-height: 15px;
+    padding: 5px 0 10px 0;
+    border-bottom: 1px dotted #AAAAAA;
+}
+.tree-node-info-dtmns {
+    width: 120px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.tree-node-info-comment {
+    font-size: 10px;
+    font-style: italic;
+    color: #777777;
+    line-height: 14px;
+    width: 100%;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.node-dtmn {
+    width: 30px;
+    height: 20px;
+    text-align: center;
+    font-size: 18px
+}
+.node-dtmn-hover-show {
+    display: none;
+}
+.node-content:hover .node-dtmn-hover-show{
+    display: inline;
+} 
+.tree-node-user-comment-header {
+    padding: 3px 0;
+}
+.tree-node-user-comment-textarea {
+    width: 100%;
+}

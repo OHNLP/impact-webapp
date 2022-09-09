@@ -42,6 +42,15 @@ import {
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { PatientReviewDefinitionSelectionWrapperComponent } from './views/results/patient/patient-review-definition-selection-wrapper/patient-review-definition-selection-wrapper.component';
 import { StructuredDataSummaryComponent } from './views/results/patient/structured-data-summary/structured-data-summary.component';
+import { PlummerComponent } from './plummer/plummer.component';
+import { PatientPanelComponent } from './plummer/patient-panel/patient-panel.component';
+import { LabelBoxComponent } from './plummer/patient-panel/label-box/label-box.component';
+import { CriteriaPanelComponent } from './plummer/criteria-panel/criteria-panel.component';
+import { FactPanelComponent } from './plummer/fact-panel/fact-panel.component';
+import { DocPanelComponent } from './plummer/doc-panel/doc-panel.component';
+import { CriteriaTreeTableComponent } from './plummer/criteria-panel/criteria-tree-table/criteria-tree-table.component';
+import { FactListComponent } from './plummer/fact-panel/fact-list/fact-list.component';
+import { CriteriaTreeNodeComponent } from './plummer/criteria-panel/criteria-tree-node/criteria-tree-node.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +66,16 @@ import { StructuredDataSummaryComponent } from './views/results/patient/structur
     CohortDefinitionItemEditorModalComponent,
     PatientNavSnackbarComponent,
     PatientReviewDefinitionSelectionWrapperComponent,
-    StructuredDataSummaryComponent
+    StructuredDataSummaryComponent,
+    PlummerComponent,
+    PatientPanelComponent,
+    LabelBoxComponent,
+    CriteriaPanelComponent,
+    FactPanelComponent,
+    DocPanelComponent,
+    CriteriaTreeTableComponent,
+    FactListComponent,
+    CriteriaTreeNodeComponent
   ],
   imports: [
     BrowserModule,

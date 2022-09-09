@@ -1,0 +1,81 @@
+<div id="patient-panel-wrapper">
+
+    <!-- second row -->
+    <div id="patient-panel-info">
+        <div style="font-size: 24px; width: 38px; text-align: center;">
+            <i class="fa fa-user"></i>
+        </div>
+
+        <!-- Decision -->
+        <div class="ppi-item">
+            <div class="ppi-item-header">
+                Decision
+            </div>
+            <div class="ppi-item-value">
+                <span *ngIf="this.appStatus.uwPatient?.decision === RECRUITMENT_DECISION.UNJUDGED"
+                    class="clr-d-na decision-na">
+                    Not Decided
+                </span>
+                <span *ngIf="this.appStatus.uwPatient?.decision !== RECRUITMENT_DECISION.UNJUDGED"
+                    (click)="setDecision(RECRUITMENT_DECISION.UNJUDGED)"
+                    class="decision-oper">
+                    Reset to NA
+                </span>
+                |
+                <span *ngIf="this.appStatus.uwPatient?.decision === RECRUITMENT_DECISION.INCLUDED"
+                    class="clr-d-yes decision-yes">
+                    Included
+                </span>
+                <span *ngIf="this.appStatus.uwPatient?.decision !== RECRUITMENT_DECISION.INCLUDED"
+                    (click)="setDecision(RECRUITMENT_DECISION.INCLUDED)"
+                    class="decision-oper">
+                    Include
+                </span>
+                |
+                <span *ngIf="this.appStatus.uwPatient?.decision === RECRUITMENT_DECISION.EXCLUDED"
+                    class="clr-d-no decision-no">
+                    Excluded
+                </span>
+                <span *ngIf="this.appStatus.uwPatient?.decision !== RECRUITMENT_DECISION.EXCLUDED"
+                    (click)="setDecision(RECRUITMENT_DECISION.EXCLUDED)"
+                    class="decision-oper">
+                    Exclude
+                </span>
+            </div>
+        </div>
+
+        <!-- Last Updated ID -->
+        <div class="ppi-item">
+            <div class="ppi-item-header">
+                Last Updated
+            </div>
+            <div class="ppi-item-value">
+                {{ this.appStatus.fmtDate(this.appStatus.uwPatient?.last_updated) }}
+            </div>
+        </div>
+
+        <!-- Patient ID -->
+        <div class="ppi-item">
+            <div class="ppi-item-header">
+                Patient ID
+            </div>
+            <div class="ppi-item-value">
+                {{ appStatus.uwPatient?.id }}
+            </div>
+        </div>
+
+        <!-- Patient's Name -->
+        <div class="ppi-item">
+            <div class="ppi-item-header">
+                Name
+            </div>
+            <div class="ppi-item-value">
+                {{ appStatus.uwPatient?.name }}
+            </div>
+        </div>
+
+
+        
+
+    </div>
+</div>

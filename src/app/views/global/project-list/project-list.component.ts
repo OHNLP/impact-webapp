@@ -18,7 +18,7 @@ export class ProjectListComponent implements OnInit {
   public dataSource!: MatTableDataSource<Project>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
-  constructor(public applicationStatus: ApplicationStatusService, public middleware: MiddlewareAdapterService) { }
+  constructor(public appStatus: ApplicationStatusService, public middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
     this.projects = this.middleware.rest.getProjectList()

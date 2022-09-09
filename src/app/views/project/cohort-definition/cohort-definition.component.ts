@@ -19,6 +19,8 @@ export const base_empty_criteria = [
   {
     node_id: crypto.randomUUID(),
     node_type: NodeType.BOOLEAN,
+    title: '',
+    description: '',
     value_type: BooleanOperationType.AND,
     value: 'root',
     children: [],
@@ -103,6 +105,8 @@ export class CohortDefinitionComponent {
     return {
       node_id: crypto.randomUUID(),
       node_type: NodeType.BOOLEAN,
+      title: '',
+      description: '',
       value_type: BooleanOperationType.MIN_OR,
       value: '1',
       match_state: undefined,

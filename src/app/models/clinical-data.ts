@@ -19,3 +19,25 @@ export interface StructuredData {
   desc: string
   dtm: Date
 }
+
+export interface Fact {
+  id: string,
+  type: string,
+  date_time: Date,
+  summary: string,
+
+  // optional
+  full_text?: string,
+
+  // optioanl code
+  code?: string,
+  code_system?: string,
+
+  // optional. rank or relevant score 
+  score_bm25?: number | undefined
+}
+
+export interface FactCollection {
+  type: string,
+  facts: Fact[]
+}

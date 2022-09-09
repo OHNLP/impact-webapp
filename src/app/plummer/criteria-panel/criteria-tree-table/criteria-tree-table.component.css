@@ -1,0 +1,25 @@
+.criteria-tree-table-wrapper {
+    width: 100%;
+}
+.ctt-header {
+    margin-top: 10px;
+    /* border-left: 3px solid #777777; */
+}
+.ctt-stat-item {
+    width: 30px;
+    text-align: center;
+    /* margin-right: 5px; */
+}
+.ctt-stat-body {
+    font-weight: bold;
+    font-size: 14px;
+}
+.mat-tree-node {
+    border-bottom: 1px solid #CCCCCC;
+}
+.mat-tree-node:hover {
+    background-color: whitesmoke;
+}
+.active-mat-tree-node {
+    background-color: #eeeeee;
+}

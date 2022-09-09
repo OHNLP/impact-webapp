@@ -1,0 +1,64 @@
+<div id="plummer-wrapper">
+    <div id="plummer-oper">
+        <button class="cdt-btn ml-5">
+            <i class="fas fa-chevron-left"></i>
+            Back to Cohort Browser
+        </button>
+
+        <div class="divider"></div>
+
+        <div style="margin: 0 10px;">
+            Actions:
+        </div>
+        <button class="cdt-btn">
+            <i class="fa fa-save"></i>
+            Save Determinations
+        </button>
+
+        <div class="divider"></div>
+        
+        <button class="cdt-btn mr-5">
+            <i class="fas fa-external-link-square-alt"></i>
+            View in EHR
+        </button>
+
+        <div class="divider"></div>
+        
+        <button class="cdt-btn mr-5">
+            <i class="fas fa-file-export"></i>
+            Export as XLSX
+        </button>
+        
+        <button class="cdt-btn mr-5">
+            <i class="fas fa-file-export"></i>
+            Export as PDF
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>dialpad</mat-icon>
+              <span>Redial</span>
+            </button>
+            <button mat-menu-item disabled>
+              <mat-icon>voicemail</mat-icon>
+              <span>Check voice mail</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>notifications_off</mat-icon>
+              <span>Disable alerts</span>
+            </button>
+          </mat-menu>
+        
+    </div>
+
+    <app-patient-panel></app-patient-panel>
+
+    <div id="plummer-cfd">
+        <app-criteria-panel style="width: 510px;"></app-criteria-panel>
+        <app-fact-panel style="width: 300px;"></app-fact-panel>
+        <app-doc-panel style="width: calc(100% - 810px);"></app-doc-panel>
+    </div>
+</div>

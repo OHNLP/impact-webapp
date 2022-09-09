@@ -5,6 +5,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {ApplicationStatusService} from "../../../services/application-status.service";
 import {View} from "../../views";
 import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
+import { Patient } from 'src/app/models/patient';
 
 @Component({
   selector: 'app-cohort-browser',
@@ -18,11 +19,11 @@ export class CohortBrowserComponent implements OnInit {
   public dataSource!: MatTableDataSource<PatInfo>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
-  constructor(public applicationStatus: ApplicationStatusService, private middleware: MiddlewareAdapterService) { }
+  constructor(public appStatus: ApplicationStatusService, private middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
-    if (this.applicationStatus.activeProject) {
-      this.cohort = this.middleware.rest.getRetrievedCohort(this.applicationStatus.activeProject.uid)
+    if (this.appStatus.activeProject) {
+      this.cohort = this.middleware.rest.getRetrievedCohort(this.appStatus.activeProject.uid)
       this.dataSource = new MatTableDataSource()
       this.dataSource.paginator = this.paginator
       this.dataSource.data = this.cohort
@@ -34,9 +35,13 @@ export class CohortBrowserComponent implements OnInit {
   }
 
   public openPatient(pat: PatInfo): void {
-    this.applicationStatus.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
-    this.applicationStatus.activePatient = pat
-    this.applicationStatus.activePatientIdx = this.cohort.indexOf(pat)
+    this.appStatus.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
+    this.appStatus.activePatient = pat
+    this.appStatus.activePatientIdx = this.cohort.indexOf(pat)
+  }
+
+  public openPlummer(patient: Patient): void {
+    this.appStatus.activeView = View.PLUMMER;
   }
 
   public getStatus(pat: PatInfo): string {
@@ -51,9 +56,9 @@ export class CohortBrowserComponent implements OnInit {
   }
 
   public updateInclusionState(pat: PatInfo, state: CohortInclusion) {
-    if (this.applicationStatus.activeProject) {
+    if (this.appStatus.activeProject) {
       pat.inclusion = state
-      this.middleware.rest.writeRetrievedCohort(this.applicationStatus.activeProject.uid, this.cohort)
+      this.middleware.rest.writeRetrievedCohort(this.appStatus.activeProject.uid, this.cohort)
     }
 
   }

@@ -1,0 +1,63 @@
+<div id="fact-panel-wrapper">
+    <div class="panel-header">
+        <div class="panel-header-left">
+            <div class="panel-header-icon">
+                <i class="fas fa-cubes"></i>
+            </div>
+            <div>
+                <div class="panel-header-title">
+                    Facts
+                </div>
+                <div class="panel-header-subtitle">
+                    4 / 5 records
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div>
+                <input type="text" placeholder="Keywords" style="width: 80px;">
+                <span class="clickable" style="margin-left: -15px;">
+                    <i class="fa fa-times"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="panel-header-right">
+
+            <div class="panel-header-btn">
+                <button [matMenuTriggerFor]="menu" class="cdt-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- <button mat-icon-button 
+                     
+                    aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button> -->
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>dialpad</mat-icon>
+                        <span>
+                            Lab Results
+                        </span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>voicemail</mat-icon>
+                        <span>Check voice mail</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Disable alerts</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <app-fact-list *ngFor="let fact_collection of this.appStatus.uwFactCollections"
+            [fact_collection]="fact_collection">
+        </app-fact-list>
+    </div>
+</div>

@@ -2,8 +2,9 @@ import {MiddlewareRestProvider} from "../middleware-rest-provider";
 import {CohortDefinition} from "../../../models/cohort-definition";
 import {example_cohort_definition} from "../../../views/project/cohort-definition/example-data";
 import {PatInfo} from "../../../models/pat-info";
-import {AnnotatableText, ClinicalDocument, StructuredData} from "../../../models/clinical-data";
+import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
+import { Determination } from "src/app/models/determination";
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
@@ -56,7 +57,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       data.push({
         code_system: 'ICD-9-CM',
         code: i.toString(),
-        desc: "Full text name of " + i.toString(),
+        desc: "Full "+patient_uid+" of " +  i.toString(),
         dtm: new Date(1900, 0, 1)
       })
       i += 1
@@ -86,4 +87,40 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return documents;
   }
 
+  getDeterminations(
+    project_uid: string, 
+    patient_uid: string
+  ): Array<Determination> {
+    return [];
+  }
+
+  getFacts(
+    project_uid: string, 
+    patient_uid: string,
+    criteria_uid: string
+  ): Array<Fact> {
+    let facts = [] as Array<Fact>;
+    let n_facts = Math.floor(Math.random() * 50);
+    let fact_types = [
+      'lab_result',
+      'clinical_note',
+      'other_document'
+    ];
+    for (let i = 0; i < n_facts; i++) {
+      let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
+      facts.push({
+        id: 'RND-' + Math.random(),
+        type: ft,
+        date_time: new Date(),
+
+        summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
+
+        code: "203.01",
+        code_system: 'ICD-9-CM',
+
+        score_bm25: 0.1
+      })      
+    }
+    return facts;
+  }
 }

@@ -4,7 +4,10 @@ export enum View {
   PROJECT_DASHBOARD,
   PROJECT_QUERY_DEFINITION,
   PROJECT_COHORT_BROWSER,
-  PROJECT_RELEVANCE_PATIENT_VIEW
+  PROJECT_RELEVANCE_PATIENT_VIEW,
+
+  // for reviewing patient
+  PLUMMER
 }
 
 export enum PatientView {

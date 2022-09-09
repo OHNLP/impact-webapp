@@ -1,7 +1,8 @@
 import {CohortDefinition} from "../../models/cohort-definition";
 import {PatInfo} from "../../models/pat-info";
-import {ClinicalDocument, StructuredData} from "../../models/clinical-data";
+import {ClinicalDocument, Fact, StructuredData} from "../../models/clinical-data";
 import {Project} from "../../models/project";
+import { Determination } from "src/app/models/determination";
 
 export abstract class MiddlewareRestProvider {
   /* ===== Global/User Information Methods ===== */
@@ -23,4 +24,16 @@ export abstract class MiddlewareRestProvider {
   public abstract getStructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<StructuredData>
 
   public abstract getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<ClinicalDocument>
+
+  /* ===== Individual Patient Determination Related Methods =====*/
+  public abstract getDeterminations(
+    project_uid: string, 
+    patient_uid: string
+  ): Array<Determination>;
+
+  public abstract getFacts(
+    project_uid: string, 
+    patient_uid: string,
+    criteria_uid: string
+  ): Array<Fact>;
 }

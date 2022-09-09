@@ -2,10 +2,7 @@ import {Component} from '@angular/core';
 import {Observable} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
-import {PatInfo} from "./models/pat-info";
 import {PatientView, View} from "./views/views";
-import {Project} from "./models/project";
-import {PatientViewComponent} from "./views/results/patient-view/patient-view.component";
 import {ApplicationStatusService} from "./services/application-status.service";
 import {MiddlewareAdapterService} from "./services/middleware-adapter.service";
 
@@ -24,7 +21,7 @@ export class AppComponent {
 
 
   constructor(private breakpointObserver: BreakpointObserver,
-              public applicationStatus: ApplicationStatusService,
+              public appStatus: ApplicationStatusService,
               public middleware: MiddlewareAdapterService) {
   }
 
@@ -37,7 +34,7 @@ export class AppComponent {
   }
 
   public get title(): string {
-    switch (this.applicationStatus.activeView) {
+    switch (this.appStatus.activeView) {
       case View.GLOBAL_DASHBOARD:
         return 'Home';
       case View.GLOBAL_PROJECT_LIST:
@@ -50,16 +47,18 @@ export class AppComponent {
         return 'Cohort Browser';
       case View.PROJECT_RELEVANCE_PATIENT_VIEW:
         return 'Patient Details';
+      case View.PLUMMER:
+        return 'Patient Assessment';
     }
   }
 
   public setPatientView(view: PatientView): void {
-    this.applicationStatus.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
-    this.applicationStatus.activePatientView = view
+    this.appStatus.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
+    this.appStatus.activePatientView = view
   }
 
   public displayProjectSuboptions(): boolean {
-    return this.showProjectOptions && this.applicationStatus.activeProject != null
+    return this.showProjectOptions && this.appStatus.activeProject != null
   }
 }
 

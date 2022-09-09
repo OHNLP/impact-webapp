@@ -1,0 +1,100 @@
+<div class="node-content">
+    <div class="tree-node-info">
+        <div>
+            <div class="tree-node-info-title"
+                [class.active-tree-node-info-title]="this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id"
+                (click)="toggleCriteriaDetail(node?.criteria?.node_id)"
+                [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
+                {{ node?.criteria?.title }}
+            </div>
+
+            <div class="tree-node-info-comment" 
+                [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
+                {{ this.appStatus.uwDeterminationDict[node?.criteria!.node_id].comment }}
+            </div>
+        </div>
+        <div class="tree-node-info-dtmns">
+
+            <div class="node-dtmn">
+                <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].value === DETERMINATION_VALUE.YES; else show_btn_dtmn_yes"
+                    class="clr-d-yes">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <ng-template #show_btn_dtmn_yes>
+                    <div class="clr-d-yes node-dtmn-hover-show">
+                        <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
+                            (click)="setDeterminationValue(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], DETERMINATION_VALUE.YES)">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
+
+
+            <div class="node-dtmn">
+                <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].value === DETERMINATION_VALUE.NO; else show_btn_dtmn_no"
+                    class="clr-d-no">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <ng-template #show_btn_dtmn_no>
+                    <div class="clr-d-no node-dtmn-hover-show">
+                        <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
+                            (click)="setDeterminationValue(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], DETERMINATION_VALUE.NO)">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
+
+
+            <div class="node-dtmn">
+                <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].value === DETERMINATION_VALUE.NA; else show_btn_dtmn_na"
+                    class="clr-d-na">
+                    <i class="fas fa-minus-circle"></i>
+                </div>
+                <ng-template #show_btn_dtmn_na>
+                    <div class="clr-d-na node-dtmn-hover-show">
+                        <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
+                            (click)="setDeterminationValue(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], DETERMINATION_VALUE.NA)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
+
+
+            <div class="node-dtmn">
+                <div class="node-dtmn-hover-show">
+                    <button class="cdt-btn cdt-btn-sm cdt-btn-w20">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id" 
+        class="tree-node-info-description">
+        {{ node?.criteria?.description }}
+    </div>
+
+    <div *ngIf="this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id" 
+        class="tree-node-user-comment">
+        <div class="tree-node-user-comment-header">
+            <span class="fs-12 mr-5">
+                <i class="fas fa-edit"></i>
+                <span>Comment</span>
+            </span>
+
+            <button class="cdt-btn cdt-btn-sm"
+                (click)="appendDeterminationComment(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], 'Not found')">
+                Not found
+            </button>
+        </div>
+        <div>
+            <textarea class="tree-node-user-comment-textarea"
+                [(ngModel)]="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].comment"
+                placeholder="Please leave any comments for this criteria if needed" rows="3"></textarea>
+        </div>
+    </div>
+</div>

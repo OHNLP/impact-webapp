@@ -5,28 +5,28 @@
                [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item (click)="applicationStatus.activeView = view.GLOBAL_DASHBOARD">
+      <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_DASHBOARD">
         <mat-icon>home</mat-icon>
         Home</a>
-      <a mat-list-item (click)="applicationStatus.activeView = view.GLOBAL_PROJECT_LIST">
+      <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_PROJECT_LIST">
         <mat-icon>view_list</mat-icon>
         Project List</a>
       <a mat-list-item (click)="showProjectOptions = !showProjectOptions"
-         *ngIf="applicationStatus.activeProject != null">
+         *ngIf="appStatus.activeProject != null">
         <mat-icon>source</mat-icon>
         Project Options<mat-icon>{{showProjectOptions ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
       </a>
-      <a mat-list-item (click)="applicationStatus.activeView = view.PROJECT_DASHBOARD"
+      <a mat-list-item (click)="appStatus.activeView = view.PROJECT_DASHBOARD"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>dashboard</mat-icon>
         Dashboard</a>
-      <a mat-list-item (click)="applicationStatus.activeView = view.PROJECT_QUERY_DEFINITION"
+      <a mat-list-item (click)="appStatus.activeView = view.PROJECT_QUERY_DEFINITION"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>search</mat-icon>
         Cohort Definition</a>
-      <a mat-list-item (click)="applicationStatus.activeView = view.PROJECT_COHORT_BROWSER"
+      <a mat-list-item (click)="appStatus.activeView = view.PROJECT_COHORT_BROWSER"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>people</mat-icon>
@@ -37,7 +37,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" style="z-index: 100">
+    <!-- <mat-toolbar color="primary" style="z-index: 100">
       <mat-toolbar-row>
         <button
           mat-icon-button
@@ -57,11 +57,13 @@
         </button>
 
       </mat-toolbar-row>
-    </mat-toolbar>
-    <app-project-list *ngIf="applicationStatus.activeView === view.GLOBAL_PROJECT_LIST"></app-project-list>
-    <app-project-summary *ngIf="applicationStatus.activeView === view.PROJECT_DASHBOARD"></app-project-summary>
-    <app-cohort-definition *ngIf="applicationStatus.activeView === view.PROJECT_QUERY_DEFINITION"></app-cohort-definition>
-    <app-cohort-browser *ngIf="applicationStatus.activeView === view.PROJECT_COHORT_BROWSER"></app-cohort-browser>
-    <app-patient-view *ngIf="applicationStatus.activeView === view.PROJECT_RELEVANCE_PATIENT_VIEW"></app-patient-view>
+    </mat-toolbar> -->
+    <app-project-list *ngIf="appStatus.activeView === view.GLOBAL_PROJECT_LIST"></app-project-list>
+    <app-project-summary *ngIf="appStatus.activeView === view.PROJECT_DASHBOARD"></app-project-summary>
+    <app-cohort-definition *ngIf="appStatus.activeView === view.PROJECT_QUERY_DEFINITION"></app-cohort-definition>
+    <app-cohort-browser *ngIf="appStatus.activeView === view.PROJECT_COHORT_BROWSER"></app-cohort-browser>
+    <app-patient-view *ngIf="appStatus.activeView === view.PROJECT_RELEVANCE_PATIENT_VIEW"></app-patient-view>
+
+    <app-plummer *ngIf="appStatus.activeView === view.PLUMMER"></app-plummer>
   </mat-sidenav-content>
 </mat-sidenav-container>

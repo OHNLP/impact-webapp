@@ -1,6 +1,13 @@
 export interface CohortDefinition {
+  // for node it self
   node_id: string;
   node_type: NodeType;
+
+  // basic information for reading
+  title: string;
+  description: string;
+
+  // other
   value_type: BooleanOperationType | EntityType;
   value: string;
   match_state: CriteriaMatchState | undefined;
@@ -20,13 +27,15 @@ export interface ValueDefinition { // TODO implement this instead of using "valu
 export enum NodeType {
   BOOLEAN = "BOOLEAN",
   RELATIONAL = "RELATIONAL",
-  ENTITY = "ENTITY"
+  ENTITY = "ENTITY",
+  CATEGORY = 'CATEGORY'
 }
 
 export const NodeTypeToDisplayNameMap: Record<NodeType, string> = {
   BOOLEAN: "Logical",
   RELATIONAL: "Relational",
-  ENTITY: "Clinical Entity"
+  ENTITY: "Clinical Entity",
+  CATEGORY: "Category"
 }
 
 

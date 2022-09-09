@@ -1,0 +1,97 @@
+<div class="criteria-tree-table-wrapper">
+    <!-- it's a category for sure -->
+
+    <div class="panel-header ctt-header">
+        <div class="panel-header-left">
+            <div class="panel-header-icon">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <div>
+                <div class="panel-header-title">
+                    {{ criteria?.title }}
+                </div>
+                <div class="panel-header-subtitle">
+                    {{ criteria?.description }}
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-header-right">
+            <div class="ctt-stat-item">
+                <div class="ctt-stat-header">
+                    Yes
+                </div>
+                <div class="ctt-stat-body clr-d-yes">
+                    {{ countDeterminationYes() }}
+                </div>
+            </div>
+
+            <div class="ctt-stat-item">
+                <div class="ctt-stat-header">
+                    No
+                </div>
+                <div class="ctt-stat-body clr-d-no">
+                    {{ countDeterminationNo() }}
+                </div>
+            </div>
+
+            <div class="ctt-stat-item">
+                <div class="ctt-stat-header">
+                    NA
+                </div>
+                <div class="ctt-stat-body clr-d-na">
+                    {{ countDeterminationNA() }}
+                </div>
+            </div>
+
+            <div class="ctt-stat-item" style="margin-right: 5px;">
+                <div class="ctt-stat-header">
+                    TBD
+                </div>
+                <div class="ctt-stat-body">
+                    {{ countDeterminationUNK() }}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <mat-tree class="criteria-tree" 
+        #tree
+        [dataSource]="dataSource" 
+        [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" 
+            matTreeNodePadding 
+            matTreeNodePaddingIndent="20"
+            [class.active-mat-tree-node]="this.appStatus.uwCriteriaNodeID === node.criteria.node_id"
+            [ngStyle]="{'height':this.appStatus.uwCriteriaNodeID === node.criteria.node_id? 'auto':'30px'}">
+            <!-- use a disabled button to provide padding for tree leaf -->
+            <button mat-icon-button disabled></button>
+            
+            <app-criteria-tree-node [node]="node">
+            </app-criteria-tree-node>
+            
+        </mat-tree-node>
+
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" 
+            matTreeNodePadding
+            matTreeNodePaddingIndent="20"
+            [class.active-mat-tree-node]="this.appStatus.uwCriteriaNodeID === node.criteria.node_id"
+            [ngStyle]="{'height':this.appStatus.uwCriteriaNodeID === node.criteria.node_id? 'auto':'30px'}">
+            <button mat-icon-button 
+                matTreeNodeToggle 
+                [attr.aria-label]="'Toggle ' + node.criteria.title">
+                <mat-icon class="mat-icon-rtl-mirror">
+                    {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+            </button>
+
+            <app-criteria-tree-node [node]="node">
+            </app-criteria-tree-node>
+
+        </mat-tree-node>
+    </mat-tree>
+</div>

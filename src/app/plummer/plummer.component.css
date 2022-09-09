@@ -1,0 +1,24 @@
+
+#plummer-wrapper { 
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-size: 12px;
+}
+#plummer-oper {
+    width: 100%;
+    height: 40px;
+    background-color: whitesmoke;
+
+    display: flex;
+    align-items: center;
+}
+#plummer-cfd {
+    width: 100%;
+    height: calc(100% - 85px);
+    /* background-color: whitesmoke; */
+
+    display: flex;
+    align-items: stretch;
+    align-content: stretch;
+}
