@@ -1,1 +1,32 @@
-<p>patient-summary placeholder</p>
+<mat-card style="padding:0">
+  <mat-card-title style="padding-left: 16px; padding-top: 16px; padding-right: 16px">
+    {{this._appstatus.activePatient!.name}}&nbsp;(ID:&nbsp;{{this._appstatus.activePatient!.mrn}})
+  </mat-card-title>
+  <mat-card-subtitle style="padding-left: 16px; padding-right: 16px">
+    Birth Gender: {{this._appstatus.activePatient!.birth_gender_male_flag ? 'M' : 'F'}}
+    &nbsp;-&nbsp;
+    DOB: {{this._appstatus.activePatient!.dob}}
+  </mat-card-subtitle>
+  <mat-card-content>
+    <table class="mat-table" style="width: 100%">
+      <tr class="mat-row">
+        <td class="mat-cell">Cohort Inclusion Status</td>
+        <td class="mat-cell">{{this._appstatus.activePatient!.inclusion}}</td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">Patient Criteria Match Status</td>
+        <td class="mat-cell"><mat-icon class="type-icon" [ngClass]="classForMatchState(this.pat_match_state)"></mat-icon>
+          {{displayNameForMatchState(this.pat_match_state)}}</td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">Criteria Earliest Match Date</td>
+        <td class="mat-cell">N/A <!--TODO--></td>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">Patient Age at Criteria Match</td>
+        <td class="mat-cell">N/A <!--TODO--></td>
+      </tr>
+    </table>
+
+  </mat-card-content>
+</mat-card>

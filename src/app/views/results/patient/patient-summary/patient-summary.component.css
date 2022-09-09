@@ -1,0 +1,42 @@
+
+.confirmed-match {
+  background-color: #006400;
+  color: black;
+}
+
+.algorithmic-match {
+  background: repeating-linear-gradient(
+    225deg,
+    #60A15F,
+    #60A15F 2px,
+    #006400 2px,
+    #006400 4px
+  );
+  color: black;
+}
+
+.algorithmic-match-nlp {
+  background-color: #60A15F;
+  color: black;
+}
+
+.algorithmic-mismatch  {
+  background: repeating-linear-gradient(
+    225deg,
+    #a1605f,
+    #a1605f 2px,
+    #8b0000 2px,
+    #8b0000 4px
+  );
+  color: black;
+}
+
+.algorithmic-mismatch-nlp {
+  background-color: #a1605f;
+  color: black;
+}
+
+.confirmed-mismatch {
+  background-color: #8b0000;
+  color: black;
+}
