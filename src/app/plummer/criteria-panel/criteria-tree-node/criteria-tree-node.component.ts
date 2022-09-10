@@ -48,9 +48,9 @@ export class CriteriaTreeNodeComponent implements OnInit {
 
   getNodeWidth(level?: number): number {
     if (level === undefined) {
-      return 500 - 160;
+      return 500 - 120 - 30;
     }
-    return 500 - 160 - level * 20;
+    return 500 - 120 - 30 - level * 20;
   }
 
   createDetermination(

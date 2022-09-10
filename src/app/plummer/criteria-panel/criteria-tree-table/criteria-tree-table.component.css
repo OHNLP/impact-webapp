@@ -16,9 +16,16 @@
 }
 .mat-tree-node {
     border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    align-items: flex-start;
 }
 .mat-tree-node:hover {
     background-color: whitesmoke;
+}
+.mat-icon-button {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
 }
 .active-mat-tree-node {
     background-color: #eeeeee;
