@@ -109,7 +109,6 @@ export class CohortDefinitionComponent {
       description: '',
       value_type: BooleanOperationType.MIN_OR,
       value: '1',
-      match_state: undefined,
       children: []
     }
   }

@@ -22,8 +22,8 @@ import {map, shareReplay} from "rxjs/operators";
 export interface FlatTreeNode {
   node_id: string;
   node_type: NodeType;
-  value_type: BooleanOperationType | EntityType;
-  match_state: CriteriaMatchState | undefined;
+  value_type?: BooleanOperationType | EntityType;
+  match_state?: CriteriaMatchState | undefined;
   value?: string;
   level: number;
   expandable: boolean;
@@ -73,7 +73,6 @@ export class PatientReviewDefinitionSelectionWrapperComponent implements OnInit 
     }
     this.dataSource.data = children;
     this.treeControl.expandAll()
-    this.rootMatchState = root.match_state
   }
 
 
@@ -82,9 +81,7 @@ export class PatientReviewDefinitionSelectionWrapperComponent implements OnInit 
     return {
       node_id: node.node_id,
       node_type: node.node_type,
-      value_type: node.value_type,
       value: node.value,
-      match_state: node.match_state,
       level,
       expandable: node.node_type === NodeType.BOOLEAN
     };

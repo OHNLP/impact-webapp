@@ -7,17 +7,22 @@ export interface CohortDefinition {
   title: string;
   description: string;
 
+  // the condition information
+  entity?: {
+    type: EntityType;
+    definitionComponents: ValueDefinition[]
+  };
+
   // other
-  value_type: BooleanOperationType | EntityType;
-  value: string;
-  match_state: CriteriaMatchState | undefined;
+  value_type?: BooleanOperationType | EntityType;
+  value?: string;
   children?: CohortDefinition[];
 }
 
-export interface ValueDefinition { // TODO implement this instead of using "value" strings
-  type: ValueType; // TODO consider renaming ValueType to prevent overlap with value_type in CohortDefinition
-  relationalType: BinaryRelationalType
-  value: string;
+export interface ValueDefinition {
+  valuePath: ValuePathDef;
+  type: BinaryRelationalType;
+  values: string[];
 }
 
 /*
@@ -55,14 +60,22 @@ export enum EntityType {
   DIAGNOSIS = "DIAGNOSIS",
   DRUG = "DRUG",
   PROCEDURE = "PROCEDURE",
-  LABORATORY = "LABORATORY"
+  LABORATORY = "LABORATORY",
+  PERSON = 'PERSON',
+  CONDITION = 'CONDITION',
+  MEDICATION = 'MEDICATION',
+  OBSERVATION = 'OBSERVATION'
 }
 
 export const EntityTypeToDisplayNameMap: Record<EntityType, string> = {
   DIAGNOSIS: "Diagnosis",
   DRUG: "Drug",
   PROCEDURE: "Procedure",
-  LABORATORY: "Lab Test"
+  LABORATORY: "Lab Test",
+  PERSON: 'PERSON',
+  CONDITION: 'CONDITION',
+  MEDICATION: 'MEDICATION',
+  OBSERVATION: 'OBSERVATION'
 }
 
 export enum BinaryRelationalType {
@@ -71,6 +84,7 @@ export enum BinaryRelationalType {
   GT = "GT",
   GTE = "GTE",
   EQ = "EQ",
+  RANGE = 'RANGE',
   IN = "IN"
 }
 
@@ -88,4 +102,12 @@ export enum CriteriaMatchState {
   ALGORITHMIC_MISMATCH,
   CONFIRMED_MISMATCH,
   UNKNOWN
+}
+
+export enum ValuePathDef {
+  CONDITION_CODE = 'CONDITION_CODE', 
+  PROCEDURE_CODE = 'PROCEDURE_CODE', 
+  MEDICATION_CODE = 'MEDICATION_CODE', 
+  OBSERVATION_CODE = 'OBSERVATION_CODE', 
+  OBSERVATION_VALUE = 'OBSERVATION_VALUE', 
 }

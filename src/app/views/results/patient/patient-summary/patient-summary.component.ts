@@ -15,7 +15,8 @@ export class PatientSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let match_state =  this._middleware.rest.getCohortCriteria(this._appstatus.activeProject!.uid)!.match_state
+    // let match_state =  this._middleware.rest.getCohortCriteria(this._appstatus.activeProject!.uid)!.match_state
+    let match_state = CriteriaMatchState.UNKNOWN
     this.pat_match_state =  match_state ? match_state : CriteriaMatchState.UNKNOWN
   }
 

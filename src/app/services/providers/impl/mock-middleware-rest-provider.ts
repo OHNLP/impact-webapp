@@ -1,10 +1,10 @@
 import {MiddlewareRestProvider} from "../middleware-rest-provider";
 import {CohortDefinition} from "../../../models/cohort-definition";
-import {example_cohort_definition} from "../../../views/project/cohort-definition/example-data";
 import {PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
 import { Determination } from "src/app/models/determination";
+import { EXAMPLE_CRITERIA } from "src/app/models/sample-data";
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
@@ -26,7 +26,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   getCohortCriteria(project_uid: string): CohortDefinition {
-    return example_cohort_definition;
+    return EXAMPLE_CRITERIA;
   }
 
   writeCohortCriteria(project_uid: string, definition?: CohortDefinition): boolean {

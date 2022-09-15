@@ -4,10 +4,10 @@ import {CohortInclusion, PatInfo} from "../models/pat-info";
 import {Project} from "../models/project";
 import {PatientViewComponent} from "../views/results/patient-view/patient-view.component";
 import {MiddlewareAdapterService} from "./middleware-adapter.service";
-import { EXAMPLE_FACTS, EXAMPLE_PATIENT } from '../models/sample-data';
+import { EXAMPLE_CRITERIA, EXAMPLE_FACTS, EXAMPLE_PATIENT } from '../models/sample-data';
 import { formatDate } from '@angular/common';
 import { CohortDefinition } from '../models/cohort-definition';
-import { example_cohort_definition } from '../views/project/cohort-definition/example-data';
+
 import { Determination } from '../models/determination';
 import { Fact, FactCollection } from '../models/clinical-data';
 
@@ -30,7 +30,7 @@ export class ApplicationStatusService {
 
   // for plummer
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
-  public uwCriteria: CohortDefinition| undefined = example_cohort_definition;
+  public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA;
   public uwCriteriaNodeID: string| undefined;
   
   // for facts
