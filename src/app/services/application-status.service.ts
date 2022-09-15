@@ -1,10 +1,9 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {PatientView, View} from "../views/views";
-import {PatInfo} from "../models/pat-info";
+import {CohortInclusion, PatInfo} from "../models/pat-info";
 import {Project} from "../models/project";
 import {PatientViewComponent} from "../views/results/patient-view/patient-view.component";
 import {MiddlewareAdapterService} from "./middleware-adapter.service";
-import { Patient } from '../models/patient';
 import { EXAMPLE_FACTS, EXAMPLE_PATIENT } from '../models/sample-data';
 import { formatDate } from '@angular/common';
 import { CohortDefinition } from '../models/cohort-definition';
@@ -27,8 +26,10 @@ export class ApplicationStatusService {
   private _selectedPatientCriteriaFilter: string | undefined
 
   // uw means the user is watching XXX
+  public CohortInclusion = CohortInclusion
+
   // for plummer
-  public uwPatient: Patient| undefined = EXAMPLE_PATIENT;
+  public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
   public uwCriteria: CohortDefinition| undefined = example_cohort_definition;
   public uwCriteriaNodeID: string| undefined;
   
@@ -159,5 +160,9 @@ export class ApplicationStatusService {
       return '-';
     }
     return formatDate(d, 'MM/dd/yyyy', this.locale_id)
+  }
+
+  public getToday():string {
+    return this.fmtDate(new Date());
   }
 }

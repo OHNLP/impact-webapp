@@ -5,7 +5,6 @@ import {MatPaginator} from "@angular/material/paginator";
 import {ApplicationStatusService} from "../../../services/application-status.service";
 import {View} from "../../views";
 import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
-import { Patient } from 'src/app/models/patient';
 
 @Component({
   selector: 'app-cohort-browser',
@@ -40,8 +39,9 @@ export class CohortBrowserComponent implements OnInit {
     this.appStatus.activePatientIdx = this.cohort.indexOf(pat)
   }
 
-  public openPlummer(patient: Patient): void {
+  public openPlummer(pat: PatInfo): void {
     this.appStatus.activeView = View.PLUMMER;
+    this.appStatus.uwPat = pat;
   }
 
   public getStatus(pat: PatInfo): string {

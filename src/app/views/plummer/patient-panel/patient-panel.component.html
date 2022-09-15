@@ -12,32 +12,32 @@
                 Decision
             </div>
             <div class="ppi-item-value">
-                <span *ngIf="this.appStatus.uwPatient?.decision === RECRUITMENT_DECISION.UNJUDGED"
+                <span *ngIf="this.appStatus.uwPat?.inclusion === this.appStatus.CohortInclusion.UNJUDGED"
                     class="clr-d-na decision-na">
                     Not Decided
                 </span>
-                <span *ngIf="this.appStatus.uwPatient?.decision !== RECRUITMENT_DECISION.UNJUDGED"
-                    (click)="setDecision(RECRUITMENT_DECISION.UNJUDGED)"
+                <span *ngIf="this.appStatus.uwPat?.inclusion !== this.appStatus.CohortInclusion.UNJUDGED"
+                    (click)="setDecision(this.appStatus.CohortInclusion.UNJUDGED)"
                     class="decision-oper">
                     Reset to NA
                 </span>
                 |
-                <span *ngIf="this.appStatus.uwPatient?.decision === RECRUITMENT_DECISION.INCLUDED"
+                <span *ngIf="this.appStatus.uwPat?.inclusion === this.appStatus.CohortInclusion.INCLUDE"
                     class="clr-d-yes decision-yes">
                     Included
                 </span>
-                <span *ngIf="this.appStatus.uwPatient?.decision !== RECRUITMENT_DECISION.INCLUDED"
-                    (click)="setDecision(RECRUITMENT_DECISION.INCLUDED)"
+                <span *ngIf="this.appStatus.uwPat?.inclusion !== this.appStatus.CohortInclusion.INCLUDE"
+                    (click)="setDecision(this.appStatus.CohortInclusion.INCLUDE)"
                     class="decision-oper">
                     Include
                 </span>
                 |
-                <span *ngIf="this.appStatus.uwPatient?.decision === RECRUITMENT_DECISION.EXCLUDED"
+                <span *ngIf="this.appStatus.uwPat?.inclusion === this.appStatus.CohortInclusion.EXCLUDE"
                     class="clr-d-no decision-no">
                     Excluded
                 </span>
-                <span *ngIf="this.appStatus.uwPatient?.decision !== RECRUITMENT_DECISION.EXCLUDED"
-                    (click)="setDecision(RECRUITMENT_DECISION.EXCLUDED)"
+                <span *ngIf="this.appStatus.uwPat?.inclusion !== this.appStatus.CohortInclusion.EXCLUDE"
+                    (click)="setDecision(this.appStatus.CohortInclusion.EXCLUDE)"
                     class="decision-oper">
                     Exclude
                 </span>
@@ -50,7 +50,7 @@
                 Last Updated
             </div>
             <div class="ppi-item-value">
-                {{ this.appStatus.fmtDate(this.appStatus.uwPatient?.last_updated) }}
+                {{ this.appStatus.getToday() }}
             </div>
         </div>
 
@@ -60,7 +60,7 @@
                 Patient ID
             </div>
             <div class="ppi-item-value">
-                {{ appStatus.uwPatient?.id }}
+                {{ appStatus.uwPat?.pat_id}}
             </div>
         </div>
 
@@ -70,7 +70,7 @@
                 Name
             </div>
             <div class="ppi-item-value">
-                {{ appStatus.uwPatient?.name }}
+                {{ appStatus.uwPat?.pat_id }}
             </div>
         </div>
 

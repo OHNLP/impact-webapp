@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { Determination } from '../models/determination';
-import { ApplicationStatusService } from '../services/application-status.service';
-import { MiddlewareAdapterService } from '../services/middleware-adapter.service';
+import { Determination } from '../../models/determination';
+import { ApplicationStatusService } from '../../services/application-status.service';
+import { MiddlewareAdapterService } from '../../services/middleware-adapter.service';
 
 @Component({
   selector: 'app-plummer',
@@ -22,7 +22,7 @@ export class PlummerComponent implements OnInit {
     // get the determinations
     let ds = this.middleware.rest.getDeterminations(
       '',
-      this.appStatus.uwPatient!.id,
+      this.appStatus.uwPat!.pat_id,
     );
 
     // to dictionary

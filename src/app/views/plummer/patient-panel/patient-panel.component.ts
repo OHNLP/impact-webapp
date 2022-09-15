@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { Patient, RECRUITMENT_DECISION } from 'src/app/models/patient';
+import { CohortInclusion, PatInfo } from 'src/app/models/pat-info';
 import { EXAMPLE_PATIENT } from 'src/app/models/sample-data';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 
@@ -10,9 +10,8 @@ import { ApplicationStatusService } from 'src/app/services/application-status.se
 })
 export class PatientPanelComponent implements OnInit {
 
-  public RECRUITMENT_DECISION = RECRUITMENT_DECISION
 
-  public patient: Patient = EXAMPLE_PATIENT
+  public patient: PatInfo = EXAMPLE_PATIENT
 
   constructor(
     public appStatus: ApplicationStatusService,
@@ -26,21 +25,21 @@ export class PatientPanelComponent implements OnInit {
 
   public decision_text(decision: any): string {
     switch (decision) {
-      case RECRUITMENT_DECISION.UNJUDGED:
+      case CohortInclusion.UNJUDGED:
         return 'Not Decided';
       
-      case RECRUITMENT_DECISION.INCLUDED:
+      case CohortInclusion.INCLUDE:
         return 'Included';
       
-      case RECRUITMENT_DECISION.EXCLUDED:
+      case CohortInclusion.EXCLUDE:
         return 'Excluded';
     }
 
     return '';
   }
 
-  public setDecision(decision: RECRUITMENT_DECISION): void {
-    this.appStatus.uwPatient!.decision = decision;
+  public setDecision(decision: CohortInclusion): void {
+    this.appStatus.uwPat!.inclusion = decision;
   }
 
 }

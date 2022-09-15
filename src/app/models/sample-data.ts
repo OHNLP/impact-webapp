@@ -1,15 +1,10 @@
 import { Fact, FactCollection } from "./clinical-data";
-import {Patient} from "./patient";
-import {RECRUITMENT_DECISION} from "./patient";
+import { CohortInclusion, PatInfo } from "./pat-info";
 
-export const EXAMPLE_PATIENT: Patient = {
-    id: '12345678',
-    name: 'Patient Name',
-
+export const EXAMPLE_PATIENT: PatInfo = {
+    pat_id: '12345678',
     // decisions
-    decision: RECRUITMENT_DECISION.INCLUDED,
-    last_updated: new Date(),
-    labels: ['check later', 'phase III', 'other']
+    inclusion: CohortInclusion.INCLUDE,
 }
 
 export const EXAMPLE_FACTS: FactCollection[] = [{

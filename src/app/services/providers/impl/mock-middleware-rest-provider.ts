@@ -38,8 +38,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     let i = 0
     while (i < 1000) {
       let pat = new PatInfo()
-      pat.mrn = i.toString()
-      pat.name = "Test Patient " + i.toString()
+      pat.pat_id = i.toString()
+      pat.pat_id = "Test Patient " + i.toString()
       cohort.push(pat)
       i += 1
     }

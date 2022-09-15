@@ -21,7 +21,7 @@ export class DocumentSummaryComponent implements OnInit {
   ngOnInit(): void {
     this.documents = this._middleware.rest.getUnstructuredEvidence(
       this._appstate.activeProject!.uid,
-      this._appstate.activePatient!.mrn,
+      this._appstate.activePatient!.pat_id,
       this._appstate.selectedPatientCriteriaFilter
     )
     this.dataSource = new MatTableDataSource()
