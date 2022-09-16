@@ -3,6 +3,7 @@ import {PatInfo} from "../../models/pat-info";
 import {ClinicalDocument, Fact, StructuredData} from "../../models/clinical-data";
 import {Project} from "../../models/project";
 import { Determination } from "src/app/models/determination";
+import { Observable } from "rxjs";
 
 export abstract class MiddlewareRestProvider {
   /* ===== Global/User Information Methods ===== */
@@ -12,7 +13,7 @@ export abstract class MiddlewareRestProvider {
   public abstract getProjectList(): Array<Project>
 
   /* ===== Cohort Related Methods ====== */
-  public abstract getCohortCriteria(project_uid: string): CohortDefinition
+  public abstract getCohortCriteria(project_uid: string): Observable<CohortDefinition>;
 
   public abstract writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean
 

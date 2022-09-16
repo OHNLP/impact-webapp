@@ -44,10 +44,10 @@ export class CohortDefinitionComponent {
   dataSource: MatTreeNestedDataSource<CohortDefinition>;
 
   /** The unmodified tree for comparison purposes to determine if changes need to be saved */
-  unmodifiedTree: CohortDefinition;
+  unmodifiedTree!: CohortDefinition;
 
   /** The tree in it's currently possibly modified state that is sync'ed to end-user display */
-  workingTree: CohortDefinition;
+  workingTree!: CohortDefinition;
 
   constructor(
     appstatus: ApplicationStatusService,
@@ -55,8 +55,12 @@ export class CohortDefinitionComponent {
     public dialog: MatDialog
   ) {
     if (appstatus.activeProject) {
-      this.unmodifiedTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
-      this.workingTree = middleware.rest.getCohortCriteria(appstatus.activeProject?.uid);
+      // this.unmodifiedTree = 
+      middleware.rest.getCohortCriteria(appstatus.activeProject?.uid).subscribe(criteria => this.unmodifiedTree = criteria);
+      // this.workingTree = 
+      middleware.rest.getCohortCriteria(appstatus.activeProject?.uid).subscribe(
+        criteria => this.workingTree = criteria
+      );
     } else {
       throw new Error("Cohort definition attempted without active project")
     }

@@ -51,6 +51,7 @@ import { DocPanelComponent } from './views/plummer/doc-panel/doc-panel.component
 import { CriteriaTreeTableComponent } from './views/plummer/criteria-panel/criteria-tree-table/criteria-tree-table.component';
 import { FactListComponent } from './views/plummer/fact-panel/fact-list/fact-list.component';
 import { CriteriaTreeNodeComponent } from './views/plummer/criteria-panel/criteria-tree-node/criteria-tree-node.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { CriteriaTreeNodeComponent } from './views/plummer/criteria-panel/criter
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

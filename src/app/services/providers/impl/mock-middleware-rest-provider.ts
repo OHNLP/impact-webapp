@@ -5,6 +5,7 @@ import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../
 import {Project} from "../../../models/project";
 import { Determination } from "src/app/models/determination";
 import { EXAMPLE_CRITERIA } from "src/app/models/sample-data";
+import { Observable, of } from 'rxjs';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
@@ -25,8 +26,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return projects;
   }
 
-  getCohortCriteria(project_uid: string): CohortDefinition {
-    return EXAMPLE_CRITERIA;
+  getCohortCriteria(project_uid: string): Observable<CohortDefinition> {
+    return of(EXAMPLE_CRITERIA);
   }
 
   writeCohortCriteria(project_uid: string, definition?: CohortDefinition): boolean {
