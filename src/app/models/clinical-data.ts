@@ -21,6 +21,7 @@ export interface StructuredData {
 }
 
 export interface Fact {
+  // evidence_id
   id: string,
   type: string,
   date_time: Date,
@@ -34,7 +35,7 @@ export interface Fact {
   code_system?: string,
 
   // optional. rank or relevant score 
-  score_bm25?: number | undefined
+  score?: number | undefined
 }
 
 export interface FactCollection {

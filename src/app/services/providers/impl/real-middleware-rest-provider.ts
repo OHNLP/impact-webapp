@@ -6,7 +6,7 @@ import { Project } from "src/app/models/project";
 import { MiddlewareRestProvider } from "../middleware-rest-provider";
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -46,11 +46,20 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     public getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): ClinicalDocument[] {
         throw new Error("Method not implemented.");
     }
-    public getDeterminations(project_uid: string, patient_uid: string): Determination[] {
+    public getDeterminations(project_uid: string, patient_uid: string): Observable<Determination[]> {
         throw new Error("Method not implemented.");
     }
-    public getFacts(project_uid: string, patient_uid: string, criteria_uid: string): Fact[] {
-        throw new Error("Method not implemented.");
+    public get_node_evidence(project_uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
+        let url = 'http://localhost:8080/_cohorts/node_evidence';
+        const params = new HttpParams()
+            .set("job_uid", "046b6c7f-0b8a-43b9-b35d-6489e6daee91")
+            .set('node_uid', "046b6c7f-0b8a-43b9-b35d-6489e6daee91")
+            .set('person_uid', '046b6c7f-0b8a-43b9-b35d-6489e6daee91')
+
+        return this.http.get(url, {"params":params}).pipe(map(nes => {
+            console.log(nes)
+            return [] as Array<Fact>
+        }));
     }
 
 }

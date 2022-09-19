@@ -56,8 +56,16 @@
     </div>
 
     <div class="panel-body">
-        <app-fact-list *ngFor="let fact_collection of this.appStatus.uwFactCollections"
-            [fact_collection]="fact_collection">
-        </app-fact-list>
+        <table mat-table [dataSource]="dataSource">
+            <!-- Position Column -->
+            <ng-container matColumnDef="item">
+                <th mat-header-cell *matHeaderCellDef>Item</th>
+                <td mat-cell *matCellDef="let fact"> {{ fact.id}} </td>
+            </ng-container>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons 
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
     </div>
 </div>

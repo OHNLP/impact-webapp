@@ -91,16 +91,16 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   getDeterminations(
     project_uid: string, 
     patient_uid: string
-  ): Array<Determination> {
-    return [];
+  ): Observable<Array<Determination>> {
+    return of([]);
   }
 
-  getFacts(
+  get_node_evidence(
     project_uid: string, 
     patient_uid: string,
     criteria_uid: string
-  ): Array<Fact> {
-    let facts = [] as Array<Fact>;
+  ): Observable<Array<any>> {
+    let facts = [] as Array<any>;
     let n_facts = Math.floor(Math.random() * 50);
     let fact_types = [
       'lab_result',
@@ -122,6 +122,6 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         score_bm25: 0.1
       })      
     }
-    return facts;
+    return of(facts);
   }
 }

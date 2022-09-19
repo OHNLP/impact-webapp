@@ -15,8 +15,8 @@ import { Fact, FactCollection } from '../models/clinical-data';
   providedIn: 'root'
 })
 export class ApplicationStatusService {
-  // private _activeView: View = View.GLOBAL_DASHBOARD
-  private _activeView: View = View.PLUMMER
+  private _activeView: View = View.GLOBAL_DASHBOARD
+  // private _activeView: View = View.PLUMMER
   private _activePatientView: PatientView = PatientView.SUMMARY
   private _activePatientViewTabIndex: number = 1
   private _activePatient: PatInfo | undefined
@@ -29,12 +29,13 @@ export class ApplicationStatusService {
   public CohortInclusion = CohortInclusion
 
   // for plummer
+  public uwProject: Project | undefined;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
-  public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA;
+  public uwCriteria: CohortDefinition| undefined;
   public uwCriteriaNodeID: string| undefined;
   
   // for facts
-  public uwFactCollections: FactCollection[] | undefined;
+  public uwFacts: Fact[] | undefined;
 
   // for user generated infor
   public uwDeterminationDict: Record<string, Determination> = {};
@@ -123,36 +124,40 @@ export class ApplicationStatusService {
     this.activePatientView = PatientView.SUMMARY
   }
 
-  public setFactCollections(criteria_uid?: string): void {
+  public getFacts(criteria_uid?: string): void {
     if (criteria_uid === undefined) {
-      this.uwFactCollections = [];
+      this.uwFacts = [];
       return;
     }
-    let facts = this._middleware.rest.getFacts(
-      '',
-      '',
+    // call async method
+    this._middleware.ajax.get_node_evidence(
+      '', // job uid
+      '', // node_uid (criteria uid)
       criteria_uid
-    );
+    ).subscribe(evidences => {
+      // ok // 
+      let fs = [];
 
-    let fcs = {} as Record<string, Fact[]>;
-    for (let i = 0; i < facts.length; i++) {
-      const fact = facts[i];
-      if (fcs[fact.type] === undefined) {
-        fcs[fact.type] = [];
+      console.log(evidences);
+
+      for (const node_evidence of evidences) {
+        fs.push({
+          id: 'RND-' + Math.random(),
+          type: 'lab_result',
+          date_time: new Date(),
+
+          summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
+
+          code: "203.01",
+          code_system: 'ICD-9-CM',
+
+          score: 0.1
+        });
       }
-      fcs[fact.type].push(fact);
-    }
 
-    let new_fact_collections = [];
-    let ftypes = Object.keys(fcs) as Array<string>;
-    for (let i = 0; i < ftypes.length; i++) {
-      const ftype = ftypes[i];
-      new_fact_collections.push({
-        type: ftype,
-        facts: fcs[ftype]
-      });
-    }
-    this.uwFactCollections = new_fact_collections;
+      this.uwFacts = fs;
+    });
+    
   }
 
   public fmtDate(d:Date|undefined): string {

@@ -3,73 +3,67 @@ import { BinaryRelationalType, BooleanOperationType, CohortDefinition, CriteriaM
 import { CohortInclusion, PatInfo } from "./pat-info";
 
 export const EXAMPLE_PATIENT: PatInfo = {
-    pat_id: '12345678',
-    // decisions
-    inclusion: CohortInclusion.INCLUDE,
+  pat_id: '12345678',
+  // decisions
+  inclusion: CohortInclusion.INCLUDE,
 }
 
-export const EXAMPLE_FACTS: FactCollection[] = [{
-    type: 'lab_result',
-    facts: [{
-        id: 'lab-123',
-        type: 'lab_result',
-        date_time: new Date(),
+export const EXAMPLE_FACTS: Fact[] = [{
+  id: 'lab-123',
+  type: 'lab_result',
+  date_time: new Date(),
 
-        summary: "Multiple myeloma, in remission",
+  summary: "Multiple myeloma, in remission",
 
-        code: "203.01",
-        code_system: 'ICD-9-CM',
+  code: "203.01",
+  code_system: 'ICD-9-CM',
 
-        score_bm25: 0.1
-    }, {
-        id: 'lab-222',
-        type: 'lab_result',
-        date_time: new Date(),
-
-        summary: "WBCs(b/L)=8.00(3.5-10.5); Neutrophils (%) = 62(40-70); <span class='highlight'>Platelets</span> (b/L) = 262 (150-450); Hb (g/dL) = 11.7 (13-17); Monocytes (%) = 10 (2-8); Lymphocytes (%) = 28 (25-45); RBCs (t/L) 3.8...",
-
-        code: "203.01",
-        code_system: 'ICD-9-CM',
-
-        score_bm25: 0.1
-    }],
+  score: 0.1
 }, {
-    type: 'clinical_note',
-    facts: [{
-        id: 'note-123',
-        type: 'clinical_note',
-        date_time: new Date(),
+  id: 'lab-222',
+  type: 'lab_result',
+  date_time: new Date(),
 
-        summary: "<span class='highlight'>Bone marrow </span>is a spongy, soft tissue that resembles a jelly or jam that you would spread on toast. It comes in two colors, red and yellow. <span class='highlight'>Bone marrow </span>files the cavities of your bone ...n",
-        full_text: "",
+  summary: "WBCs(b/L)=8.00(3.5-10.5); Neutrophils (%) = 62(40-70); <span class='highlight'>Platelets</span> (b/L) = 262 (150-450); Hb (g/dL) = 11.7 (13-17); Monocytes (%) = 10 (2-8); Lymphocytes (%) = 28 (25-45); RBCs (t/L) 3.8...",
 
-        score_bm25: 0.1
-    }, {
-        id: '507-123-12345',
-        type: 'clinical_note',
-        date_time: new Date(),
+  code: "203.01",
+  code_system: 'ICD-9-CM',
 
-        summary: "Reported <span class='highlight'>uncontrolled bleeding</span>. Bruise easily, bleed for a long time when cut, develop a rash of pinpoint-sized reddish-purple spots, usually on the lower legs, and sometimes bleed from ...",
-        full_text: "",
+  score: 0.1
+},
+{
+  id: 'note-123',
+  type: 'clinical_note',
+  date_time: new Date(),
 
-        score_bm25: 0.1
-    }],
+  summary: "<span class='highlight'>Bone marrow </span>is a spongy, soft tissue that resembles a jelly or jam that you would spread on toast. It comes in two colors, red and yellow. <span class='highlight'>Bone marrow </span>files the cavities of your bone ...n",
+  full_text: "",
+
+  score: 0.1
 }, {
-    type: 'other_document',
-    facts: [{
-        id: 'other-123',
-        type: 'other_document',
-        date_time: new Date(),
+  id: '507-123-12345',
+  type: 'clinical_note',
+  date_time: new Date(),
 
-        summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
-        full_text: "",
+  summary: "Reported <span class='highlight'>uncontrolled bleeding</span>. Bruise easily, bleed for a long time when cut, develop a rash of pinpoint-sized reddish-purple spots, usually on the lower legs, and sometimes bleed from ...",
+  full_text: "",
 
-        code: "203.01",
-        code_system: 'ICD-9-CM',
+  score: 0.1
+},
+{
+  id: 'other-123',
+  type: 'other_document',
+  date_time: new Date(),
 
-        score_bm25: 0.1
-    }]
-}];
+  summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
+  full_text: "",
+
+  code: "203.01",
+  code_system: 'ICD-9-CM',
+
+  score: 0.1
+}
+];
 
 
 export const EXAMPLE_CRITERIA: CohortDefinition =
@@ -78,6 +72,7 @@ export const EXAMPLE_CRITERIA: CohortDefinition =
   node_type: NodeType.CATEGORY,
   title: 'root',
   description: 'root',
+  value_type: BooleanOperationType.AND,
   children: [
     {
       node_id: 'inclusion_criteria',
@@ -93,14 +88,12 @@ export const EXAMPLE_CRITERIA: CohortDefinition =
           node_type: NodeType.ENTITY,
           title: 'Age >= 18 years',
           description: 'The age of the participant must be greater than 18.',
-          value_type: EntityType.DIAGNOSIS,
-          value: 'Hypertension',
           entity: {
             type: EntityType.PERSON,
             definitionComponents: [{
-                valuePath: ValuePathDef.CONDITION_CODE,
-                type: BinaryRelationalType.LTE,
-                values: ['18']
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.LTE,
+              values: ['18']
             }]
           },
         },
@@ -125,8 +118,18 @@ export const EXAMPLE_CRITERIA: CohortDefinition =
               node_type: NodeType.BOOLEAN,
               title: 'a. Serum M-protein >= 0.5 g/dL',
               description: 'a. Serum M-protein >= 0.5 g/dL',
-              value_type: EntityType.DIAGNOSIS,
-              value: 'test',
+              entity: {
+                type: EntityType.OBSERVATION,
+                definitionComponents: [{
+                  valuePath: ValuePathDef.OBSERVATION_CODE,
+                  type: BinaryRelationalType.EQ,
+                  values: ['Serum M-protein']
+                }, {
+                  valuePath: ValuePathDef.OBSERVATION_VALUE,
+                  type: BinaryRelationalType.GTE,
+                  values: ['0.5']
+                }]
+              },
             },
             {
               node_id: 'ic-3-2',
@@ -183,8 +186,7 @@ export const EXAMPLE_CRITERIA: CohortDefinition =
                   node_type: NodeType.BOOLEAN,
                   title: '(1) Previously at least 3 prior lines of therapy',
                   description: '(1) Subjects must have been previously treated with at least 3 prior lines of therapy, including a proteasome inhibitor and an TMiD.',
-                  value_type: EntityType.DIAGNOSIS,
-                  value: 'theray',
+
                 },
                 {
                   node_id: 'ic-4-1-2',
@@ -239,7 +241,7 @@ export const EXAMPLE_CRITERIA: CohortDefinition =
       node_type: NodeType.CATEGORY,
       title: 'Exclusion Criteria',
       description: 'All responses must be “No”',
-      value_type: BooleanOperationType.AND,
+      value_type: BooleanOperationType.NOT,
       value: 'exclusion_criteria',
       children: [
         {

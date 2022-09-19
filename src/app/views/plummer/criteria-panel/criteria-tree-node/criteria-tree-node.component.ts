@@ -40,7 +40,7 @@ export class CriteriaTreeNodeComponent implements OnInit {
       // ok, let's show this criteria
       this.appStatus.uwCriteriaNodeID = criteria_uid;
       // and notify update the facts if is leaf
-      this.appStatus.setFactCollections(criteria_uid);
+      this.appStatus.getFacts(criteria_uid);
     }
 
     console.log('* clicked criteria: ' + criteria_uid);

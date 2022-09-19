@@ -13,7 +13,9 @@ export abstract class MiddlewareRestProvider {
   public abstract getProjectList(): Array<Project>
 
   /* ===== Cohort Related Methods ====== */
-  public abstract getCohortCriteria(project_uid: string): Observable<CohortDefinition>;
+  public abstract getCohortCriteria(
+    project_uid: string
+  ): Observable<CohortDefinition>;
 
   public abstract writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean
 
@@ -30,11 +32,11 @@ export abstract class MiddlewareRestProvider {
   public abstract getDeterminations(
     project_uid: string, 
     patient_uid: string
-  ): Array<Determination>;
+  ): Observable<Array<Determination>>;
 
-  public abstract getFacts(
+  public abstract get_node_evidence(
     project_uid: string, 
     patient_uid: string,
     criteria_uid: string
-  ): Array<Fact>;
+  ): Observable<Array<Fact>>;
 }

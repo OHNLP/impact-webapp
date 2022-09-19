@@ -19,22 +19,28 @@ export class PlummerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // get the criteria / refresh the criteria
+    this.middleware.rest.getCohortCriteria(
+      this.appStatus.activeProject!.uid
+    ).subscribe(criteria => this.appStatus.uwCriteria = criteria);
+
     // get the determinations
-    let ds = this.middleware.rest.getDeterminations(
+    this.middleware.rest.getDeterminations(
       '',
       this.appStatus.uwPat!.pat_id,
-    );
+    ).subscribe(ds => {
+      // to dictionary
+      type dtmnRecord = Record<string, Determination>;
+      let dd: dtmnRecord = {};
 
-    // to dictionary
-    type dtmnRecord = Record<string, Determination>;
-    let dd: dtmnRecord = {};
+      for (let i = 0; i < ds.length; i++) {
+        // use criteria's id as key
+        dd[ds[i].criteria_uid] = ds[i];
+      }
 
-    for (let i = 0; i < ds.length; i++) {
-      // use criteria's id as key
-      dd[ds[i].criteria_uid] = ds[i];
-    }
-
-    this.appStatus.uwDeterminationDict = dd;
+      this.appStatus.uwDeterminationDict = dd;
+    });
+    
   }
 
 }
