@@ -21,10 +21,12 @@ export class ProjectListComponent implements OnInit {
   constructor(public appStatus: ApplicationStatusService, public middleware: MiddlewareAdapterService) { }
 
   ngOnInit(): void {
-    this.projects = this.middleware.rest.getProjectList()
+    this.middleware.rest.get_projects().subscribe(rs => {
+      this.projects = rs;
+      this.dataSource.data = this.projects
+    });
     this.dataSource = new MatTableDataSource()
     this.dataSource.paginator = this.paginator
-    this.dataSource.data = this.projects
   }
 
 }

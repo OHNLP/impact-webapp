@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTree } from '@angular/material/tree';
-import { CohortDefinition } from 'src/app/models/cohort-definition';
-import { Determination, DETERMINATION_VALUE } from 'src/app/models/determination';
+import { CohortDefinition, NodeType } from 'src/app/models/cohort-definition';
+import { Determination, DETERMINATION_VALUE, JUDGEMENT_TYPE } from 'src/app/models/Determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 import { FlatTreeNode } from '../criteria-tree-table/criteria-tree-table.component';
@@ -33,17 +33,19 @@ export class CriteriaTreeNodeComponent implements OnInit {
     }
   }
 
-  toggleCriteriaDetail(criteria_uid?: string): void {
-    if (this.appStatus.uwCriteriaNodeID === criteria_uid) {
+  onClickTreeNode(node?: FlatTreeNode): void {
+    console.log('* clicked criteria: ', node?.criteria);
+    // toggle the clicked node
+    if (this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id) {
       this.appStatus.uwCriteriaNodeID = undefined;
-    } else {
-      // ok, let's show this criteria
-      this.appStatus.uwCriteriaNodeID = criteria_uid;
-      // and notify update the facts if is leaf
-      this.appStatus.getFacts(criteria_uid);
     }
+    // ok, let's show this criteria
+    this.appStatus.uwCriteriaNodeID = node?.criteria?.node_id;
 
-    console.log('* clicked criteria: ' + criteria_uid);
+    if (node?.criteria?.node_type === NodeType.ENTITY ){
+      // and notify update the facts if is leaf
+      this.appStatus.showFactsByCriterion(node.criteria?.node_id);
+    }
   }
 
   getNodeWidth(level?: number): number {
@@ -66,6 +68,7 @@ export class CriteriaTreeNodeComponent implements OnInit {
       project_uid: project_uid,
       patient_uid: patient_uid,
       criteria_uid: criteria_uid,
+      judgement: JUDGEMENT_TYPE.UNJUDGED,
 
       // user created information
       value: value,

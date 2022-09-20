@@ -1,6 +1,6 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { CohortInclusion, PatInfo } from 'src/app/models/pat-info';
-import { EXAMPLE_PATIENT } from 'src/app/models/sample-data';
+import { EXAMPLE_PATIENT } from 'src/app/samples/sample-patient';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 
 @Component({

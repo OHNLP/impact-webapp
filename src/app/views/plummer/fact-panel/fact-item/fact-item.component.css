@@ -1,0 +1,34 @@
+
+.fact-item {
+    padding: 5px 0;
+}
+.fact-item:hover {
+    background-color: whitesmoke;
+}
+.fact-title {
+    cursor: pointer;
+}
+.fact-item:hover .fact-title {
+    font-weight: bold;
+}
+.fact-summary {
+    font-size: 12px;
+    line-height: 14px;
+    color: #4d5555;
+}
+.fact-last {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.fact-info {
+    font-size: 11px;
+    color: #999999;
+}
+.fact-oper {
+    display: none;
+    justify-content: flex-end;
+}
+.fact-item:hover .fact-oper{
+    display: flex;
+}

@@ -4,34 +4,36 @@ import {CohortInclusion, PatInfo} from "../models/pat-info";
 import {Project} from "../models/project";
 import {PatientViewComponent} from "../views/results/patient-view/patient-view.component";
 import {MiddlewareAdapterService} from "./middleware-adapter.service";
-import { EXAMPLE_CRITERIA, EXAMPLE_FACTS, EXAMPLE_PATIENT } from '../models/sample-data';
 import { formatDate } from '@angular/common';
 import { CohortDefinition } from '../models/cohort-definition';
 
-import { Determination } from '../models/determination';
-import { Fact, FactCollection } from '../models/clinical-data';
+import { Determination } from '../models/Determination';
+import { Fact } from '../models/clinical-data';
+import { EXAMPLE_PROJECT } from '../samples/sample-project';
+import { EXAMPLE_PATIENT } from '../samples/sample-patient';
+import { EXAMPLE_CRITERIA_RRMM_XS } from '../samples/sample-criteria';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationStatusService {
-  private _activeView: View = View.GLOBAL_DASHBOARD
+  private _activeView: View = View.PLUMMER
   // private _activeView: View = View.PLUMMER
-  private _activePatientView: PatientView = PatientView.SUMMARY
-  private _activePatientViewTabIndex: number = 1
-  private _activePatient: PatInfo | undefined
-  private _activeProject: Project | undefined
+  private _activePatientView: PatientView = PatientView.SUMMARY;
+  private _activePatientViewTabIndex: number = 1;
+  private _activePatient: PatInfo | undefined;
+  private _activeProject: Project | undefined = EXAMPLE_PROJECT;
   private _activePatientIdx: number = 0;
   private _activeCohortSize: number = 0;
-  private _selectedPatientCriteriaFilter: string | undefined
+  private _selectedPatientCriteriaFilter: string | undefined;
 
   // uw means the user is watching XXX
-  public CohortInclusion = CohortInclusion
+  public CohortInclusion = CohortInclusion;
 
   // for plummer
-  public uwProject: Project | undefined;
+  public uwProject: Project | undefined = EXAMPLE_PROJECT;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
-  public uwCriteria: CohortDefinition| undefined;
+  public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_RRMM_XS;
   public uwCriteriaNodeID: string| undefined;
   
   // for facts
@@ -41,7 +43,7 @@ export class ApplicationStatusService {
   public uwDeterminationDict: Record<string, Determination> = {};
 
   constructor(
-    private _middleware: MiddlewareAdapterService,
+    private middleware: MiddlewareAdapterService,
     @Inject( LOCALE_ID )public locale_id: string
   ) {
   }
@@ -89,7 +91,7 @@ export class ApplicationStatusService {
       this.activeView = View.PROJECT_DASHBOARD
       this.selectedPatientCriteriaFilter = undefined
       if (value) {
-        this._activeCohortSize = this._middleware.rest.getRetrievedCohort(value.uid).length
+        this._activeCohortSize = this.middleware.rest.getRetrievedCohort(value.uid).length
       }
     }
   }
@@ -124,40 +126,32 @@ export class ApplicationStatusService {
     this.activePatientView = PatientView.SUMMARY
   }
 
-  public getFacts(criteria_uid?: string): void {
-    if (criteria_uid === undefined) {
+  /////////////////////////////////////////////////////////
+  // Plummer related functions
+  /////////////////////////////////////////////////////////
+
+  public showCriteriaByProject(project_uid: string): void {
+
+  }
+
+  public showFactsByCriterion(criteria_uid?: string): void {
+    // set the current uwCriteriaNodeID
+    this.uwCriteriaNodeID = criteria_uid;
+
+    // update the facts
+    if (this.uwCriteriaNodeID === undefined) {
       this.uwFacts = [];
       return;
     }
-    // call async method
-    this._middleware.ajax.get_node_evidence(
+    this.middleware.ajax.get_facts(
       '', // job uid
       '', // node_uid (criteria uid)
-      criteria_uid
-    ).subscribe(evidences => {
+      this.uwCriteriaNodeID
+    ).subscribe(facts => {
       // ok // 
-      let fs = [];
-
-      console.log(evidences);
-
-      for (const node_evidence of evidences) {
-        fs.push({
-          id: 'RND-' + Math.random(),
-          type: 'lab_result',
-          date_time: new Date(),
-
-          summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
-
-          code: "203.01",
-          code_system: 'ICD-9-CM',
-
-          score: 0.1
-        });
-      }
-
-      this.uwFacts = fs;
+      console.log('* get_facts callback: ', facts);
+      this.uwFacts = facts;
     });
-    
   }
 
   public fmtDate(d:Date|undefined): string {

@@ -3,10 +3,22 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* fix for angular */
+
+.mat-paginator-page-size-label {
+  display: none;
+}
+
+.fact-table thead {
+  display: none;
+}
+
+/* each view */
 #patient-view-tab-group .mat-tab-body-wrapper {
   flex-grow: 1
 }
 
+/* global helpers */
 .clickable {
   cursor: pointer;
 }

@@ -2,24 +2,31 @@ import {CohortDefinition} from "../../models/cohort-definition";
 import {PatInfo} from "../../models/pat-info";
 import {ClinicalDocument, Fact, StructuredData} from "../../models/clinical-data";
 import {Project} from "../../models/project";
-import { Determination } from "src/app/models/determination";
 import { Observable } from "rxjs";
+import { Determination } from "../../models/Determination";
 
 export abstract class MiddlewareRestProvider {
   /* ===== Global/User Information Methods ===== */
   public abstract getUserName(): string
 
   /* ===== Project Management Methods ===== */
-  public abstract getProjectList(): Array<Project>
+  public abstract get_projects(
+    // should be related to user
+  ): Observable<Array<Project>>
 
   /* ===== Cohort Related Methods ====== */
   public abstract getCohortCriteria(
     project_uid: string
   ): Observable<CohortDefinition>;
 
-  public abstract writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean
+  public abstract writeCohortCriteria(
+    project_uid: string, 
+    definition: CohortDefinition
+  ): boolean;
 
-  public abstract getRetrievedCohort(project_uid: string): Array<PatInfo>
+  public abstract getRetrievedCohort(
+    project_uid: string
+  ): Array<PatInfo>;
 
   public abstract writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean
 
@@ -29,13 +36,13 @@ export abstract class MiddlewareRestProvider {
   public abstract getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<ClinicalDocument>
 
   /* ===== Individual Patient Determination Related Methods =====*/
-  public abstract getDeterminations(
-    project_uid: string, 
+  public abstract get_determinations(
+    job_uid: string, 
     patient_uid: string
   ): Observable<Array<Determination>>;
 
-  public abstract get_node_evidence(
-    project_uid: string, 
+  public abstract get_facts(
+    job_uid: string, 
     patient_uid: string,
     criteria_uid: string
   ): Observable<Array<Fact>>;

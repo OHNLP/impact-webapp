@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { Determination } from '../../models/determination';
+import { Determination } from '../../models/Determination';
 import { ApplicationStatusService } from '../../services/application-status.service';
 import { MiddlewareAdapterService } from '../../services/middleware-adapter.service';
 
@@ -25,7 +25,7 @@ export class PlummerComponent implements OnInit {
     ).subscribe(criteria => this.appStatus.uwCriteria = criteria);
 
     // get the determinations
-    this.middleware.rest.getDeterminations(
+    this.middleware.rest.get_determinations(
       '',
       this.appStatus.uwPat!.pat_id,
     ).subscribe(ds => {

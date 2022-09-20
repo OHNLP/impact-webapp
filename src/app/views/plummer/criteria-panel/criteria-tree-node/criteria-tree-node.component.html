@@ -3,7 +3,7 @@
         <div>
             <div class="tree-node-info-title"
                 [class.active-tree-node-info-title]="this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id"
-                (click)="toggleCriteriaDetail(node?.criteria?.node_id)"
+                (click)="onClickTreeNode(node)"
                 [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
                 {{ node?.criteria?.title }}
             </div>

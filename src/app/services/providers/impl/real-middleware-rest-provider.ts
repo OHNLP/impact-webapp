@@ -1,6 +1,6 @@
 import { StructuredData, ClinicalDocument, Fact } from "src/app/models/clinical-data";
 import { CohortDefinition } from "src/app/models/cohort-definition";
-import { Determination } from "src/app/models/determination";
+import { Determination } from "src/app/models/Determination";
 import { PatInfo } from "src/app/models/pat-info";
 import { Project } from "src/app/models/project";
 import { MiddlewareRestProvider } from "../middleware-rest-provider";
@@ -13,6 +13,7 @@ import { map, Observable, of } from 'rxjs';
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+    public base_url: string = 'http://localhost:8080';
 
     constructor(private http: HttpClient) {
         super();
@@ -21,15 +22,22 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     public getUserName(): string {
         throw new Error("Method not implemented.");
     }
-    public getProjectList(): Project[] {
+    public get_projects(): Observable<Project[]> {
         throw new Error("Method not implemented.");
     }
     public getCohortCriteria(project_uid: string): Observable<CohortDefinition> {
-        let url = 'http://localhost:8080/_projects/criterion';
+        // create the URL
+        let url = this.base_url + '/_projects/criterion';
+
+        // set the parameters
         const params = new HttpParams()
-            .set("project_uid", "046b6c7f-0b8a-43b9-b35d-6489e6daee91")
-        // return this.http.get(url, {"params":params});
-        throw new Error("Method not implemented.");
+            .set("project_uid", project_uid)
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params }).pipe(map(rsp => {
+            let criteria = rsp as CohortDefinition;
+            return criteria;
+        }));
     }
     public writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean {
         throw new Error("Method not implemented.");
@@ -46,19 +54,44 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     public getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): ClinicalDocument[] {
         throw new Error("Method not implemented.");
     }
-    public getDeterminations(project_uid: string, patient_uid: string): Observable<Determination[]> {
+    public get_determinations(
+        job_uid: string, 
+        patient_uid: string
+    ): Observable<Determination[]> {
         throw new Error("Method not implemented.");
     }
-    public get_node_evidence(project_uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
-        let url = 'http://localhost:8080/_cohorts/node_evidence';
-        const params = new HttpParams()
-            .set("job_uid", "046b6c7f-0b8a-43b9-b35d-6489e6daee91")
-            .set('node_uid', "046b6c7f-0b8a-43b9-b35d-6489e6daee91")
-            .set('person_uid', '046b6c7f-0b8a-43b9-b35d-6489e6daee91')
+    public get_facts(job_uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
+        // create the URL
+        let url = this.base_url + '/_cohorts/node_evidence';
 
-        return this.http.get(url, {"params":params}).pipe(map(nes => {
-            console.log(nes)
-            return [] as Array<Fact>
+        // set the parameters
+        const params = new HttpParams()
+            .set("job_uid", job_uid)
+            .set('node_uid', criteria_uid)
+            .set('person_uid', patient_uid)
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params }).pipe(map(rsp => {
+            let rs = rsp as Array<any>;
+            let facts = [] as Array<Fact>;
+
+            for (let i = 0; i < rs.length; i++) {
+                facts.push({
+                    id: 'RND-' + rs[i].evidenceUID,
+                    type: 'lab_result',
+                    date_time: new Date(),
+
+                    summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
+
+                    code: "203.01",
+                    code_system: 'ICD-9-CM',
+
+                    score: rs[i].score
+                });
+
+            }
+
+            return facts;
         }));
     }
 

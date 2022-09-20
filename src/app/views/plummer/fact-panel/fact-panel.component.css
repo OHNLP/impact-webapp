@@ -5,3 +5,9 @@
     margin: 0 5px 0 0;
     border-right: 1px solid #CCCCCC;
 }
+.fact-row {
+    padding: 0 10px !important;
+}
+.fact-row:hover {
+    background-color: whitesmoke;
+}

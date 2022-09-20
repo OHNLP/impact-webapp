@@ -2,7 +2,7 @@
     <!-- first row is about the key information -->
     <div class="fact-title">
         <div>
-            {{ fact?.id }}
+            {{ this.appStatus.fmtDate(this.fact?.date_time) }}
         </div>
     </div>
 
@@ -12,19 +12,21 @@
     </div>
 
     <!-- then this row is for meta info -->
-    <div class="fact-info">
-        {{ this.appStatus.fmtDate(this.fact?.date_time) }}
-    </div>
-
-    <!-- last row is about the opers -->
-    <div class="fact-oper">
-        <button class="cdt-btn cdt-btn-sm mr-5">
-            <i class="fas fa-external-link-alt"></i>
-            View Full
-        </button>
-        <button class="cdt-btn cdt-btn-sm mr-5">
-            <i class="fas fa-external-link-square-alt"></i>
-            EHR
-        </button>
+    <div class="fact-last">
+        <div class="fact-info">
+            {{ fact?.score }}
+        </div>
+    
+        <!-- last row is about the opers -->
+        <div class="fact-oper">
+            <button class="cdt-btn cdt-btn-sm mr-5">
+                <i class="fas fa-external-link-alt"></i>
+                View Full
+            </button>
+            <button class="cdt-btn cdt-btn-sm mr-5">
+                <i class="fas fa-external-link-square-alt"></i>
+                EHR
+            </button>
+        </div>
     </div>
 </div>

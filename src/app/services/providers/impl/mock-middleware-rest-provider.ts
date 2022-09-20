@@ -3,9 +3,11 @@ import {CohortDefinition} from "../../../models/cohort-definition";
 import {PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
-import { Determination } from "src/app/models/determination";
-import { EXAMPLE_CRITERIA } from "src/app/models/sample-data";
+import { Determination } from "src/app/models/Determination";
 import { Observable, of } from 'rxjs';
+import { EXAMPLE_CRITERIA_RRMM_XS } from "src/app/samples/sample-criteria";
+import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
+import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
@@ -13,21 +15,12 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return "Mock User";
   }
 
-  getProjectList(): Array<Project> {
-    let i = 0;
-    let projects = []
-    while (i < 100) {
-      projects.push({
-        name:  "Test project " + i.toString(),
-        uid: i.toString()
-      })
-      i += 1
-    }
-    return projects;
+  get_projects(): Observable<Array<Project>> {
+    return of(EXAMPLE_PROJECTS);
   }
 
   getCohortCriteria(project_uid: string): Observable<CohortDefinition> {
-    return of(EXAMPLE_CRITERIA);
+    return of(EXAMPLE_CRITERIA_RRMM_XS);
   }
 
   writeCohortCriteria(project_uid: string, definition?: CohortDefinition): boolean {
@@ -50,6 +43,47 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean {
     return false; // TODO
   }
+
+  get_determinations(
+    project_uid: string, 
+    patient_uid: string
+  ): Observable<Array<Determination>> {
+    return of(EXAMPLE_DETERMINATIONS);
+  }
+
+  get_facts(
+    job_uid: string, 
+    patient_uid: string,
+    criteria_uid: string
+  ): Observable<Array<any>> {
+    let facts = [] as Array<any>;
+    let n_facts = Math.floor(Math.random() * 50);
+    let fact_types = [
+      'lab_result',
+      'clinical_note',
+      'other_document'
+    ];
+    for (let i = 0; i < n_facts; i++) {
+      let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
+      facts.push({
+        id: 'RND-' + Math.random(),
+        type: ft,
+        date_time: new Date(),
+
+        summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
+
+        code: "203.01",
+        code_system: 'ICD-9-CM',
+
+        score_bm25: 0.1
+      })      
+    }
+    return of(facts);
+  }
+
+  /////////////////////////////////////////////////////////
+  // Deprecated functions
+  /////////////////////////////////////////////////////////
 
   getStructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<StructuredData> {
     let i = 0
@@ -86,42 +120,5 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       i += 1
     }
     return documents;
-  }
-
-  getDeterminations(
-    project_uid: string, 
-    patient_uid: string
-  ): Observable<Array<Determination>> {
-    return of([]);
-  }
-
-  get_node_evidence(
-    project_uid: string, 
-    patient_uid: string,
-    criteria_uid: string
-  ): Observable<Array<any>> {
-    let facts = [] as Array<any>;
-    let n_facts = Math.floor(Math.random() * 50);
-    let fact_types = [
-      'lab_result',
-      'clinical_note',
-      'other_document'
-    ];
-    for (let i = 0; i < n_facts; i++) {
-      let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
-      facts.push({
-        id: 'RND-' + Math.random(),
-        type: ft,
-        date_time: new Date(),
-
-        summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
-
-        code: "203.01",
-        code_system: 'ICD-9-CM',
-
-        score_bm25: 0.1
-      })      
-    }
-    return of(facts);
   }
 }

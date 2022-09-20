@@ -49,7 +49,6 @@ import { CriteriaPanelComponent } from './views/plummer/criteria-panel/criteria-
 import { FactPanelComponent } from './views/plummer/fact-panel/fact-panel.component';
 import { DocPanelComponent } from './views/plummer/doc-panel/doc-panel.component';
 import { CriteriaTreeTableComponent } from './views/plummer/criteria-panel/criteria-tree-table/criteria-tree-table.component';
-import { FactListComponent } from './views/plummer/fact-panel/fact-list/fact-list.component';
 import { CriteriaTreeNodeComponent } from './views/plummer/criteria-panel/criteria-tree-node/criteria-tree-node.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FactItemComponent } from './views/plummer/fact-panel/fact-item/fact-item.component';
@@ -76,7 +75,6 @@ import { FactItemComponent } from './views/plummer/fact-panel/fact-item/fact-ite
     FactPanelComponent,
     DocPanelComponent,
     CriteriaTreeTableComponent,
-    FactListComponent,
     CriteriaTreeNodeComponent,
     FactItemComponent
   ],

@@ -57,7 +57,8 @@ export class PatientSummaryComponent implements OnInit {
         return "Fails to Meet Criteria";
       case CriteriaMatchState.UNKNOWN:
         return "UNKNOWN";
-    }
+      }
+    return '??';
   }
 
   displayInclusionStatus(inclusion: CohortInclusion): string {

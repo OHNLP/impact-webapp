@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BooleanOperationType, CohortDefinition, CriteriaMatchState, EntityType, NodeType } from 'src/app/models/cohort-definition';
-import { DETERMINATION_VALUE } from 'src/app/models/determination';
+import { DETERMINATION_VALUE, JUDGEMENT_TYPE } from 'src/app/models/Determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 
@@ -109,7 +109,7 @@ export class CriteriaTreeTableComponent implements OnInit {
     let n = 0;
     for (let i = 0; i < this.criteria.children.length; i++) {
       const criteria = this.criteria.children[i];
-      // check determination
+      // check Determination
       let d = this.appStatus.uwDeterminationDict[criteria.node_id];
       if (d === undefined) {
         // oh .. no data yet
