@@ -46,4 +46,8 @@ export abstract class MiddlewareRestProvider {
     patient_uid: string,
     criteria_uid: string
   ): Observable<Array<Fact>>;
+
+  public abstract get_document(
+    
+  ): Observable<ClinicalDocument>;
 }

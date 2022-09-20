@@ -13,6 +13,7 @@ import { map, Observable, of } from 'rxjs';
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+
     public base_url: string = 'http://localhost:8080';
 
     constructor(private http: HttpClient) {
@@ -60,6 +61,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     ): Observable<Determination[]> {
         throw new Error("Method not implemented.");
     }
+
     public get_facts(job_uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
         // create the URL
         let url = this.base_url + '/_cohorts/node_evidence';
@@ -95,4 +97,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
+    public get_document(): Observable<ClinicalDocument> {
+        throw new Error("Method not implemented.");
+    }
 }

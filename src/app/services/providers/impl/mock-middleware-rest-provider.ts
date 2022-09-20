@@ -10,6 +10,9 @@ import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
 import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  public get_document(): Observable<ClinicalDocument> {
+    throw new Error("Method not implemented.");
+  }
 
   getUserName(): string {
     return "Mock User";
