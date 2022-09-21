@@ -20,7 +20,7 @@ export class StructuredDataSummaryComponent implements OnInit {
   ngOnInit(): void {
     this.dataelements = this._middleware.rest.getStructuredEvidence(
       this._appstate.activeProject!.uid,
-      this._appstate.activePatient!.pat_id,
+      this._appstate.activePatient!.pat_uid,
       this._appstate.selectedPatientCriteriaFilter
     )
     this.dataSource = new MatTableDataSource()

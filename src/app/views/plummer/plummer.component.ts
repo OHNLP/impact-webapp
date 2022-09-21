@@ -27,7 +27,7 @@ export class PlummerComponent implements OnInit {
     // get the determinations
     this.middleware.rest.get_determinations(
       '',
-      this.appStatus.uwPat!.pat_id,
+      this.appStatus.uwPat!.pat_uid,
     ).subscribe(ds => {
       // to dictionary
       type dtmnRecord = Record<string, Determination>;

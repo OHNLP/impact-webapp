@@ -1,11 +1,11 @@
 <mat-card style="padding:0">
   <mat-card-title style="padding-left: 16px; padding-top: 16px; padding-right: 16px">
-    {{this._appstatus.activePatient!.pat_id}}&nbsp;(ID:&nbsp;{{this._appstatus.activePatient!.pat_id}})
+    {{this._appstatus.activePatient!.pat_uid}}&nbsp;(ID:&nbsp;{{this._appstatus.activePatient!.pat_uid}})
   </mat-card-title>
   <mat-card-subtitle style="padding-left: 16px; padding-right: 16px">
-    Birth Gender: {{ this._appstatus.activePatient!.pat_id ? 'M' : 'F'}}
+    Birth Gender: {{ this._appstatus.activePatient!.pat_uid ? 'M' : 'F'}}
     &nbsp;-&nbsp;
-    DOB: {{this._appstatus.activePatient!.pat_id}}
+    DOB: {{this._appstatus.activePatient!.pat_uid}}
   </mat-card-subtitle>
   <mat-card-content>
     <table class="mat-table" style="width: 100%">
