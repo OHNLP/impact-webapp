@@ -4,6 +4,7 @@ import {ClinicalDocument, Fact, StructuredData} from "../../models/clinical-data
 import {Project} from "../../models/project";
 import { Observable } from "rxjs";
 import { Determination } from "../../models/Determination";
+import { JobInfo } from "src/app/models/job-info";
 
 export abstract class MiddlewareRestProvider {
   /* ===== Global/User Information Methods ===== */
@@ -48,6 +49,11 @@ export abstract class MiddlewareRestProvider {
   ): Observable<Array<Fact>>;
 
   public abstract get_document(
-    
+
   ): Observable<ClinicalDocument>;
+
+  /* ===== Jobs Related Methods =====*/
+  public abstract get_jobs(
+    project_uid: string
+  ): Observable<JobInfo[]>;
 }

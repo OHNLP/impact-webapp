@@ -86,7 +86,71 @@ export const EXAMPLE_CRITERIA_RRMM_XS: CohortDefinition =
               values: ['ECOG']
             }]
           }
-        }]
+        }, 
+        {
+          node_id: 'x9152ct3-lab6-4f1b-98c8-ef8809da5bb8',
+          node_type: NodeType.BOOLEAN,
+          value_type: BooleanOperationType.MIN_OR,
+          title: 'Lab Values',
+          description: 'Lab values.',
+          children: [
+            {
+              node_id: 'a14d2d45-lab0-4ec6-b621-b5d5c3f7e08d',
+              node_type: NodeType.ENTITY,
+              title: 'a. ANC > 1,000',
+              description: 'Absolute neutrophil count (ANC) >= 1000/uL (w/o growth factor support for >= 7 days)',
+              entity: {
+                type: EntityType.OBSERVATION,
+                definitionComponents: [{
+                  valuePath: ValuePathDef.OBSERVATION_CODE,
+                  type: BinaryRelationalType.EQ,
+                  values: ['ANC']
+                }, {
+                  valuePath: ValuePathDef.OBSERVATION_VALUE,
+                  type: BinaryRelationalType.GTE,
+                  values: ['1000']
+                }]
+              },
+            },
+            {
+              node_id: 'b24d2d45-lab0-4ec6-b621-b5d5c3f7e08e',
+              node_type: NodeType.ENTITY,
+              title: 'b. PLT > 50,000',
+              description: 'Un-transfused Platelet count >= 50,000 uL (without platelet transfusion for >=14 days)',
+              entity: {
+                type: EntityType.OBSERVATION,
+                definitionComponents: [{
+                  valuePath: ValuePathDef.OBSERVATION_CODE,
+                  type: BinaryRelationalType.EQ,
+                  values: ['PLT']
+                }, {
+                  valuePath: ValuePathDef.OBSERVATION_VALUE,
+                  type: BinaryRelationalType.GTE,
+                  values: ['50000']
+                }]
+              },
+            },
+            {
+              node_id: 'c24d2d45-lab0-4ec6-b621-b5d5c3f7e08e',
+              node_type: NodeType.ENTITY,
+              title: 'c. HGB > 50,000',
+              description: 'HGB > 50,000',
+              entity: {
+                type: EntityType.OBSERVATION,
+                definitionComponents: [{
+                  valuePath: ValuePathDef.OBSERVATION_CODE,
+                  type: BinaryRelationalType.EQ,
+                  values: ['PLT']
+                }, {
+                  valuePath: ValuePathDef.OBSERVATION_VALUE,
+                  type: BinaryRelationalType.GTE,
+                  values: ['50000']
+                }]
+              },
+            }
+          ]
+        }
+        ]
     },
     {
       node_id: 'af45810x-fa3d-476b-93e8-d96701b0b8d9',
@@ -134,6 +198,34 @@ export const EXAMPLE_CRITERIA_RRMM_XS: CohortDefinition =
               valuePath: ValuePathDef.CONDITION_CODE,
               type: BinaryRelationalType.IN,
               values: ['hepatitis', 'HCV', 'HBV', 'HBsAg']
+            }]
+          }
+        },
+        {
+          node_id: 'y8152ct3-2bf6-4f1b-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'COPD Status',
+          description: 'Chronic obstructive pulmonary disease (COPD) is a chronic inflammatory lung disease that causes obstructed airflow from the lungs. Symptoms include breathing difficulty, cough, mucus (sputum) production and wheezing.',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['COPD']
+            }]
+          }
+        },
+        {
+          node_id: 'z9152ct4-2bf6-4f1b-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'Asthma Status',
+          description: 'Asthma is a condition in which your airways narrow and swell and may produce extra mucus. This can make breathing difficult and trigger coughing, a whistling sound (wheezing) when you breathe out and shortness of breath.',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['asthma']
             }]
           }
         }
