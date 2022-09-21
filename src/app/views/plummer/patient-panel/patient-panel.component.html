@@ -64,18 +64,32 @@
             </div>
         </div>
 
-        <!-- Patient's Name -->
+
+        <!-- Patient Labels -->
         <div class="ppi-item">
+            
             <div class="ppi-item-header">
-                Name
+                Labels:
             </div>
-            <div class="ppi-item-value">
-                {{ appStatus.uwPat?.pat_uid }}
+            <div class="ppi-item-value"
+                style="display: flex;">
+                <div class="pat-lbl">
+                    Check Later
+                    <span class="pat-lbl-del">
+                        <i class="fa fa-times"></i>
+                    </span>
+                </div>
+                <div class="pat-lbl">
+                    Phase III
+                    <span class="pat-lbl-del">
+                        <i class="fa fa-times"></i>
+                    </span>
+                </div>
+                <button class="cdt-btn cdt-btn-sm ">
+                    <i class="fa fa-plus"></i>
+                </button>
             </div>
         </div>
-
-
-        
 
     </div>
 </div>

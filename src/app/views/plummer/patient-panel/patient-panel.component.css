@@ -40,3 +40,32 @@
     cursor: pointer;
     text-decoration: underline;
 }
+.pat-lbl {
+    padding: 0 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: #eeeeee;
+    border-radius: 4px;
+    margin: 0 10px 0 0;
+    position: relative;
+}
+.pat-lbl-del {
+    display: none;
+    color: #EFEFEF;
+    background-color: #777777;
+    cursor: pointer;
+    padding: 0 3px;
+    margin-top: 2px;
+    border-radius: 5px;
+    position: absolute;
+    right: 1px;
+    height: 16px;
+    line-height: 16px;
+}
+.pat-lbl:hover .pat-lbl-del {
+    display: inline;
+}
+.pat-lbl-del:hover {
+    color: white;
+    background-color: red;
+}
