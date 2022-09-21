@@ -134,6 +134,10 @@ export class ApplicationStatusService {
 
   }
 
+  public clearFacts(): void {
+    this.uwFacts = [];
+  }
+
   public showFactsByCriterion(criteria_uid?: string): void {
     // set the current uwCriteriaNodeID
     this.uwCriteriaNodeID = criteria_uid;
@@ -143,7 +147,7 @@ export class ApplicationStatusService {
       this.uwFacts = [];
       return;
     }
-    this.middleware.ajax.get_facts(
+    this.middleware.rest.get_facts(
       '', // job uid
       '', // node_uid (criteria uid)
       this.uwCriteriaNodeID

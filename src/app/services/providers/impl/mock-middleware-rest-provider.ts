@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import {MiddlewareRestProvider} from "../middleware-rest-provider";
 import {CohortDefinition} from "../../../models/cohort-definition";
 import {PatInfo} from "../../../models/pat-info";
@@ -75,14 +76,14 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       facts.push({
         id: 'RND-' + Math.random(),
         type: ft,
-        date_time: new Date(),
+        date_time: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
 
         summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
 
         code: "203.01",
         code_system: 'ICD-9-CM',
 
-        score_bm25: 0.1
+        score: Math.random().toFixed(2)
       })      
     }
     return of(facts);

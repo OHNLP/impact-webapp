@@ -45,6 +45,9 @@ export class CriteriaTreeNodeComponent implements OnInit {
     if (node?.criteria?.node_type === NodeType.ENTITY ){
       // and notify update the facts if is leaf
       this.appStatus.showFactsByCriterion(node.criteria?.node_id);
+    } else {
+      // for other cases, clear
+      this.appStatus.clearFacts();
     }
   }
 
