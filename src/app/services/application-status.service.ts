@@ -12,6 +12,7 @@ import { Fact } from '../models/clinical-data';
 import { EXAMPLE_PROJECT } from '../samples/sample-project';
 import { EXAMPLE_PATIENT } from '../samples/sample-patient';
 import { EXAMPLE_CRITERIA_RRMM_XS } from '../samples/sample-criteria';
+import { JobInfo } from '../models/job-info';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,8 @@ export class ApplicationStatusService {
 
   // for plummer
   public uwProject: Project | undefined = EXAMPLE_PROJECT;
+  public uwLastCompletedJob: JobInfo | undefined;
+  public uwJobs: JobInfo[] | undefined;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
   public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_RRMM_XS;
   public uwCriteriaNodeID: string| undefined;
@@ -90,11 +93,21 @@ export class ApplicationStatusService {
       this._activeProject = project;
       this.activeView = View.PROJECT_DASHBOARD
       this.selectedPatientCriteriaFilter = undefined
+
       if (project) {
+        // first, load cohort
         this.middleware.rest.getRetrievedCohort(project.uid).subscribe(rs => {
           this._activeCohortSize = rs.length;
         });
+
+        // then, load jobs
+        this.middleware.rest.get_jobs(project.uid).subscribe(rs => {
+          this.uwJobs = rs;
+          // set the uw job to the last completed
+          this.uwLastCompletedJob = this.uwJobs[0];
+        });
       }
+
     }
   }
 
@@ -131,6 +144,25 @@ export class ApplicationStatusService {
   /////////////////////////////////////////////////////////
   // Plummer related functions
   /////////////////////////////////////////////////////////
+
+  public showDeterminations(): void {
+    this.middleware.rest.get_determinations(
+      '', // job_uid
+      this.uwPat!.pat_uid,
+    ).subscribe(ds => {
+      // to dictionary
+      type dtmnRecord = Record<string, Determination>;
+      let dd: dtmnRecord = {};
+
+      for (let i = 0; i < ds.length; i++) {
+        // use criteria's id as key
+        dd[ds[i].criteria_uid] = ds[i];
+      }
+
+      this.uwDeterminationDict = dd;
+    });
+    console.log('* show determinations');
+  }
 
   public showCriteriaByProject(project_uid: string): void {
 

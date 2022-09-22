@@ -123,3 +123,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .hoverable:hover {
   background-color: whitesmoke;
 }
+.menu-bar-box {
+  background-color: whitesmoke;
+  border-bottom: 1px solid rgb(216, 216, 216);
+  padding: 10px;
+}

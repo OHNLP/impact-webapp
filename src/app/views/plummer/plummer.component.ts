@@ -25,22 +25,7 @@ export class PlummerComponent implements OnInit {
     ).subscribe(criteria => this.appStatus.uwCriteria = criteria);
 
     // get the determinations
-    this.middleware.rest.get_determinations(
-      '',
-      this.appStatus.uwPat!.pat_uid,
-    ).subscribe(ds => {
-      // to dictionary
-      type dtmnRecord = Record<string, Determination>;
-      let dd: dtmnRecord = {};
-
-      for (let i = 0; i < ds.length; i++) {
-        // use criteria's id as key
-        dd[ds[i].criteria_uid] = ds[i];
-      }
-
-      this.appStatus.uwDeterminationDict = dd;
-    });
-    
+    this.appStatus.showDeterminations();
   }
 
 }

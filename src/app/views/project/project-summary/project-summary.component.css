@@ -2,6 +2,10 @@
   margin: 20px;
 }
 
+.simple-card {
+  margin: 20px 10px;
+}
+
 .dashboard-card {
   position: absolute;
   top: 15px;

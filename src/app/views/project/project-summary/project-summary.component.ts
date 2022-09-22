@@ -30,5 +30,8 @@ export class ProjectSummaryComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver, public appStatus: ApplicationStatusService) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver, 
+    public appStatus: ApplicationStatusService
+  ) {}
 }

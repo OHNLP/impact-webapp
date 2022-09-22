@@ -16,27 +16,36 @@
         Home</a> -->
       <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_PROJECT_LIST">
         <mat-icon>view_list</mat-icon>
-        Project List</a>
+        Project List
+      </a>
+
       <a mat-list-item (click)="showProjectOptions = !showProjectOptions"
          *ngIf="appStatus.activeProject != null">
         <mat-icon>source</mat-icon>
         Project Options<mat-icon>{{showProjectOptions ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
       </a>
+
       <a mat-list-item (click)="appStatus.activeView = view.PROJECT_DASHBOARD"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>dashboard</mat-icon>
-        Dashboard</a>
+        Dashboard
+      </a>
+
       <a mat-list-item (click)="appStatus.activeView = view.PROJECT_QUERY_DEFINITION"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>search</mat-icon>
-        Cohort Definition</a>
+        Cohort Definition
+      </a>
+
       <a mat-list-item (click)="appStatus.activeView = view.PROJECT_COHORT_BROWSER"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>people</mat-icon>
-        Cohort Browser</a>
+        Cohort Browser
+      </a>
+      
       <a mat-list-item>
         <mat-icon>factory</mat-icon> Job Queue
       </a>
@@ -90,5 +99,5 @@
     </app-plummer>
 
   </mat-sidenav-content>
-  
+
 </mat-sidenav-container>
