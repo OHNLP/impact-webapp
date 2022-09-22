@@ -18,11 +18,19 @@ export class CohortBrowserComponent implements OnInit {
   public dataSource!: MatTableDataSource<PatInfo>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 
-  constructor(public appStatus: ApplicationStatusService, private middleware: MiddlewareAdapterService) { }
+  constructor(
+    public appStatus: ApplicationStatusService, 
+    private middleware: MiddlewareAdapterService
+  ) { }
 
   ngOnInit(): void {
     if (this.appStatus.activeProject) {
-      this.cohort = this.middleware.rest.getRetrievedCohort(this.appStatus.activeProject.uid)
+      this.middleware.rest.getRetrievedCohort(
+        this.appStatus.activeProject.uid).subscribe(
+          rs => {
+            this.cohort = rs
+          }
+      );
       this.dataSource = new MatTableDataSource()
       this.dataSource.paginator = this.paginator
       this.dataSource.data = this.cohort

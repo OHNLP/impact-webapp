@@ -4,12 +4,13 @@ import {CohortDefinition} from "../../../models/cohort-definition";
 import {PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
-import { Determination } from "src/app/models/Determination";
+import { Determination } from "src/app/models/determination";
 import { Observable, of } from 'rxjs';
 import { EXAMPLE_CRITERIA_RRMM_XS } from "src/app/samples/sample-criteria";
 import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
 import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
 import { JobInfo } from "src/app/models/job-info";
+import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
@@ -35,17 +36,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return false; // TODO
   }
 
-  getRetrievedCohort(project_uid: string): Array<PatInfo> {
-    let cohort = []
-    let i = 0
-    while (i < 1000) {
-      let pat = new PatInfo()
-      pat.pat_uid = i.toString()
-      pat.pat_uid = "Test Patient " + i.toString()
-      cohort.push(pat)
-      i += 1
-    }
-    return cohort;
+  getRetrievedCohort(project_uid: string): Observable<Array<PatInfo>> {
+    return of(EXAMPLE_PATIENTS);
   }
 
   writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean {

@@ -35,7 +35,7 @@
       <mat-icon class="type-icon" [attr.aria-label]="node.node_type + 'icon'">
         {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
       </mat-icon>
-      {{getNodeName(node)}}
+      {{ getNodeName(node) }}
       <button mat-icon-button (click)="openEditorDialog(newNode(), node)">
         <mat-icon>add</mat-icon>
       </button>

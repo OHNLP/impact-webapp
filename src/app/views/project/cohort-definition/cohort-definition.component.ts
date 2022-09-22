@@ -86,16 +86,17 @@ export class CohortDefinitionComponent {
   getNodeName(node: CohortDefinition): string {
     if (node.node_type === NodeType.BOOLEAN) {
       if (node.value_type === BooleanOperationType.MIN_OR) {
-        return 'At least ' + node.value + ' of: '
+        return 'At least one of: ' + node.title;
       } else if (node.value_type === BooleanOperationType.NOT) {
-        return 'None of: '
+        return 'None of: ' + node.title;
       } else {
-        return 'All of: '
+        return 'All of: ' + node.title;
       }
     } else if (node.node_type === NodeType.ENTITY) {
-      return EntityTypeToDisplayNameMap[(<EntityType>node.value_type)] + ": " + node.value
+      return EntityTypeToDisplayNameMap[(<EntityType>node.entity?.type)] + ": " + 
+        node.entity?.definitionComponents[0].values[0];
     } else {
-      return node.value_type + ": " + node.value
+      return node.title;
     }
   }
 

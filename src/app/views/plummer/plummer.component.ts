@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
-import { Determination } from '../../models/Determination';
+import { Determination } from '../../models/determination';
 import { ApplicationStatusService } from '../../services/application-status.service';
 import { MiddlewareAdapterService } from '../../services/middleware-adapter.service';
 

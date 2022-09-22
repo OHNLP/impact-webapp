@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BooleanOperationType, CohortDefinition, CriteriaMatchState, EntityType, NodeType } from 'src/app/models/cohort-definition';
-import { DETERMINATION_VALUE, JUDGEMENT_TYPE } from 'src/app/models/Determination';
+import { DETERMINATION_VALUE, JUDGEMENT_TYPE } from 'src/app/models/determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 

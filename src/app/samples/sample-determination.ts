@@ -1,4 +1,4 @@
-import { Determination, DETERMINATION_VALUE, JUDGEMENT_TYPE } from "../models/Determination";
+import { Determination, DETERMINATION_VALUE, JUDGEMENT_TYPE } from "../models/determination";
 
 export const EXAMPLE_DETERMINATIONS: Determination[] = [
 {

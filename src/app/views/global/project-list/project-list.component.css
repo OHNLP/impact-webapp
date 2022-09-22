@@ -2,3 +2,7 @@
   text-align: right;
   justify-content: flex-end;
 }
+.project-name-cell {
+  overflow-x: hidden;
+  word-wrap: break-word;
+}

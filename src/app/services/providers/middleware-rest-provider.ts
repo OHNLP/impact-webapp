@@ -3,7 +3,7 @@ import {PatInfo} from "../../models/pat-info";
 import {ClinicalDocument, Fact, StructuredData} from "../../models/clinical-data";
 import {Project} from "../../models/project";
 import { Observable } from "rxjs";
-import { Determination } from "../../models/Determination";
+import { Determination } from "../../models/determination";
 import { JobInfo } from "src/app/models/job-info";
 
 export abstract class MiddlewareRestProvider {
@@ -27,7 +27,7 @@ export abstract class MiddlewareRestProvider {
 
   public abstract getRetrievedCohort(
     project_uid: string
-  ): Array<PatInfo>;
+  ): Observable<Array<PatInfo>>;
 
   public abstract writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean
 

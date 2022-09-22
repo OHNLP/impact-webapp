@@ -4,6 +4,7 @@
 
 .sidenav {
   width: 200px;
+  background-color: rgb(239, 239, 239);
 }
 
 .sidenav .mat-toolbar {
@@ -14,4 +15,17 @@
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+.nb-prj-box {
+  width: 100%;
+  padding: 10px 0 0 10px;
+}
+.nb-prj-title {
+  font-size: 24px;
+  line-height: 28px;
+}
+.nb-prj-subtitle {
+  font-size: 10px;
+  line-height: 12px;
 }

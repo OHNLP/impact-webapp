@@ -2,7 +2,7 @@
   <ng-container matColumnDef="mrn">
     <th mat-header-cell *matHeaderCellDef>Record Number</th>
     <td mat-cell *matCellDef="let pat">
-      {{pat.mrn}}
+      {{pat.pat_uid}}
     </td>
   </ng-container>
   <ng-container matColumnDef="name">
@@ -26,24 +26,27 @@
         <mat-icon>open_in_new</mat-icon>
         Details
       </button>
-      <button mat-button
+
+      <!-- <button mat-button
               (click)="updateInclusionState(pat, inclusionState.INCLUDE)"
               [disabled]="pat.inclusion === inclusionState.INCLUDE"
       >
         <mat-icon>check</mat-icon>
         Include
-      </button>
-      <button mat-button
+      </button> -->
+
+      <!-- <button mat-button
               (click)="updateInclusionState(pat, inclusionState.EXCLUDE)"
               [disabled]="pat.inclusion === inclusionState.EXCLUDE"
       >
         <mat-icon>close</mat-icon>
         Exclude
-      </button>
-      <button mat-button (click)="updateInclusionState(pat, inclusionState.UNJUDGED)">
+      </button> -->
+
+      <!-- <button mat-button (click)="updateInclusionState(pat, inclusionState.UNJUDGED)">
         <mat-icon>refresh</mat-icon>
         Reset
-      </button>
+      </button> -->
 
     </td>
   </ng-container>

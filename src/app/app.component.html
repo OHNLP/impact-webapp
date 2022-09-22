@@ -3,11 +3,17 @@
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
                [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    
+    <div class="nb-prj-box">
+      <div class="nb-prj-title">
+        <i class="fas fa-warehouse"></i>
+        {{ appStatus.uwProject?.short_title }}
+      </div>
+    </div>
     <mat-nav-list>
-      <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_DASHBOARD">
+      <!-- <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_DASHBOARD">
         <mat-icon>home</mat-icon>
-        Home</a>
+        Home</a> -->
       <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_PROJECT_LIST">
         <mat-icon>view_list</mat-icon>
         Project List</a>
@@ -36,6 +42,7 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <!-- <mat-toolbar color="primary" style="z-index: 100">
       <mat-toolbar-row>
@@ -58,12 +65,30 @@
 
       </mat-toolbar-row>
     </mat-toolbar> -->
-    <app-project-list *ngIf="appStatus.activeView === view.GLOBAL_PROJECT_LIST"></app-project-list>
-    <app-project-summary *ngIf="appStatus.activeView === view.PROJECT_DASHBOARD"></app-project-summary>
-    <app-cohort-definition *ngIf="appStatus.activeView === view.PROJECT_QUERY_DEFINITION"></app-cohort-definition>
-    <app-cohort-browser *ngIf="appStatus.activeView === view.PROJECT_COHORT_BROWSER"></app-cohort-browser>
-    <app-patient-view *ngIf="appStatus.activeView === view.PROJECT_RELEVANCE_PATIENT_VIEW"></app-patient-view>
+    <app-project-list 
+      *ngIf="appStatus.activeView === view.GLOBAL_PROJECT_LIST">
+    </app-project-list>
 
-    <app-plummer *ngIf="appStatus.activeView === view.PLUMMER"></app-plummer>
+    <app-project-summary 
+      *ngIf="appStatus.activeView === view.PROJECT_DASHBOARD">
+    </app-project-summary>
+
+    <app-cohort-definition 
+      *ngIf="appStatus.activeView === view.PROJECT_QUERY_DEFINITION">
+    </app-cohort-definition>
+
+    <app-cohort-browser 
+      *ngIf="appStatus.activeView === view.PROJECT_COHORT_BROWSER">
+    </app-cohort-browser>
+
+    <app-patient-view 
+      *ngIf="appStatus.activeView === view.PROJECT_RELEVANCE_PATIENT_VIEW">
+    </app-patient-view>
+
+    <app-plummer 
+      *ngIf="appStatus.activeView === view.PLUMMER">
+    </app-plummer>
+
   </mat-sidenav-content>
+  
 </mat-sidenav-container>

@@ -11,7 +11,9 @@ import {PatientView, View} from "../../../views";
 })
 export class PatientNavSnackbarComponent implements OnInit {
 
-  constructor(public appState: ApplicationStatusService, private _middleware: MiddlewareAdapterService) {
+  constructor(
+    public appState: ApplicationStatusService, 
+    private _middleware: MiddlewareAdapterService) {
   }
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class PatientNavSnackbarComponent implements OnInit {
     } else {
       // Update active patient view to the next patient
       this.appState.activePatientIdx = this.appState.activePatientIdx + incr
-      this.appState.activePatient = this._middleware.rest.getRetrievedCohort(this.appState.activeProject!.uid)[this.appState.activePatientIdx]
+      // this.appState.activePatient = this._middleware.rest.getRetrievedCohort(this.appState.activeProject!.uid)[this.appState.activePatientIdx]
       // Hackishly refresh view by setting view to something else and changing back
       this.appState.activePatientView = PatientView.SUMMARY
       this.appState.activePatientViewTabIndex = 1

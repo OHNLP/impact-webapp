@@ -119,3 +119,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .clr-d-na {
     color: #bcbcbc;
 }
+
+.hoverable:hover {
+  background-color: whitesmoke;
+}

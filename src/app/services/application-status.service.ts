@@ -7,7 +7,7 @@ import {MiddlewareAdapterService} from "./middleware-adapter.service";
 import { formatDate } from '@angular/common';
 import { CohortDefinition } from '../models/cohort-definition';
 
-import { Determination } from '../models/Determination';
+import { Determination } from '../models/determination';
 import { Fact } from '../models/clinical-data';
 import { EXAMPLE_PROJECT } from '../samples/sample-project';
 import { EXAMPLE_PATIENT } from '../samples/sample-patient';
@@ -84,14 +84,16 @@ export class ApplicationStatusService {
     return this._activeProject;
   }
 
-  set activeProject(value: Project | undefined) {
-    const refresh = this._activeProject !== value
+  set activeProject(project: Project | undefined) {
+    const refresh = this._activeProject !== project
     if (refresh) {
-      this._activeProject = value;
+      this._activeProject = project;
       this.activeView = View.PROJECT_DASHBOARD
       this.selectedPatientCriteriaFilter = undefined
-      if (value) {
-        this._activeCohortSize = this.middleware.rest.getRetrievedCohort(value.uid).length
+      if (project) {
+        this.middleware.rest.getRetrievedCohort(project.uid).subscribe(rs => {
+          this._activeCohortSize = rs.length;
+        });
       }
     }
   }

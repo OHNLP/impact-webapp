@@ -1,6 +1,6 @@
 import { StructuredData, ClinicalDocument, Fact } from "src/app/models/clinical-data";
 import { CohortDefinition } from "src/app/models/cohort-definition";
-import { Determination } from "src/app/models/Determination";
+import { Determination } from "src/app/models/determination";
 import { PatInfo } from "src/app/models/pat-info";
 import { Project } from "src/app/models/project";
 import { MiddlewareRestProvider } from "../middleware-rest-provider";
@@ -58,7 +58,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     public writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean {
         throw new Error("Method not implemented.");
     }
-    public getRetrievedCohort(project_uid: string): PatInfo[] {
+    public getRetrievedCohort(project_uid: string): Observable<PatInfo[]> {
         throw new Error("Method not implemented.");
     }
     public writeRetrievedCohort(project_uid: string, cohort?: PatInfo[] | undefined): boolean {
