@@ -5,41 +5,71 @@
                [opened]="(isHandset$ | async) === false">
     
     <div class="nb-prj-box">
-      <div class="nb-prj-title">
-        <i class="fas fa-warehouse"></i>
-        {{ appStatus.uwProject?.short_title }}
+      <div style="text-align:center;">
+          <span style="font-size: 64px; color: #777777;"
+              class="material-icons"> account_circle </span>
+          <br>
+          <span>
+            user_name
+          </span>
+          <br>
+
+          <a href="javascript:void(0);">
+            User Profile
+          </a>
+          |
+          <a href="javascript:void(0);">
+            Logout
+          </a>
       </div>
+
     </div>
-    <mat-nav-list>
-      <!-- <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_DASHBOARD">
-        <mat-icon>home</mat-icon>
-        Home</a> -->
-      <a mat-list-item (click)="appStatus.activeView = view.GLOBAL_PROJECT_LIST">
+    
+    <hr style="margin:10px;">
+
+    <mat-nav-list
+      style="margin-top: -10px;">
+      <a mat-list-item 
+        matTooltip="Create a New Project"
+        (click)="appStatus.activeView = view.PROJECT_MAKER">
+        <mat-icon>create_new_folder</mat-icon>
+        New Project
+      </a>
+
+      <a mat-list-item 
+        (click)="appStatus.activeView = view.GLOBAL_PROJECT_LIST">
         <mat-icon>view_list</mat-icon>
         Project List
       </a>
 
-      <a mat-list-item (click)="showProjectOptions = !showProjectOptions"
+      <a mat-list-item 
+        (click)="showProjectOptions = !showProjectOptions"
          *ngIf="appStatus.activeProject != null">
         <mat-icon>source</mat-icon>
-        Project Options<mat-icon>{{showProjectOptions ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}</mat-icon>
+        {{ appStatus.uwProject?.short_title }}
+        <mat-icon>
+          {{showProjectOptions ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
+        </mat-icon>
       </a>
 
-      <a mat-list-item (click)="appStatus.activeView = view.PROJECT_DASHBOARD"
+      <a mat-list-item 
+        (click)="appStatus.activeView = view.PROJECT_DASHBOARD"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>dashboard</mat-icon>
         Dashboard
       </a>
 
-      <a mat-list-item (click)="appStatus.activeView = view.PROJECT_QUERY_DEFINITION"
+      <a mat-list-item 
+        (click)="appStatus.activeView = view.PROJECT_QUERY_DEFINITION"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <mat-icon>search</mat-icon>
-        Cohort Definition
+        <mat-icon>assignment</mat-icon>
+        Criteria Definition
       </a>
 
-      <a mat-list-item (click)="appStatus.activeView = view.PROJECT_COHORT_BROWSER"
+      <a mat-list-item 
+        (click)="appStatus.activeView = view.PROJECT_COHORT_BROWSER"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>people</mat-icon>
@@ -74,6 +104,10 @@
 
       </mat-toolbar-row>
     </mat-toolbar> -->
+    <app-project-maker 
+      *ngIf="appStatus.activeView === view.PROJECT_MAKER">
+    </app-project-maker>
+
     <app-project-list 
       *ngIf="appStatus.activeView === view.GLOBAL_PROJECT_LIST">
     </app-project-list>

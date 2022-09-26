@@ -52,6 +52,7 @@ import { CriteriaTreeTableComponent } from './views/plummer/criteria-panel/crite
 import { CriteriaTreeNodeComponent } from './views/plummer/criteria-panel/criteria-tree-node/criteria-tree-node.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FactItemComponent } from './views/plummer/fact-panel/fact-item/fact-item.component';
+import { ProjectMakerComponent } from './views/project/project-maker/project-maker.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { FactItemComponent } from './views/plummer/fact-panel/fact-item/fact-ite
     DocPanelComponent,
     CriteriaTreeTableComponent,
     CriteriaTreeNodeComponent,
-    FactItemComponent
+    FactItemComponent,
+    ProjectMakerComponent
   ],
   imports: [
     BrowserModule,

@@ -47,6 +47,9 @@ export class AppComponent {
         return 'Cohort Browser';
       case View.PROJECT_RELEVANCE_PATIENT_VIEW:
         return 'Patient Details';
+      
+      case View.PROJECT_MAKER:
+        return 'New Project';
       case View.PLUMMER:
         return 'Patient Assessment';
     }

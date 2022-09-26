@@ -6,8 +6,11 @@ export enum View {
   PROJECT_COHORT_BROWSER,
   PROJECT_RELEVANCE_PATIENT_VIEW,
 
+  // for making new project
+  PROJECT_MAKER,
+  
   // for reviewing patient
-  PLUMMER
+  PLUMMER,
 }
 
 export enum PatientView {
