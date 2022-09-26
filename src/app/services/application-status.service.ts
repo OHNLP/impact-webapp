@@ -2,7 +2,6 @@ import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {PatientView, View} from "../views/views";
 import {CohortInclusion, PatInfo} from "../models/pat-info";
 import {Project} from "../models/project";
-import {PatientViewComponent} from "../views/results/patient-view/patient-view.component";
 import {MiddlewareAdapterService} from "./middleware-adapter.service";
 import { formatDate } from '@angular/common';
 import { CohortDefinition } from '../models/cohort-definition';
