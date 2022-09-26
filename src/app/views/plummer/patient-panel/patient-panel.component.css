@@ -10,17 +10,6 @@
     display: flex;
     align-items: center;
 }
-.ppi-item {
-    margin-right: 15px;
-}
-.ppi-item-header {
-    font-size: 9px;
-    line-height: 12px;
-}
-.ppi-item-value {
-    font-size: 12px;
-    line-height: 18px;
-}
 
 .decision-na {
     font-size: 13px;

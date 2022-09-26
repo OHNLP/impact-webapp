@@ -136,3 +136,14 @@ a:hover {
   border-bottom: 1px solid rgb(216, 216, 216);
   padding: 10px;
 }
+.ppi-item {
+    margin-right: 15px;
+}
+.ppi-item-header {
+    font-size: 9px;
+    line-height: 12px;
+}
+.ppi-item-value {
+    font-size: 12px;
+    line-height: 18px;
+}

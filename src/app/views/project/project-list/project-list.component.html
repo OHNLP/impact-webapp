@@ -1,10 +1,63 @@
 <div class="menu-bar-box">
   <button mat-button>
-    <mat-icon>create_new_folder</mat-icon> Create New Project
+    <mat-icon>create_new_folder</mat-icon> 
+    Create New Project
   </button>
 </div>
 
-<table mat-table [dataSource]="dataSource" style="width:100%">
+<div class="prj-box">
+  <mat-card *ngFor="let prj of projects"
+    class="prj-card">
+    <mat-card-title>
+      {{ prj.short_title }}
+    </mat-card-title>
+    <mat-card-subtitle class="prj-subt">
+      {{ prj.name }}
+    </mat-card-subtitle>
+    <div class="prj-stat">
+      <div class="ppi-item">
+        <div class="ppi-item-header">Last Updated</div>
+        <div class="ppi-item-value">{{ prj.date_updated | date }}</div>
+      </div>
+      <div class="ppi-item">
+        <div class="ppi-item-header">Cohort Size</div>
+        <div class="ppi-item-value">{{ prj.stat.n_cohort | number:'1.0-0' }}</div>
+      </div>
+      <div class="ppi-item">
+        <div class="ppi-item-header">Unjudged</div>
+        <div class="ppi-item-value">{{ prj.stat.n_unjudged | number:'1.0-0' }}</div>
+      </div>
+      <div class="ppi-item">
+        <div class="ppi-item-header">Included : Excluded</div>
+        <div class="ppi-item-value">
+          <span class="clr-d-yes">{{ prj.stat.n_included | number:'1.0-0' }}</span> : 
+          <span class="clr-d-no">{{ prj.stat.n_excluded | number:'1.0-0' }}</span>
+        </div>
+      </div>
+    </div>
+    <mat-card-content class="prj-desc">
+      {{ prj.description }}
+    </mat-card-content>
+    <mat-card-actions class="prj-act">
+      <button mat-raised-button
+        (click)="onClickOpenProject(prj)">
+        <mat-icon>
+          folder_open
+        </mat-icon>
+        Open
+      </button>
+      <button mat-raised-button
+        (click)="onClickArchiveProject(prj)">
+        <mat-icon>
+          send_and_archive
+        </mat-icon>
+        Archive
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- <table mat-table [dataSource]="dataSource" style="width:100%">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Project Name</th>
     <td class="project-name-cell hoverable" mat-cell *matCellDef="let project"
@@ -35,6 +88,6 @@
   <tr mat-row *matRowDef="let project; columns: ['name', 'actions']">
 
   </tr>
-</table>
+</table> -->
 
-<mat-paginator #paginator [pageSizeOptions]="[10,15,20,50,100]" showFirstLastButtons></mat-paginator>
+<!-- <mat-paginator #paginator [pageSizeOptions]="[10,15,20,50,100]" showFirstLastButtons></mat-paginator> -->

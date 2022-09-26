@@ -8,7 +8,7 @@ import { CohortDefinition } from '../models/cohort-definition';
 
 import { Determination } from '../models/determination';
 import { Fact } from '../models/clinical-data';
-import { EXAMPLE_PROJECT } from '../samples/sample-project';
+import { EXAMPLE_PROJECTS } from '../samples/sample-project';
 import { EXAMPLE_PATIENT } from '../samples/sample-patient';
 import { EXAMPLE_CRITERIA_RRMM_XS } from '../samples/sample-criteria';
 import { JobInfo } from '../models/job-info';
@@ -22,7 +22,7 @@ export class ApplicationStatusService {
   private _activePatientView: PatientView = PatientView.SUMMARY;
   private _activePatientViewTabIndex: number = 1;
   private _activePatient: PatInfo | undefined;
-  private _activeProject: Project | undefined = EXAMPLE_PROJECT;
+  private _activeProject: Project | undefined = EXAMPLE_PROJECTS[0];
   private _activePatientIdx: number = 0;
   private _activeCohortSize: number = 0;
   private _selectedPatientCriteriaFilter: string | undefined;
@@ -31,7 +31,7 @@ export class ApplicationStatusService {
   public CohortInclusion = CohortInclusion;
 
   // for plummer
-  public uwProject: Project | undefined = EXAMPLE_PROJECT;
+  public uwProject: Project | undefined = EXAMPLE_PROJECTS[0];
   public uwLastCompletedJob: JobInfo | undefined;
   public uwJobs: JobInfo[] | undefined;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
@@ -87,7 +87,8 @@ export class ApplicationStatusService {
   }
 
   set activeProject(project: Project | undefined) {
-    const refresh = this._activeProject !== project
+    // const refresh = this._activeProject !== project;
+    const refresh = true;
     if (refresh) {
       this._activeProject = project;
       this.activeView = View.PROJECT_DASHBOARD

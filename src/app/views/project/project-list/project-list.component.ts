@@ -6,6 +6,7 @@ import {ApplicationStatusService} from "../../../services/application-status.ser
 import {PatInfo} from "../../../models/pat-info";
 import {View} from "../../views";
 import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
+import { EXAMPLE_PROJECTS } from 'src/app/samples/sample-project';
 
 @Component({
   selector: 'app-project-list',
@@ -14,21 +15,28 @@ import {MiddlewareAdapterService} from "../../../services/middleware-adapter.ser
 })
 export class ProjectListComponent implements OnInit {
 
-  private projects: Array<Project> = []
-  public dataSource!: MatTableDataSource<Project>;
-  @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
+  public projects: Array<Project> = []
 
-  constructor(public appStatus: ApplicationStatusService, public middleware: MiddlewareAdapterService) { }
+  constructor(
+    public appStatus: ApplicationStatusService, 
+    public middleware: MiddlewareAdapterService
+  ) { }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource();
-    this.dataSource.paginator = this.paginator;
     this.middleware.rest.get_projects().subscribe(rs => {
       console.log("* loaded " + rs.length + ' projects');
       this.projects = rs;
-      this.dataSource.data = this.projects;
     });
     
+  }
+
+  onClickOpenProject(project: Project): void {
+    // set the working project
+    this.appStatus.activeProject = project;
+  }
+
+  onClickArchiveProject(project: Project): void {
+    alert("Archive this Project");
   }
 
 }

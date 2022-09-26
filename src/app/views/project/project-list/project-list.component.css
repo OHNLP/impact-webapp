@@ -6,3 +6,30 @@
   overflow-x: hidden;
   word-wrap: break-word;
 }
+
+.prj-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.prj-card {
+  width: 400px;
+  margin: 10px;
+  position: relative;
+}
+.prj-stat {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+.prj-desc {
+  height: 160px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.prj-act {
+  position: absolute;
+  width: calc(100% - 10px);
+  background-color: white;
+  bottom: 20px;
+}
