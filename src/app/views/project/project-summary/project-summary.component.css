@@ -1,9 +1,16 @@
 .grid-container {
   margin: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mat-h1 {
+  width: 100%;
 }
 
 .simple-card {
-  margin: 20px 10px;
+  margin: 10px;
 }
 
 .dashboard-card {
@@ -14,6 +21,22 @@
   bottom: 15px;
 }
 
+.card-25 {
+  width: calc(25% - 20px);
+}
+
+.card-33 {
+  width: calc(33% - 20px);
+}
+
+.card-50 {
+  width: calc(50% - 20px);
+}
+
+.card-100 {
+  width: calc(100% - 20px);
+}
+
 .more-button {
   position: absolute;
   top: 5px;
@@ -21,5 +44,14 @@
 }
 
 .dashboard-card-content {
-  text-align: center;
+  text-align: left;
+}
+
+.job-table {
+  width: 100%;
+}
+
+.job-table td {
+  padding: 5px 0;
+  border-bottom: 1px solid #EAEAEA;
 }

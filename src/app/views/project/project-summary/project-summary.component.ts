@@ -1,37 +1,199 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import {ApplicationStatusService} from "../../../services/application-status.service";
+import { ApplicationStatusService } from "../../../services/application-status.service";
+import { JobInfo, JobInfoStatus } from 'src/app/models/job-info';
+import { Chart } from 'angular-highcharts';
+import { faker } from '@faker-js/faker';
 
 @Component({
   selector: 'app-project-summary',
   templateUrl: './project-summary.component.html',
   styleUrls: ['./project-summary.component.css']
 })
-export class ProjectSummaryComponent {
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 }
-        ];
-      }
+export class ProjectSummaryComponent implements OnInit {
 
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
-    })
-  );
+  JobInfoStatus = JobInfoStatus;
+
+  // the pie chart for decision
+  chartPieIE: Chart | undefined;
+
+  // the pie chart for label
+  chartPieLabel: Chart | undefined;
+
+  // the pie chart for 
+  chartBarLabel: Chart | undefined;
+
+  // the bar chart for 
+  chartBarAge: Chart | undefined;
 
   constructor(
-    private breakpointObserver: BreakpointObserver, 
-    public appStatus: ApplicationStatusService
-  ) {}
+    public appStatus: ApplicationStatusService,
+    private breakpointObserver: BreakpointObserver,
+  ) { }
+
+  ngOnInit(): void {
+    this.initCharts();
+  }
+
+  initCharts(): void {
+    this.initChartPieIE();
+    this.initChartBarLabel();
+    this.initChartBarAge();
+  }
+
+  initChartPieIE(): void {
+    let chart = new Chart({
+      chart: {
+        type: 'pie'
+      },
+      title: {
+        text: ''
+      },
+      tooltip: {
+        pointFormat: '{point.name}: <b>{y}, {point.percentage:.1f}%</b>'
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+          },
+          colors: [
+            '#41992b', // include
+            '#b42323', // exclude
+            '#bcbcbc', // unjudged
+          ],
+          showInLegend: true
+        }
+      },
+      series: [{
+        name: 'Decision',
+        type: 'pie',
+        innerSize: '60%',
+        colorByPoint: true,
+        data: [{
+          name: 'Included',
+          y: this.appStatus.uwProject?.stat.n_included,
+          sliced: true,
+          selected: true
+        }, {
+          name: 'Excluded',
+          y: this.appStatus.uwProject?.stat.n_excluded
+        }, {
+          name: 'Unjudged',
+          y: this.appStatus.uwProject?.stat.n_unjudged
+        }]
+      }]
+    });
+    chart.ref$.subscribe(console.log);
+
+    // bind to local chart
+    this.chartPieIE = chart;
+  }
+
+  initChartBarLabel(): void {
+    let data = [];
+    let labels = [
+      'Check Later', 'Phase II', 'Phase III', 'Phase IV',
+      'Type 1 Diabetes', 'Type 2 Diabetes',
+      'ANC>10000', '>10 Lines', 'ECOG PS3', 'ECOG PS4'
+    ];
+    for (let i = 0; i < labels.length; i++) {
+      const label = labels[i];
+      data.push({
+        name: label,
+        y: Math.floor(100 * Math.random())
+      });
+    }
+
+    let chart = new Chart({
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: ''
+      },
+      tooltip: {
+        pointFormat: '{point.name}: <b>{point.y}</b>'
+      },
+      xAxis: {
+        categories: labels
+      },
+      plotOptions: {
+      },
+      series: [{
+        name: 'Patient Label',
+        type: 'column',
+        colorByPoint: true,
+        data: data
+      }]
+    });
+    chart.ref$.subscribe(console.log);
+
+    // bind to local chart
+    this.chartBarLabel = chart;
+  }
+
+  initChartBarAge(): void {
+    let data = [
+      5, // '18',
+      9, // '18-29',
+      20, // '30-39',
+      42, // '40-49',
+      18, // '50-59',
+      15, // '60-69',
+      7,  // '70-79',
+      5,  // '80-89',
+      1,  // '90-99',
+      0,  // '100+',
+    ];
+
+    let chart = new Chart({
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        categories: [
+          '18',
+          '18-29',
+          '30-39',
+          '40-49',
+          '50-59',
+          '60-69',
+          '70-79',
+          '80-89',
+          '90-99',
+          '100+',
+        ],
+        crosshair: true
+      },
+      plotOptions: {
+        column: {
+          pointPadding: 0.2,
+          borderWidth: 0,
+          // pointWidth: 30
+        }
+      },
+      series: [{
+        name: 'Number of patients',
+        type: 'column',
+        data: data
+
+      }]
+    });
+    chart.ref$.subscribe(console.log);
+
+    // bind to local chart
+    this.chartBarAge = chart;
+  }
+
+  onClickSelectJob(job: JobInfo): void {
+    this.appStatus.uwLastCompletedJob = job;
+  }
 }

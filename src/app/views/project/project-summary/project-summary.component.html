@@ -1,38 +1,75 @@
 <div class="grid-container">
-  <h1 class="mat-h1">{{this.appStatus.activeProject?.name}}</h1>
+    <h1 class="mat-h1">{{this.appStatus.activeProject?.name}}</h1>
+    
+    <div>
+      {{ appStatus.uwProject?.description }}
+    </div>
 
-    <mat-card class="simple-card">
+    <mat-card class="simple-card card-50">
       <mat-card-header>
         <mat-card-title>
-          Jobs of Data Processing
+          Data Processing Log
           <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item>Refresh</button>
+            <button mat-menu-item>
+              <mat-icon>open_in_new</mat-icon>
+              Show Full Log
+            </button>
           </mat-menu>
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="dashboard-card-content">
+        <p>
+          The latest job history of data processing in backend.
+        </p>
         <div>
-          <table style="width: 100%;">
+          <table class="job-table">
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Status</th>
-                <th>jobUID</th>
+                <th>&nbsp;</th>
+                <th>Start Date</th>
+                <th>Job Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let job of appStatus.uwJobs">
                 <td>
-                  {{ appStatus.fmtDate(job.start_date) }}
+                  <mat-icon *ngIf="job.uid == appStatus.uwLastCompletedJob?.uid">
+                    arrow_circle_right
+                  </mat-icon>
                 </td>
                 <td>
-                  {{ job.status }}
+                  {{ job.start_date }}
                 </td>
                 <td>
-                  {{ job.job_uid }}
+                  <span [class]="'label label-job-'+job.status">
+                    {{ job.status }}
+                  </span>
+                </td>
+                <td>
+                  <button mat-raised-button
+                    class="mr-2"
+                    *ngIf="job.status == JobInfoStatus.COMPLETE"
+                    (click)="onClickSelectJob(job)">
+                    Select
+                  </button>
+
+                  <button mat-raised-button
+                    class="mr-2"
+                    *ngIf="job.status == JobInfoStatus.IN_PROGRESS">
+                    Cancel
+                  </button>
+
+                  <button mat-raised-button
+                    class="mr-2">
+                    <mat-icon>
+                      delete
+                    </mat-icon>
+                  </button>
+
                 </td>
               </tr>
             </tbody>
@@ -41,10 +78,10 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="simple-card">
+    <mat-card class="simple-card card-33">
       <mat-card-header>
         <mat-card-title>
-          Jobs
+          Cohort Summary
           <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -55,29 +92,108 @@
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="dashboard-card-content">
-        <div>Card Content Here</div>
+        <p>
+          The statistics of the cohort in [{{ appStatus.uwProject?.short_title }}].
+        </p>
+        <dl class="dict-list">
+
+          <dt>The total number of patients included</dt>
+          <dd class="clr-d-yes">
+            {{ appStatus.uwProject?.stat.n_included | number:'1.0-0' }}
+          </dd>
+
+          <dt>The total number of patients excluded:</dt>
+          <dd class="clr-d-no">
+            {{ appStatus.uwProject?.stat.n_excluded | number:'1.0-0' }}
+          </dd>
+
+          <dt>The number of patients unjudged:</dt>
+          <dd class="clr-d-na">
+            {{ appStatus.uwProject?.stat.n_unjudged | number:'1.0-0' }}
+          </dd>
+
+          <dt>The total number of patients added to this project.</dt>
+          <dd>{{ appStatus.uwProject?.stat.n_cohort | number:'1.0-0' }}</dd>
+
+        </dl>
       </mat-card-content>
     </mat-card>
 
-  <!-- <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list> -->
+    <mat-card class="simple-card card-33">
+      <mat-card-header>
+        <mat-card-title>
+          Decisions
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Expand</button>
+            <button mat-menu-item>Remove</button>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <div [chart]="chartPieIE"></div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="simple-card card-33">
+      <mat-card-header>
+        <mat-card-title>
+          Patient Labels
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Expand</button>
+            <button mat-menu-item>Remove</button>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <div [chart]="chartBarLabel"></div>
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card class="simple-card card-33">
+      <mat-card-header>
+        <mat-card-title>
+          Statistics by Age
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Expand</button>
+            <button mat-menu-item>Remove</button>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <div [chart]="chartBarAge"></div>
+      </mat-card-content>
+    </mat-card>
+
+
+    <!-- <mat-card class="simple-card card-100">
+      <mat-card-header>
+        <mat-card-title>
+          Statistics by Age
+          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item>Expand</button>
+            <button mat-menu-item>Remove</button>
+          </mat-menu>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <div [chart]="chartBarAge"></div>
+      </mat-card-content>
+    </mat-card> -->
+
+
+
+
 </div>

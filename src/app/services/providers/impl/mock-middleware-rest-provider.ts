@@ -53,7 +53,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   get_facts(
-    job_uid: string, 
+    uid: string, 
     patient_uid: string,
     criteria_uid: string
   ): Observable<Array<any>> {

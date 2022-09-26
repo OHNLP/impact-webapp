@@ -1,6 +1,6 @@
 export enum View {
   GLOBAL_DASHBOARD,
-  GLOBAL_PROJECT_LIST,
+  PROJECT_LIST,
   PROJECT_DASHBOARD,
   PROJECT_QUERY_DEFINITION,
   PROJECT_COHORT_BROWSER,
@@ -8,7 +8,7 @@ export enum View {
 
   // for making new project
   PROJECT_MAKER,
-  
+
   // for reviewing patient
   PLUMMER,
 }

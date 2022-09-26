@@ -38,12 +38,12 @@ export abstract class MiddlewareRestProvider {
 
   /* ===== Individual Patient Determination Related Methods =====*/
   public abstract get_determinations(
-    job_uid: string, 
+    uid: string, 
     patient_uid: string
   ): Observable<Array<Determination>>;
 
   public abstract get_facts(
-    job_uid: string, 
+    uid: string, 
     patient_uid: string,
     criteria_uid: string
   ): Observable<Array<Fact>>;

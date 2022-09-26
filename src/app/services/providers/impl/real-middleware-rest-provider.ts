@@ -71,19 +71,19 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         throw new Error("Method not implemented.");
     }
     public get_determinations(
-        job_uid: string, 
+        uid: string, 
         patient_uid: string
     ): Observable<Determination[]> {
         throw new Error("Method not implemented.");
     }
 
-    public get_facts(job_uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
+    public get_facts(uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
         // create the URL
         let url = this.base_url + '/_cohorts/node_evidence';
 
         // set the parameters
         const params = new HttpParams()
-            .set("job_uid", job_uid)
+            .set("uid", uid)
             .set('node_uid', criteria_uid)
             .set('person_uid', patient_uid)
 

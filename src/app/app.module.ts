@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
+import { ChartModule } from 'angular-highcharts';
 import {AppComponent} from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -66,6 +66,7 @@ import { ProjectMakerComponent } from './views/project/project-maker/project-mak
   ],
   imports: [
     BrowserModule,
+    ChartModule,
     NgbModule,
     BrowserAnimationsModule,
     MatSidenavModule,

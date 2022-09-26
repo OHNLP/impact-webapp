@@ -17,7 +17,8 @@ import { JobInfo } from '../models/job-info';
   providedIn: 'root'
 })
 export class ApplicationStatusService {
-  private _activeView: View = View.PLUMMER
+  private _activeView: View = View.PROJECT_LIST
+
   // private _activeView: View = View.PLUMMER
   private _activePatientView: PatientView = PatientView.SUMMARY;
   private _activePatientViewTabIndex: number = 1;
@@ -102,7 +103,12 @@ export class ApplicationStatusService {
 
         // then, load jobs
         this.middleware.rest.get_jobs(project.uid).subscribe(rs => {
+          // load jobs
           this.uwJobs = rs;
+
+          // specify working job
+          this.uwLastCompletedJob = rs[0];
+
           // set the uw job to the last completed
           this.uwLastCompletedJob = this.uwJobs[0];
         });
@@ -147,7 +153,7 @@ export class ApplicationStatusService {
 
   public showDeterminations(): void {
     this.middleware.rest.get_determinations(
-      '', // job_uid
+      '', // uid
       this.uwPat!.pat_uid,
     ).subscribe(ds => {
       // to dictionary

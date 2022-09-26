@@ -37,7 +37,7 @@ export class AppComponent {
     switch (this.appStatus.activeView) {
       case View.GLOBAL_DASHBOARD:
         return 'Home';
-      case View.GLOBAL_PROJECT_LIST:
+      case View.PROJECT_LIST:
         return 'Project List';
       case View.PROJECT_DASHBOARD:
         return 'Project Dashboard'

@@ -37,7 +37,7 @@
       </a>
 
       <a mat-list-item 
-        (click)="appStatus.activeView = view.GLOBAL_PROJECT_LIST">
+        (click)="appStatus.activeView = view.PROJECT_LIST">
         <mat-icon>view_list</mat-icon>
         Project List
       </a>
@@ -46,7 +46,7 @@
         (click)="showProjectOptions = !showProjectOptions"
          *ngIf="appStatus.activeProject != null">
         <mat-icon>source</mat-icon>
-        {{ appStatus.uwProject?.short_title }}
+          [{{ appStatus.uwProject?.short_title }}]
         <mat-icon>
           {{showProjectOptions ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
         </mat-icon>
@@ -109,7 +109,7 @@
     </app-project-maker>
 
     <app-project-list 
-      *ngIf="appStatus.activeView === view.GLOBAL_PROJECT_LIST">
+      *ngIf="appStatus.activeView === view.PROJECT_LIST">
     </app-project-list>
 
     <app-project-summary 
