@@ -14,6 +14,7 @@ import {
 import {MatDialog} from "@angular/material/dialog";
 import {ApplicationStatusService} from "../../../services/application-status.service";
 import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
 export const base_empty_criteria = [
   {
@@ -49,16 +50,20 @@ export class CohortDefinitionComponent {
   /** The tree in it's currently possibly modified state that is sync'ed to end-user display */
   workingTree!: CohortDefinition;
 
+  // for json editor
+  public editorOptions: JsonEditorOptions;
+  @ViewChild("editor") editor: JsonEditorComponent | undefined;
+
   constructor(
-    appstatus: ApplicationStatusService,
-    middleware: MiddlewareAdapterService,
+    public appStatus: ApplicationStatusService,
+    public middleware: MiddlewareAdapterService,
     public dialog: MatDialog
   ) {
-    if (appstatus.activeProject) {
+    if (appStatus.activeProject) {
       // this.unmodifiedTree = 
-      middleware.rest.getCohortCriteria(appstatus.activeProject?.uid).subscribe(criteria => this.unmodifiedTree = criteria);
+      middleware.rest.getCohortCriteria(appStatus.activeProject?.uid).subscribe(criteria => this.unmodifiedTree = criteria);
       // this.workingTree = 
-      middleware.rest.getCohortCriteria(appstatus.activeProject?.uid).subscribe(
+      middleware.rest.getCohortCriteria(appStatus.activeProject?.uid).subscribe(
         criteria => this.workingTree = criteria
       );
     } else {
@@ -69,6 +74,10 @@ export class CohortDefinitionComponent {
     this.dataSource.data = [this.workingTree];
     this.treeControl.dataNodes = this.dataSource.data
     this.treeControl.expandAll()
+
+    // init the json editor
+    this.editorOptions = new JsonEditorOptions()
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
   }
 
 
@@ -100,7 +109,15 @@ export class CohortDefinitionComponent {
     }
   }
 
-  resetTreeEmpty() {
+  toggleEditor(): void {
+    this.appStatus.uwCriteriaUseEditorMode = !this.appStatus.uwCriteriaUseEditorMode;
+  }
+
+  onChangeJSONEditor(event:any): void {
+    // this.appStatus.uwCriteria = this.editor.get() as unknown as CohortDefinition;
+  }
+
+  resetTreeEmpty(): void {
     this.dataSource.data = base_empty_criteria
     this.treeControl.dataNodes = this.dataSource.data
     this.treeControl.expandAll()

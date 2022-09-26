@@ -38,6 +38,7 @@ export class ApplicationStatusService {
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
   public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_RRMM_XS;
   public uwCriteriaNodeID: string| undefined;
+  public uwCriteriaUseEditorMode: boolean = false;
   
   // for facts
   public uwFacts: Fact[] | undefined;

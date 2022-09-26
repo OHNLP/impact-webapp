@@ -44,6 +44,7 @@ import { CriteriaTreeNodeComponent } from './views/plummer/criteria-panel/criter
 import { HttpClientModule } from '@angular/common/http';
 import { FactItemComponent } from './views/plummer/fact-panel/fact-item/fact-item.component';
 import { ProjectMakerComponent } from './views/project/project-maker/project-maker.component';
+import { NgJsonEditorModule } from 'ang-jsoneditor' 
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { ProjectMakerComponent } from './views/project/project-maker/project-mak
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    NgJsonEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

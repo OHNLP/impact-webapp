@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import {MiddlewareRestProvider} from "../middleware-rest-provider";
 import {CohortDefinition} from "../../../models/cohort-definition";
-import {PatInfo} from "../../../models/pat-info";
+import {CohortInclusion, PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
 import { Determination } from "src/app/models/determination";
@@ -12,6 +12,7 @@ import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
 import { JobInfo } from "src/app/models/job-info";
 import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
+import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
@@ -38,7 +39,18 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   getRetrievedCohort(project_uid: string): Observable<Array<PatInfo>> {
-    return of(EXAMPLE_PATIENTS);
+    let ps = JSON.parse(JSON.stringify(EXAMPLE_PATIENTS));
+
+    // add more for demo
+    for (let i = 0; i < 1000; i++) {
+      ps.push({
+        pat_uid: uuid(),
+        name: faker.name.fullName(),
+        inclusion: CohortInclusion.UNJUDGED
+      });
+      
+    }
+    return of(ps);
   }
 
   writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean {
