@@ -39,6 +39,10 @@ export class AppComponent {
         return 'Home';
       case View.PROJECT_LIST:
         return 'Project List';
+
+      case View.PROJECT_JOB_LIST:
+        return 'Job List';
+
       case View.PROJECT_DASHBOARD:
         return 'Project Dashboard'
       case View.PROJECT_QUERY_DEFINITION:

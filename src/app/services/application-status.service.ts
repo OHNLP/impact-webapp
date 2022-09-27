@@ -10,7 +10,7 @@ import { Determination } from '../models/determination';
 import { Fact } from '../models/clinical-data';
 import { EXAMPLE_PROJECTS } from '../samples/sample-project';
 import { EXAMPLE_PATIENTS } from '../samples/sample-patient';
-import { EXAMPLE_CRITERIA_RRMM_XS } from '../samples/sample-criteria';
+import { EXAMPLE_CRITERIA_GERD } from '../samples/sample-criteria';
 import { JobInfo } from '../models/job-info';
 
 @Injectable({
@@ -36,7 +36,7 @@ export class ApplicationStatusService {
   public uwLastCompletedJob: JobInfo | undefined;
   public uwJobs: JobInfo[] | undefined;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENTS[0];
-  public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_RRMM_XS;
+  public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_GERD;
   public uwCriteriaAssessing: CohortDefinition| undefined;
   public uwCriteriaUseEditorMode: boolean = false;
   

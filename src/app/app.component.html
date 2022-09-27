@@ -78,8 +78,12 @@
         Cohort Browser
       </a>
       
-      <a mat-list-item>
-        <mat-icon>factory</mat-icon> Job Queue
+      <a mat-list-item
+        (click)="appStatus.activeView = view.PROJECT_JOB_LIST"
+        *ngIf="displayProjectSuboptions()">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-icon>factory</mat-icon> 
+        Job Queue
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -117,6 +121,10 @@
     <app-project-summary 
       *ngIf="appStatus.activeView === view.PROJECT_DASHBOARD">
     </app-project-summary>
+
+    <app-project-job-list
+      *ngIf="appStatus.activeView === view.PROJECT_JOB_LIST">
+    </app-project-job-list>
 
     <app-cohort-definition 
       *ngIf="appStatus.activeView === view.PROJECT_QUERY_DEFINITION">

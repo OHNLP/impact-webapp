@@ -1,6 +1,271 @@
 import { BinaryRelationalType, BooleanOperationType, CohortDefinition, EntityType, NodeType, ValuePathDef } from "../models/cohort-definition";
 
-export const EXAMPLE_CRITERIA_RRMM_XS: CohortDefinition =
+export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
+{
+  node_id: '45cce24d-65b7-4ab8-b2cd-c16c8d44b722',
+  node_type: NodeType.BOOLEAN,
+  value_type: BooleanOperationType.AND,
+  title: 'root',
+  description: 'root',
+  children: [
+    {
+      node_id: 'c4b9f789-2673-4438-b8a4-9260f5695280',
+      node_type: NodeType.BOOLEAN,
+      value_type: BooleanOperationType.AND,
+      title: 'Inclusion Criteria',
+      description: 'All responses must be “Yes” unless specified as “NA”',
+      children: [
+        {
+          node_id: 'd8151c93-2bf6-4f1b-98c8-ef8809da5bb6',
+          node_type: NodeType.ENTITY,
+          title: 'Age >= 50 years',
+          description: 'The age of the participant must be greater than 18.',
+          entity: {
+            type: EntityType.PERSON,
+            definitionComponents: [{
+              valuePath: ValuePathDef.OBSERVATION_CODE,
+              type: BinaryRelationalType.EQ,
+              values: ['age']
+            }, {
+              valuePath: ValuePathDef.OBSERVATION_VALUE,
+              type: BinaryRelationalType.LTE,
+              values: ['50']
+            }]
+          }
+        }, 
+        {
+          node_id: 'd9152c93-2bf6-4f1b-98c8-ef8809da5bb8',
+          node_type: NodeType.BOOLEAN,
+          value_type: BooleanOperationType.MIN_OR,
+          title: 'Gastroesophageal reflux disease (GERD)',
+          description: 'Gastroesophageal reflux disease (GERD)',
+          children: [
+            {
+              node_id: 'b14d2d45-44f0-4ec6-b621-b5d5c3f7e08d',
+              node_type: NodeType.ENTITY,
+              title: 'a. Gastroesophageal reflux disease defined by diagnosis',
+              description: 'Gastroesophageal reflux disease defined by diagnosis. ICD-9: 530.81, ICD-10: K21.9',
+              entity: {
+                type: EntityType.DIAGNOSIS,
+                definitionComponents: [{
+                  valuePath: ValuePathDef.PROCEDURE_CODE,
+                  type: BinaryRelationalType.IN,
+                  values: ['530.81', 'K21.9']
+                }]
+              },
+            }, 
+            {
+              node_id: 'c14d2d45-42f0-4ec6-b621-b5d5c3f7e08d',
+              node_type: NodeType.ENTITY,
+              title: 'b. GERD defined by drug, >= 3 months over 5 years',
+              description: 'GERD defined by drug, duration of use >= 3 months over the last 5 years. Medication includes: omeprazole, esomeprazole, pantoprazole, rabeprazole, dexlansoprazole, lansoprazole, ranitidine, famotidine, cimetidine',
+              entity: {
+                type: EntityType.DRUG,
+                definitionComponents: [{
+                  valuePath: ValuePathDef.MEDICATION_CODE,
+                  type: BinaryRelationalType.IN,
+                  values: ['omeprazole', 'esomeprazole', 'pantoprazole', 'rabeprazole', 'dexlansoprazole', 'lansoprazole', 'ranitidine', 'famotidine', 'cimetidine']
+                }]
+              },
+            }, 
+            {
+              node_id: 'e14d2d45-42f0-4ec6-abcd-b5d5c3f7e08d',
+              node_type: NodeType.ENTITY,
+              title: 'c. GERD defined by prior endoscopic diagnosis of erosive esophagitis',
+              description: 'GERD defined by prior endoscopic diagnosis of erosive esophagitis. ICD-9: 530.19, ICD-10: K21.0',
+              entity: {
+                type: EntityType.DIAGNOSIS,
+                definitionComponents: [{
+                  valuePath: ValuePathDef.PROCEDURE_CODE,
+                  type: BinaryRelationalType.IN,
+                  values: ['530.19', 'K21.0']
+                }]
+              },
+            }]
+        }, 
+        {
+          node_id: 'x9152ct3-2bf6-4f1b-98c8-ef8809da5bb8',
+          node_type: NodeType.ENTITY,
+          title: 'Male',
+          description: 'The patient must be male.',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['male']
+            }]
+          }
+        }, 
+        {
+          node_id: 'a9152ct3-2bf6-4f1b-inc5-ef8809da5bb8',
+          node_type: NodeType.ENTITY,
+          title: 'Obesity (BMI>=30)',
+          description: 'Obesity defined as body mass index greater than equal to 30.',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.GTE,
+              values: ['30']
+            }]
+          }
+        }, 
+        {
+          node_id: 'a9152ct3-2bf6-4f1b-inc5-ef8809da5bb8',
+          node_type: NodeType.ENTITY,
+          title: 'Caucasian',
+          description: 'Caucasian.',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.GTE,
+              values: ['Caucasian']
+            }]
+          }
+        }, 
+
+        ]
+    },
+    {
+      node_id: 'af45810x-fa3d-476b-93e8-d96701b0b8d9',
+      node_type: NodeType.BOOLEAN,
+      value_type: BooleanOperationType.NOT,
+      title: 'Exclusion Criteria',
+      description: 'All responses must be “No”',
+      children: [
+        {
+          node_id: '208dbfc2-7a1a-4f63-81fb-594900862730',
+          node_type: NodeType.ENTITY,
+          title: 'Previous history of esophageal adenocarcinoma/cancer, esophageal squamous carcinoma',
+          description: 'Previous history of esophageal adenocarcinoma/cancer, esophageal squamous carcinoma. ICD-9: 150.9, ICD-10: C15.9',
+          entity: {
+            type: EntityType.DIAGNOSIS,
+            definitionComponents: [{
+              valuePath: ValuePathDef.MEDICATION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['150.9']
+            }]
+          }
+        },
+        {
+          node_id: '338dbfc2-7a1a-4f63-81fb-594900862730',
+          node_type: NodeType.ENTITY,
+          title: "Previous history of endoscopic ablation for Barrett's esophagus",
+          description: "Previous history of endoscopic ablation for Barrett's esophagus. CPT-4: 43229, 43270, 43228, 43258",
+          entity: {
+            type: EntityType.DIAGNOSIS,
+            definitionComponents: [{
+              valuePath: ValuePathDef.MEDICATION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['43229', '43270', '43228', '43258']
+            }]
+          }
+        },
+        {
+          node_id: '438dbfc2-7a1a-4f63-81fb-594900862730',
+          node_type: NodeType.ENTITY,
+          title: 'Previous history of esophageal squamous dysplasia',
+          description: 'Previous history of esophageal squamous dysplasia. ICD-9: 622.10, ICD-10: N87.9',
+          entity: {
+            type: EntityType.DIAGNOSIS,
+            definitionComponents: [{
+              valuePath: ValuePathDef.MEDICATION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['622.10', 'N87.9']
+            }]
+          }
+        },
+        {
+          node_id: 'y8152ct3-2bf6-4f1b-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'Current Treatment (drug) with oral anticoagulation - warfarin',
+          description: 'Current Treatment (drug) with oral anticoagulation - warfarin.',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.MEDICATION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['warfarin']
+            }]
+          }
+        },
+        {
+          node_id: 'z9152ct4-2bf6-4f1b-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'Current drug w/ Coumadin',
+          description: 'Current Treatment (drug) with oral anticoagulation - Coumadin. ',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['Coumadin']
+            }]
+          }
+        },
+        {
+          node_id: 'a9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'History of cirrhosis',
+          description: 'History of cirrhosis. ICD-9: 571.5, ICD-10: K74.60',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['571.5', 'K74.60']
+            }]
+          }
+        },
+        {
+          node_id: 'b9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'History of esophageal varices',
+          description: 'History of esophageal varices. ICD-9: 456.20, ICD-10: I85.00',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['456.20', 'I85.00']
+            }]
+          }
+        },
+        {
+          node_id: 'c9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'History of Barrett’s esophagus',
+          description: 'History of Barrett’s esophagus. ICD-9: 530.85, ICD-10: K22.7, K22.710, K22.711, K22.719',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['530.85', 'K22.7', 'K22.710', 'K22.711', 'K22.719']
+            }]
+          }
+        },
+        {
+          node_id: 'd9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+          node_type: NodeType.ENTITY,
+          title: 'History of endoscopy in the last 5 years',
+          description: 'History of endoscopy in the last 5 years. CPT-4: 43235-43270',
+          entity: {
+            type: EntityType.OBSERVATION,
+            definitionComponents: [{
+              valuePath: ValuePathDef.CONDITION_CODE,
+              type: BinaryRelationalType.IN,
+              values: ['43235-43270']
+            }]
+          }
+        }
+      ]
+    }]
+};
+
+export const EXAMPLE_CRITERIA_RRMM: CohortDefinition =
 {
   node_id: '45cce24d-65b7-4ab8-b2cd-c16c8d44b722',
   node_type: NodeType.BOOLEAN,
@@ -23,7 +288,11 @@ export const EXAMPLE_CRITERIA_RRMM_XS: CohortDefinition =
           entity: {
             type: EntityType.PERSON,
             definitionComponents: [{
-              valuePath: ValuePathDef.CONDITION_CODE,
+              valuePath: ValuePathDef.OBSERVATION_CODE,
+              type: BinaryRelationalType.EQ,
+              values: ['age']
+            }, {
+              valuePath: ValuePathDef.OBSERVATION_VALUE,
               type: BinaryRelationalType.LTE,
               values: ['18']
             }]
@@ -32,8 +301,8 @@ export const EXAMPLE_CRITERIA_RRMM_XS: CohortDefinition =
         {
           node_id: 'd9152c93-2bf6-4f1b-98c8-ef8809da5bb8',
           node_type: NodeType.BOOLEAN,
-          value_type: BooleanOperationType.AND,
-          title: 'Measurable disease by IMWG criteria',
+          value_type: BooleanOperationType.MIN_OR,
+          title: 'Measurable disease by IMWG criteria in Section 11.0',
           description: 'Measurable disease by IMWG criteria as defined by at least one of the following in Section 11.0',
           children: [
             {
@@ -232,8 +501,6 @@ export const EXAMPLE_CRITERIA_RRMM_XS: CohortDefinition =
       ]
     }]
 };
-
-
 // export const EXAMPLE_CRITERIA_RRMM_MD: CohortDefinition =
 // {
 //   node_id: '45cce24d-65b7-4ab8-b2cd-c16c8d44b722',

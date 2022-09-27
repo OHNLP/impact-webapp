@@ -18,4 +18,8 @@ export class FactItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onClickViewFullText(): void {
+    
+  }
+
 }

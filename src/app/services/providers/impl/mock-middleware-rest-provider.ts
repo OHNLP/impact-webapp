@@ -6,7 +6,7 @@ import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../
 import {Project} from "../../../models/project";
 import { Determination } from "src/app/models/determination";
 import { Observable, of } from 'rxjs';
-import { EXAMPLE_CRITERIA_RRMM_XS } from "src/app/samples/sample-criteria";
+import { EXAMPLE_CRITERIA_GERD } from "src/app/samples/sample-criteria";
 import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
 import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
 import { JobInfo } from "src/app/models/job-info";
@@ -31,7 +31,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   getCohortCriteria(project_uid: string): Observable<CohortDefinition> {
-    return of(EXAMPLE_CRITERIA_RRMM_XS);
+    return of(EXAMPLE_CRITERIA_GERD);
   }
 
   writeCohortCriteria(project_uid: string, definition?: CohortDefinition): boolean {
@@ -98,7 +98,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         type: ft,
         date_time: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
 
-        summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
+        summary: faker.lorem.lines(2),
 
         code: "203.01",
         code_system: 'ICD-9-CM',
