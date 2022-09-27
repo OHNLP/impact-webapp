@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges, OnInit, 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Fact } from 'src/app/models/clinical-data';
+import { CohortDefinition } from 'src/app/models/cohort-definition';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 
@@ -12,7 +13,7 @@ import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.se
 })
 
 export class FactPanelComponent implements OnChanges,OnInit {
-  @Input() criteria_uid?: string;
+  @Input() criteria?: CohortDefinition;
   @Input() facts?: Fact[];
 
   displayedColumns: string[] = ['name'];

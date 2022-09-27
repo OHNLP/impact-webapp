@@ -2,7 +2,7 @@
     <div class="tree-node-info">
         <div>
             <div class="tree-node-info-title"
-                [class.active-tree-node-info-title]="this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id"
+                [class.active-tree-node-info-title]="this.appStatus.uwCriteriaAssessing?.node_id === node?.criteria?.node_id"
                 (click)="onClickTreeNode(node)"
                 [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
                 {{ node?.criteria?.title }}
@@ -73,12 +73,12 @@
         </div>
     </div>
 
-    <div *ngIf="this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id" 
+    <div *ngIf="this.appStatus.uwCriteriaAssessing?.node_id === node?.criteria?.node_id" 
         class="tree-node-info-description">
         {{ node?.criteria?.description }}
     </div>
 
-    <div *ngIf="this.appStatus.uwCriteriaNodeID === node?.criteria?.node_id" 
+    <div *ngIf="this.appStatus.uwCriteriaAssessing?.node_id === node?.criteria?.node_id" 
         class="tree-node-user-comment">
         <div class="tree-node-user-comment-header">
             <span class="fs-12 mr-5">

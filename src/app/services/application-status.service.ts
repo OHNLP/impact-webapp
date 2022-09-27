@@ -37,7 +37,7 @@ export class ApplicationStatusService {
   public uwJobs: JobInfo[] | undefined;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENTS[0];
   public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_RRMM_XS;
-  public uwCriteriaNodeID: string| undefined;
+  public uwCriteriaAssessing: CohortDefinition| undefined;
   public uwCriteriaUseEditorMode: boolean = false;
   
   // for facts
@@ -179,19 +179,19 @@ export class ApplicationStatusService {
     this.uwFacts = [];
   }
 
-  public showFactsByCriterion(criteria_uid?: string): void {
-    // set the current uwCriteriaNodeID
-    this.uwCriteriaNodeID = criteria_uid;
+  public showFactsByCriterion(criteria?: CohortDefinition): void {
+    // set the current uwCriteriaAssessing
+    this.uwCriteriaAssessing = criteria;
 
     // update the facts
-    if (this.uwCriteriaNodeID === undefined) {
+    if (this.uwCriteriaAssessing === undefined) {
       this.uwFacts = [];
       return;
     }
     this.middleware.rest.get_facts(
       '', // job uid
       '', // node_uid (criteria uid)
-      this.uwCriteriaNodeID
+      this.uwCriteriaAssessing.node_id
     ).subscribe(facts => {
       // ok // 
       console.log('* get_facts callback: ', facts);

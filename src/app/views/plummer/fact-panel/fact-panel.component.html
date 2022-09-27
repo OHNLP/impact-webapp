@@ -9,21 +9,22 @@
                     Facts
                 </div>
                 <div class="panel-header-subtitle">
-                    {{ facts?.length }} &nbsp;
+                    {{ appStatus.uwCriteriaAssessing?.title }} &nbsp;
                 </div>
             </div>
 
             <div class="divider"></div>
 
-            <div>
+            
+        </div>
+
+        <div class="panel-header-right">
+            <div style="margin-right: 20px;">
                 <input type="text" placeholder="Keywords" style="width: 80px;">
                 <span class="clickable" style="margin-left: -15px;">
                     <i class="fa fa-times"></i>
                 </span>
             </div>
-        </div>
-
-        <div class="panel-header-right">
 
             <div class="panel-header-btn">
                 <button [matMenuTriggerFor]="menu" class="cdt-btn">

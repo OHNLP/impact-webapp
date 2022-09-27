@@ -40,7 +40,7 @@ export const EXAMPLE_CRITERIA_RRMM_XS: CohortDefinition =
               node_id: 'b14d2d45-44f0-4ec6-b621-b5d5c3f7e08d',
               node_type: NodeType.ENTITY,
               title: 'a. Serum M-protein >= 0.5 g/dL',
-              description: 'a. Serum M-protein >= 0.5 g/dL',
+              description: 'Serum M-protein >= 0.5 g/dL',
               entity: {
                 type: EntityType.OBSERVATION,
                 definitionComponents: [{

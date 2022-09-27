@@ -30,7 +30,7 @@
     </div>
 
     <div class="panel-body">
-        <mat-card>
+        <mat-card *ngIf="html != ''">
             <mat-card-content class="card-content">
                 <div [innerHTML]="html"></div>
             </mat-card-content>

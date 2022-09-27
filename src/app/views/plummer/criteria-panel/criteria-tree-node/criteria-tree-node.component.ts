@@ -36,16 +36,16 @@ export class CriteriaTreeNodeComponent implements OnInit {
   onClickTreeNode(node?: FlatTreeNode): void {
     console.log('* clicked criteria: ', node?.criteria);
     // toggle the clicked node
-    if (this.appStatus.uwCriteriaNodeID == node?.criteria?.node_id) {
-      this.appStatus.uwCriteriaNodeID = undefined;
+    if (this.appStatus.uwCriteriaAssessing?.node_id == node?.criteria?.node_id) {
+      this.appStatus.uwCriteriaAssessing = undefined;
       return;
     }
     // ok, let's show this criteria
-    this.appStatus.uwCriteriaNodeID = node?.criteria?.node_id;
+    this.appStatus.uwCriteriaAssessing = node?.criteria;
 
     if (node?.criteria?.node_type === NodeType.ENTITY ){
       // and notify update the facts if is leaf
-      this.appStatus.showFactsByCriterion(node.criteria?.node_id);
+      this.appStatus.showFactsByCriterion(node.criteria);
     } else {
       // for other cases, clear
       this.appStatus.clearFacts();
