@@ -69,7 +69,7 @@
       </a>
 
       <a mat-list-item 
-        (click)="appStatus.activeView = view.PROJECT_COHORT_BROWSER"
+        (click)="appStatus.activeView = view.COHORT_BROWSER"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>people</mat-icon>
@@ -121,7 +121,7 @@
     </app-cohort-definition>
 
     <app-cohort-browser 
-      *ngIf="appStatus.activeView === view.PROJECT_COHORT_BROWSER">
+      *ngIf="appStatus.activeView === view.COHORT_BROWSER">
     </app-cohort-browser>
 
     <app-plummer 

@@ -43,7 +43,7 @@ export class AppComponent {
         return 'Project Dashboard'
       case View.PROJECT_QUERY_DEFINITION:
         return 'Query Definition';
-      case View.PROJECT_COHORT_BROWSER:
+      case View.COHORT_BROWSER:
         return 'Cohort Browser';
       case View.PROJECT_RELEVANCE_PATIENT_VIEW:
         return 'Patient Details';

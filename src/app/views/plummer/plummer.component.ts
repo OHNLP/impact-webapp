@@ -2,6 +2,7 @@ import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { Determination } from '../../models/determination';
 import { ApplicationStatusService } from '../../services/application-status.service';
 import { MiddlewareAdapterService } from '../../services/middleware-adapter.service';
+import { View } from '../views';
 
 @Component({
   selector: 'app-plummer',
@@ -9,8 +10,6 @@ import { MiddlewareAdapterService } from '../../services/middleware-adapter.serv
   styleUrls: ['./plummer.component.css']
 })
 export class PlummerComponent implements OnInit {
-
-  public patient_uid = 'test_pid';
 
   constructor(
     public appStatus: ApplicationStatusService,
@@ -28,4 +27,8 @@ export class PlummerComponent implements OnInit {
     this.appStatus.showDeterminations();
   }
 
+  onClickBackToCohort(): void {
+    this.appStatus.activeView = View.COHORT_BROWSER;
+    this.appStatus.uwPat = undefined;
+  }
 }

@@ -139,6 +139,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         id: i.toString(),
         type: "Discharge Summary",
         dtm: new Date(1900,0, 1),
+        date_created: new Date(1900,0, 1),
         summary: {
           text: "Random test text 1\n\nRandom test text 2",
           algorithmSpans: [[7, 11], [17, 18]],

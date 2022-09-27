@@ -1,7 +1,7 @@
 export interface ClinicalDocument {
   id: string
   type: string
-  dtm: Date
+  date_created: Date
   summary: AnnotatableText
   text: AnnotatableText | undefined
 }

@@ -10,7 +10,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
-    score: 0.1
+    score: 0.3
   }, {
     id: '46ef95ea-4a1b-467d-b638-a735968ab44e',
     type: 'lab_result',
@@ -21,7 +21,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
-    score: 0.1
+    score: 0.3
   },
   {
     id: '95365803-9cf8-4948-908a-9b8ffbd85e5c',
@@ -31,7 +31,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     summary: "<span class='highlight'>Bone marrow </span>is a spongy, soft tissue that resembles a jelly or jam that you would spread on toast. It comes in two colors, red and yellow. <span class='highlight'>Bone marrow </span>files the cavities of your bone ...n",
     full_text: "",
   
-    score: 0.1
+    score: 0.4
   }, {
     id: '95365803-9cf8-4948-908a-9b8ffbd85e5d',
     type: 'clinical_note',
@@ -40,7 +40,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     summary: "Reported <span class='highlight'>uncontrolled bleeding</span>. Bruise easily, bleed for a long time when cut, develop a rash of pinpoint-sized reddish-purple spots, usually on the lower legs, and sometimes bleed from ...",
     full_text: "",
   
-    score: 0.1
+    score: 0.5
   },
   {
     id: '3791313e-04c8-4227-bf56-1d1b4ee22cc7',
@@ -53,7 +53,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
-    score: 0.1
+    score: 0.6
   },
   {
     id: '3791313a-04c8-4227-bf56-1d1b4ee22cc7',
