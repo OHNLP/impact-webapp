@@ -17,11 +17,12 @@ import {MatMenuModule} from '@angular/material/menu';
 import {ProjectSummaryComponent} from './views/project/project-summary/project-summary.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatStepperModule} from '@angular/material/stepper';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {CohortBrowserComponent} from './views/cohort/cohort-browser/cohort-browser.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ProjectListComponent} from './views/project/project-list/project-list.component';
 import {CohortDefinitionComponent} from './views/cohort/cohort-definition/cohort-definition.component';
 import {MatTreeModule} from '@angular/material/tree';
@@ -66,10 +67,12 @@ import { NgJsonEditorModule } from 'ang-jsoneditor'
     ProjectMakerComponent
   ],
   imports: [
+    MatStepperModule,
     BrowserModule,
     ChartModule,
     NgbModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     MatSidenavModule,
     LayoutModule,
     MatToolbarModule,
