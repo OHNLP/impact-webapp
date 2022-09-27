@@ -54,7 +54,14 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         name: faker.name.fullName(),
         inclusion: CohortInclusion.UNJUDGED,
 
-        labels: labels
+        labels: labels,
+        stat: {
+          n_records: parseInt(faker.random.numeric(3)),
+          n_criteria_yes: parseInt(faker.random.numeric()),
+          n_criteria_no: parseInt(faker.random.numeric()),
+          n_criteria_na: parseInt(faker.random.numeric()),
+          n_criteria_unknown: parseInt(faker.random.numeric()),
+        }
       });
       
     }

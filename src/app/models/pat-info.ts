@@ -5,6 +5,13 @@ export class PatInfo {
 
   // optional
   labels?: string[]
+  stat?: {
+    n_records: number,
+    n_criteria_yes: number,
+    n_criteria_no: number,
+    n_criteria_na: number,
+    n_criteria_unknown: number,
+  }
 }
 
 export enum CohortInclusion {
