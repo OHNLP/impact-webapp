@@ -42,11 +42,19 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     let ps = JSON.parse(JSON.stringify(EXAMPLE_PATIENTS));
 
     // add more for demo
+    let sample_labels = [
+      'Check Later', 'Phase II', 'Phase III', 'Phase IV',
+      'Type 1 Diabetes', 'Type 2 Diabetes',
+      'ANC>10000', '>10 Lines', 'ECOG PS3', 'ECOG PS4'
+    ];
     for (let i = 0; i < 1000; i++) {
+      let labels = sample_labels.sort(() => 0.5 - Math.random()).slice(0, 2);
       ps.push({
         pat_uid: uuid(),
         name: faker.name.fullName(),
-        inclusion: CohortInclusion.UNJUDGED
+        inclusion: CohortInclusion.UNJUDGED,
+
+        labels: labels
       });
       
     }

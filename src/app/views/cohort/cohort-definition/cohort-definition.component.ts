@@ -97,13 +97,15 @@ export class CohortDefinitionComponent {
       if (node.value_type === BooleanOperationType.MIN_OR) {
         return 'At least one of: ' + node.title;
       } else if (node.value_type === BooleanOperationType.NOT) {
-        return 'None of: ' + node.title;
+        return 'All No: ' + node.title;
       } else {
-        return 'All of: ' + node.title;
+        return 'All Yes: ' + node.title;
       }
     } else if (node.node_type === NodeType.ENTITY) {
-      return EntityTypeToDisplayNameMap[(<EntityType>node.entity?.type)] + ": " + 
-        node.entity?.definitionComponents[0].values[0];
+      return node.title + "(" +
+        EntityTypeToDisplayNameMap[(<EntityType>node.entity?.type)] + ": " + 
+        node.entity?.definitionComponents[0].values[0] + 
+        ")";
     } else {
       return node.title;
     }

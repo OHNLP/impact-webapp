@@ -1,23 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~jsoneditor/dist/jsoneditor.min.css";
-textarea.jsoneditor-text{min-height:500px;}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+textarea.jsoneditor-text {
+  min-height: 500px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 a {
   color: #777777;
   text-decoration: none;
 }
+
 a:hover {
   color: black;
   text-decoration: underline;
 }
+
 /* fix for angular */
 
 .mat-paginator-page-size-label {
   display: none;
 }
+
 .mat-card-header-text {
   margin: 0 !important;
 }
@@ -59,22 +72,26 @@ a:hover {
   align-items: center;
   justify-content: space-between;
 }
+
 .panel-body {
   width: 100%;
   height: calc(100% - 40px);
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 .panel-header-left {
   display: flex;
   align-items: center;
   justify-content: start;
 }
+
 .panel-header-right {
   display: flex;
   align-items: center;
   justify-content: end;
 }
+
 .panel-header-icon {
   font-size: 24px;
   width: 36px;
@@ -82,29 +99,35 @@ a:hover {
   line-height: 36px;
   text-align: center;
 }
+
 .panel-header-title {
   font-size: 14px;
   font-weight: bold;
   height: 18px;
 }
+
 .panel-header-subtitle {
   font-size: 11px;
   line-height: 14px;
 }
+
 .panel-header-btn {
   margin: 0 5px 0 0;
 }
+
 .cdt-btn {
   border-radius: 4px;
   background-color: ghostwhite;
   border-color: #999999;
 }
+
 .cdt-btn-sm {
-    font-size: 12px;
-    padding: 0 3px;
-    height: 20px;
-    line-height: 12px;
+  font-size: 12px;
+  padding: 0 3px;
+  height: 20px;
+  line-height: 12px;
 }
+
 .cdt-btn-w20 {
   width: 20px;
 }
@@ -112,6 +135,7 @@ a:hover {
 .ml-2 {
   margin-left: 1em !important;
 }
+
 .mr-2 {
   margin-right: 1em !important;
 }
@@ -119,47 +143,59 @@ a:hover {
 .ml-5 {
   margin-left: 2.5em !important;
 }
+
 .mr-5 {
   margin-right: 2.5em !important;
 }
+
 .fs-10 {
   font-size: 10px;
 }
+
 .fs-11 {
   font-size: 11px;
 }
+
 .fs-12 {
   font-size: 12px;
 }
+
 .clr-d-yes {
   color: #41992b;
 }
+
 .clr-d-no {
   color: #b42323;
 }
+
 .clr-d-na {
-    color: #bcbcbc;
+  color: #bcbcbc;
 }
 
 .hoverable:hover {
   background-color: whitesmoke;
 }
+
 .menu-bar-box {
   background-color: whitesmoke;
   border-bottom: 1px solid rgb(216, 216, 216);
   padding: 10px;
 }
+
 .ppi-item {
-    margin-right: 15px;
+  margin-right: 15px;
 }
+
 .ppi-item-header {
-    font-size: 9px;
-    line-height: 12px;
+  font-size: 9px;
+  line-height: 12px;
 }
+
 .ppi-item-value {
-    font-size: 12px;
-    line-height: 18px;
+  font-size: 12px;
+  line-height: 18px;
 }
+
 .dict-list dd {
   padding: 0 0 0 1em;
   font-size: 1.5em;
@@ -188,6 +224,26 @@ a:hover {
 .label-job-QUEUED {
   background-color: #2879c4;
   color: white;
+}
+
+.label-INCLUDE {
+  background-color: #41992b;
+  color: white;
+}
+
+.label-EXCLUDE {
+  background-color: #b42323;
+  color: white;
+}
+
+.label-UNJUDGED {
+  background-color: #bcbcbc;
+  color: black;
+}
+
+.label-default {
+  background-color: whitesmoke;
+  color: #333333
 }
 
 .label {

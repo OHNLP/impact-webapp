@@ -9,7 +9,7 @@ import { CohortDefinition } from '../models/cohort-definition';
 import { Determination } from '../models/determination';
 import { Fact } from '../models/clinical-data';
 import { EXAMPLE_PROJECTS } from '../samples/sample-project';
-import { EXAMPLE_PATIENT } from '../samples/sample-patient';
+import { EXAMPLE_PATIENTS } from '../samples/sample-patient';
 import { EXAMPLE_CRITERIA_RRMM_XS } from '../samples/sample-criteria';
 import { JobInfo } from '../models/job-info';
 
@@ -35,7 +35,7 @@ export class ApplicationStatusService {
   public uwProject: Project | undefined = EXAMPLE_PROJECTS[0];
   public uwLastCompletedJob: JobInfo | undefined;
   public uwJobs: JobInfo[] | undefined;
-  public uwPat: PatInfo| undefined = EXAMPLE_PATIENT;
+  public uwPat: PatInfo| undefined = EXAMPLE_PATIENTS[0];
   public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_RRMM_XS;
   public uwCriteriaNodeID: string| undefined;
   public uwCriteriaUseEditorMode: boolean = false;

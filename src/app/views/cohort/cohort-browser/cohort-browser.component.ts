@@ -14,7 +14,9 @@ import {MiddlewareAdapterService} from "../../../services/middleware-adapter.ser
 export class CohortBrowserComponent implements OnInit {
 
   private dirty: boolean = false // Tracks whether changes to cohort relevance have been made
-  private cohort: Array<PatInfo> = []
+  private cohort: Array<PatInfo> = [];
+  public search_keywords: string = '';
+  
   public dataSource!: MatTableDataSource<PatInfo>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
 

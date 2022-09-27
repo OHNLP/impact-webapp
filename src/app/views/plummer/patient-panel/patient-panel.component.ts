@@ -1,6 +1,6 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { CohortInclusion, PatInfo } from 'src/app/models/pat-info';
-import { EXAMPLE_PATIENT } from 'src/app/samples/sample-patient';
+import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { ApplicationStatusService } from 'src/app/services/application-status.se
 export class PatientPanelComponent implements OnInit {
 
 
-  public patient: PatInfo = EXAMPLE_PATIENT
+  public patient: PatInfo = EXAMPLE_PATIENTS[0]
 
   constructor(
     public appStatus: ApplicationStatusService,
