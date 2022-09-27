@@ -22,7 +22,7 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
 
     // user created information
     value: DETERMINATION_VALUE.YES,
-    comment: 'Both serum and urine M-protein found',
+    comment: 'GERD confirmed',
     date_updated: new Date(),
 },
 {

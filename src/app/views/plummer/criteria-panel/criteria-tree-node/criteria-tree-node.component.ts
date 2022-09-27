@@ -16,6 +16,7 @@ export class CriteriaTreeNodeComponent implements OnInit {
   @Input() node?: FlatTreeNode
 
   DETERMINATION_VALUE = DETERMINATION_VALUE
+  JUDGEMENT_TYPE = JUDGEMENT_TYPE
 
   constructor(
     public appStatus: ApplicationStatusService, 
@@ -83,6 +84,18 @@ export class CriteriaTreeNodeComponent implements OnInit {
 
   setDeterminationValue(dtmn:Determination, value:DETERMINATION_VALUE):void {
     dtmn.value = value;
+
+    // update the judgement as well
+    if (value == DETERMINATION_VALUE.YES) {
+      dtmn.judgement = JUDGEMENT_TYPE.JUDGED_MATCH;
+
+    } else if (value == DETERMINATION_VALUE.NO) {
+      dtmn.judgement = JUDGEMENT_TYPE.JUDGED_MISMATCH;
+
+    } else {
+      dtmn.judgement = JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE;
+    }
+    // update the datetime
     dtmn.date_updated = new Date();
   }
 

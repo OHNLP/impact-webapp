@@ -3,7 +3,7 @@
 }
 .tree-node-info {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 30px;
 }
 .tree-node-info-title {
@@ -23,14 +23,20 @@
 .tree-node-info-description {
     font-size: 12px;
     line-height: 15px;
-    padding: 5px 0 10px 0;
+    padding: 10px 0;
     border-bottom: 1px dotted #AAAAAA;
+}
+.tree-node-info-dtmn-bar {
+    width: 120px;
 }
 .tree-node-info-dtmns {
     width: 120px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+}
+.tree-node-dtmn-opers {
+    margin-top: -3px;
 }
 .tree-node-info-comment {
     font-size: 10px;
@@ -48,6 +54,9 @@
     height: 20px;
     text-align: center;
     font-size: 18px
+}
+.node-dtmn-sign {
+    border: 1px dotted #EAEAEA;
 }
 .node-dtmn-hover-show {
     display: none;

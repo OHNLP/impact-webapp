@@ -13,63 +13,93 @@
                 {{ this.appStatus.uwDeterminationDict[node?.criteria!.node_id].comment }}
             </div>
         </div>
-        <div class="tree-node-info-dtmns">
 
-            <div class="node-dtmn">
-                <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].value === DETERMINATION_VALUE.YES; else show_btn_dtmn_yes"
-                    class="clr-d-yes">
-                    <i class="fas fa-check-circle"></i>
+
+        <div class="tree-node-info-dtmn-bar">
+
+            <div class="tree-node-info-dtmns tree-node-dtmn-signs">
+
+                <div class="node-dtmn">
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.JUDGED_MATCH"
+                        class="clr-d-yes">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.EVIDENCE_FOUND"
+                        class="clr-d-may-yes">
+                        <i class="far fa-question-circle"></i>
+                    </div>
                 </div>
-                <ng-template #show_btn_dtmn_yes>
+
+                <div class="node-dtmn">
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.JUDGED_MISMATCH"
+                        class="clr-d-no">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.NO_EVIDENCE_FOUND"
+                        class="clr-d-may-no">
+                        <i class="far fa-question-circle"></i>
+                    </div>
+                </div>
+
+                <div class="node-dtmn">
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE"
+                        class="clr-d-na">
+                        <i class="fas fa-minus-circle"></i>
+                    </div>
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE"
+                        class="clr-d-may-na">
+                        <i class="far fa-question-circle"></i>
+                    </div>
+                </div>
+
+                <div class="node-dtmn">
+                    &nbsp;
+                </div>
+
+            </div>
+
+            <div class="tree-node-info-dtmns tree-node-dtmn-opers">
+
+                <div class="node-dtmn">
                     <div class="clr-d-yes node-dtmn-hover-show">
                         <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
                             (click)="setDeterminationValue(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], DETERMINATION_VALUE.YES)">
                             <i class="fas fa-check"></i>
                         </button>
                     </div>
-                </ng-template>
-            </div>
-
-
-            <div class="node-dtmn">
-                <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].value === DETERMINATION_VALUE.NO; else show_btn_dtmn_no"
-                    class="clr-d-no">
-                    <i class="fas fa-times-circle"></i>
                 </div>
-                <ng-template #show_btn_dtmn_no>
+
+
+                <div class="node-dtmn">
                     <div class="clr-d-no node-dtmn-hover-show">
                         <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
                             (click)="setDeterminationValue(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], DETERMINATION_VALUE.NO)">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                </ng-template>
-            </div>
-
-
-            <div class="node-dtmn">
-                <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].value === DETERMINATION_VALUE.NA; else show_btn_dtmn_na"
-                    class="clr-d-na">
-                    <i class="fas fa-minus-circle"></i>
                 </div>
-                <ng-template #show_btn_dtmn_na>
+
+                <div class="node-dtmn">
                     <div class="clr-d-na node-dtmn-hover-show">
                         <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
                             (click)="setDeterminationValue(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], DETERMINATION_VALUE.NA)">
                             <i class="fas fa-minus"></i>
                         </button>
                     </div>
-                </ng-template>
-            </div>
-
-
-            <div class="node-dtmn">
-                <div class="node-dtmn-hover-show">
-                    <button class="cdt-btn cdt-btn-sm cdt-btn-w20">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                </div>
+                
+                <div class="node-dtmn">
+                    <div class="node-dtmn-hover-show">
+                        <button class="cdt-btn cdt-btn-sm cdt-btn-w20">
+                            <i class="fas fa-undo-alt"></i>
+                        </button>
+                    </div>
+                    
                 </div>
             </div>
+
+
+            
         </div>
     </div>
 
