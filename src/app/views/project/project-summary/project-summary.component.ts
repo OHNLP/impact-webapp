@@ -51,7 +51,7 @@ export class ProjectSummaryComponent implements OnInit {
         text: ''
       },
       tooltip: {
-        pointFormat: '{point.name}: <b>{y}, {point.percentage:.1f}%</b>'
+        pointFormat: '{point.name}: <b>{point.y}, {point.percentage:.1f}%</b>'
       },
       plotOptions: {
         pie: {
