@@ -112,7 +112,7 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           }
         }, 
         {
-          node_id: 'a9152ct3-2bf6-4f1b-inc5-ef8809da5bb8',
+          node_id: 'b9152ct3-2bf6-4f1b-inc2-ef8809da5bb8',
           node_type: NodeType.ENTITY,
           title: 'Caucasian',
           description: 'Caucasian.',

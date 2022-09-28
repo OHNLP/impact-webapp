@@ -15,4 +15,16 @@ export class LabelBoxComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onClickAddLabel(): void {
+    var ret = window.prompt('A new label for this patient?');
+    if (ret) {
+      this.appStatus.uwPat?.labels?.push(ret);
+    } else {
+      // nothing happens
+    }
+  }
+
+  onClickDeleteLabel(lbl: string): void {
+
+  }
 }

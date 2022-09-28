@@ -61,6 +61,14 @@ a:hover {
   font-weight: bold;
   background-color: yellow;
 }
+.nlp-icon {
+  font-size: 8px;
+  color: #6c9662;
+  border-radius: 4px;
+  position: absolute;
+  top: 0;
+  line-height: 10px;
+}
 
 /* for panel */
 .panel-header {

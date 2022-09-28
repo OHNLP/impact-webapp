@@ -30,11 +30,11 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
     project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
     patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
     criteria_uid: 'b14d2d45-44f0-4ec6-b621-b5d5c3f7e08d',
-    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND,
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP,
 
     // user created information
     value: DETERMINATION_VALUE.YES,
-    comment: 'Serum M-protein found',
+    comment: 'Not sure about GERD?',
     date_updated: new Date(),
 },
 {
@@ -42,11 +42,23 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
     project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
     patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
     criteria_uid: 'c14d2d45-42f0-4ec6-b621-b5d5c3f7e08d',
-    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND,
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP,
 
     // user created information
     value: DETERMINATION_VALUE.YES,
-    comment: 'Urine M-protein found',
+    comment: 'omeprazole and cimetidine identified',
+    date_updated: new Date(),
+},
+{
+    // system information
+    project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
+    criteria_uid: 'e14d2d45-42f0-4ec6-abcd-b5d5c3f7e08d',
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP,
+
+    // user created information
+    value: DETERMINATION_VALUE.YES,
+    comment: 'erosive esophagitis identified',
     date_updated: new Date(),
 },
 {
@@ -58,7 +70,7 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
 
     // user created information
     value: DETERMINATION_VALUE.NA,
-    comment: 'ECOG not found',
+    comment: 'This can be confirmed',
     date_updated: new Date(),
 },
 {
@@ -109,6 +121,30 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
     comment: 'HGB not found',
     date_updated: new Date(),
 },
+{
+    // system information
+    project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
+    criteria_uid: 'a9152ct3-2bf6-4f1b-inc5-ef8809da5bb8',
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND,
+
+    // user created information
+    value: DETERMINATION_VALUE.NA,
+    comment: 'BMI not found',
+    date_updated: new Date(),
+},
+{
+    // system information
+    project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
+    criteria_uid: 'b9152ct3-2bf6-4f1b-inc2-ef8809da5bb8',
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP,
+
+    // user created information
+    value: DETERMINATION_VALUE.NA,
+    comment: 'Caucasian?',
+    date_updated: new Date(),
+},
 
 
 
@@ -121,7 +157,7 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
 
     // user created information
     value: DETERMINATION_VALUE.NA,
-    comment: 'HIV not found',
+    comment: 'History of esophageal not found',
     date_updated: new Date(),
 },
 {
@@ -133,7 +169,7 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
 
     // user created information
     value: DETERMINATION_VALUE.NA,
-    comment: 'hypertension not found',
+    comment: 'History of endoscopic not found',
     date_updated: new Date(),
 },
 {
@@ -141,11 +177,11 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
     project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
     patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
     criteria_uid: '438dbfc2-7a1a-4f63-81fb-594900862730',
-    judgement: JUDGEMENT_TYPE.NO_EVIDENCE_FOUND,
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP,
 
     // user created information
     value: DETERMINATION_VALUE.NA,
-    comment: 'hepatitis not found',
+    comment: 'dysplasia is found',
     date_updated: new Date(),
 },
 {
@@ -157,7 +193,7 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
 
     // user created information
     value: DETERMINATION_VALUE.NA,
-    comment: 'COPD not found',
+    comment: 'warfarin not found',
     date_updated: new Date(),
 },
 {
@@ -169,7 +205,55 @@ export const EXAMPLE_DETERMINATIONS: Determination[] = [
 
     // user created information
     value: DETERMINATION_VALUE.NA,
-    comment: 'asthma not found',
+    comment: 'coumadin not found',
+    date_updated: new Date(),
+},
+{
+    // system information
+    project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
+    criteria_uid: 'a9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+    judgement: JUDGEMENT_TYPE.NO_EVIDENCE_FOUND,
+
+    // user created information
+    value: DETERMINATION_VALUE.NA,
+    comment: 'cirrhosis not found',
+    date_updated: new Date(),
+},
+{
+    // system information
+    project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
+    criteria_uid: 'b9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP,
+
+    // user created information
+    value: DETERMINATION_VALUE.NA,
+    comment: 'esophageal is mentioned in note',
+    date_updated: new Date(),
+},
+{
+    // system information
+    project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
+    criteria_uid: 'c9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+    judgement: JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP,
+
+    // user created information
+    value: DETERMINATION_VALUE.NA,
+    comment: 'esophagus is found',
+    date_updated: new Date(),
+},
+{
+    // system information
+    project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    patient_uid: '42b4a04b-c7a1-4239-9ea0-6f5a92814cbc',
+    criteria_uid: 'd9152ct4-2bf6-exc1-98c8-ef8809da5bb9',
+    judgement: JUDGEMENT_TYPE.NO_EVIDENCE_FOUND,
+
+    // user created information
+    value: DETERMINATION_VALUE.NA,
+    comment: 'endoscopy not found',
     date_updated: new Date(),
 },
 ];

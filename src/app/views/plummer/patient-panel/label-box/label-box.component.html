@@ -1,8 +1,15 @@
-<div id="label-box-wrapper">
-    <div>
-        Labels:
+<div class="ppi-item-value"
+    style="display: flex;">
+    <div *ngFor="let lbl of this.appStatus.uwPat?.labels"
+        class="pat-lbl">
+        {{ lbl }}
+        <span class="pat-lbl-del"
+            (click)="onClickDeleteLabel(lbl)">
+            <i class="fa fa-times"></i>
+        </span>
     </div>
-    <div>
-        
-    </div>
+    <button class="cdt-btn cdt-btn-sm "
+        (click)="onClickAddLabel()">
+        <i class="fa fa-plus"></i>
+    </button>
 </div>
