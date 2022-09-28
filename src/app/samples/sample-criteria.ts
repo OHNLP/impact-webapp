@@ -23,13 +23,9 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           entity: {
             type: EntityType.PERSON,
             definitionComponents: [{
-              valuePath: ValuePathDef.OBSERVATION_CODE,
-              type: BinaryRelationalType.EQ,
-              values: ['age']
-            }, {
-              valuePath: ValuePathDef.OBSERVATION_VALUE,
+              valuePath: ValuePathDef.PERSON_DOB,
               type: BinaryRelationalType.LTE,
-              values: ['50']
+              values: ['yyyy-MM-dd']
             }]
           }
         }, 
@@ -48,9 +44,9 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
               entity: {
                 type: EntityType.DIAGNOSIS,
                 definitionComponents: [{
-                  valuePath: ValuePathDef.PROCEDURE_CODE,
+                  valuePath: ValuePathDef.CONDITION_CODE,
                   type: BinaryRelationalType.IN,
-                  values: ['530.81', 'K21.9']
+                  values: ['Gastroesophageal reflux disease']
                 }]
               },
             }, 
@@ -76,9 +72,9 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
               entity: {
                 type: EntityType.DIAGNOSIS,
                 definitionComponents: [{
-                  valuePath: ValuePathDef.PROCEDURE_CODE,
+                  valuePath: ValuePathDef.CONDITION_CODE,
                   type: BinaryRelationalType.IN,
-                  values: ['530.19', 'K21.0']
+                  values: ['erosive esophagitis']
                 }]
               },
             }]
@@ -89,10 +85,10 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: 'Male',
           description: 'The patient must be male.',
           entity: {
-            type: EntityType.OBSERVATION,
+            type: EntityType.PERSON,
             definitionComponents: [{
-              valuePath: ValuePathDef.CONDITION_CODE,
-              type: BinaryRelationalType.IN,
+              valuePath: ValuePathDef.PERSON_GENDER,
+              type: BinaryRelationalType.EQ,
               values: ['male']
             }]
           }
@@ -105,23 +101,13 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           entity: {
             type: EntityType.OBSERVATION,
             definitionComponents: [{
-              valuePath: ValuePathDef.CONDITION_CODE,
+              valuePath: ValuePathDef.OBSERVATION_CODE,
+              type: BinaryRelationalType.EQ,
+              values: ['BMI']
+            }, {
+              valuePath: ValuePathDef.OBSERVATION_VALUE,
               type: BinaryRelationalType.GTE,
               values: ['30']
-            }]
-          }
-        }, 
-        {
-          node_id: 'b9152ct3-2bf6-4f1b-inc2-ef8809da5bb8',
-          node_type: NodeType.ENTITY,
-          title: 'Caucasian',
-          description: 'Caucasian.',
-          entity: {
-            type: EntityType.OBSERVATION,
-            definitionComponents: [{
-              valuePath: ValuePathDef.CONDITION_CODE,
-              type: BinaryRelationalType.GTE,
-              values: ['Caucasian']
             }]
           }
         }, 
@@ -143,9 +129,9 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           entity: {
             type: EntityType.DIAGNOSIS,
             definitionComponents: [{
-              valuePath: ValuePathDef.MEDICATION_CODE,
+              valuePath: ValuePathDef.CONDITION_CODE,
               type: BinaryRelationalType.IN,
-              values: ['150.9']
+              values: ['esophageal adenocarcinoma', 'esophageal cancer', 'esophageal squamous carcinoma']
             }]
           }
         },
@@ -155,11 +141,11 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: "Previous history of endoscopic ablation for Barrett's esophagus",
           description: "Previous history of endoscopic ablation for Barrett's esophagus. CPT-4: 43229, 43270, 43228, 43258",
           entity: {
-            type: EntityType.DIAGNOSIS,
+            type: EntityType.PROCEDURE,
             definitionComponents: [{
-              valuePath: ValuePathDef.MEDICATION_CODE,
+              valuePath: ValuePathDef.PROCEDURE_CODE,
               type: BinaryRelationalType.IN,
-              values: ['43229', '43270', '43228', '43258']
+              values: ['endoscopic ablation']
             }]
           }
         },
@@ -171,9 +157,9 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           entity: {
             type: EntityType.DIAGNOSIS,
             definitionComponents: [{
-              valuePath: ValuePathDef.MEDICATION_CODE,
+              valuePath: ValuePathDef.CONDITION_CODE,
               type: BinaryRelationalType.IN,
-              values: ['622.10', 'N87.9']
+              values: ['esophageal squamous dysplasia']
             }]
           }
         },
@@ -183,7 +169,7 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: 'Current Treatment (drug) with oral anticoagulation - warfarin',
           description: 'Current Treatment (drug) with oral anticoagulation - warfarin.',
           entity: {
-            type: EntityType.OBSERVATION,
+            type: EntityType.DRUG,
             definitionComponents: [{
               valuePath: ValuePathDef.MEDICATION_CODE,
               type: BinaryRelationalType.IN,
@@ -197,9 +183,9 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: 'Current drug w/ Coumadin',
           description: 'Current Treatment (drug) with oral anticoagulation - Coumadin. ',
           entity: {
-            type: EntityType.OBSERVATION,
+            type: EntityType.DRUG,
             definitionComponents: [{
-              valuePath: ValuePathDef.CONDITION_CODE,
+              valuePath: ValuePathDef.MEDICATION_CODE,
               type: BinaryRelationalType.IN,
               values: ['Coumadin']
             }]
@@ -211,11 +197,11 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: 'History of cirrhosis',
           description: 'History of cirrhosis. ICD-9: 571.5, ICD-10: K74.60',
           entity: {
-            type: EntityType.OBSERVATION,
+            type: EntityType.CONDITION,
             definitionComponents: [{
               valuePath: ValuePathDef.CONDITION_CODE,
               type: BinaryRelationalType.IN,
-              values: ['571.5', 'K74.60']
+              values: ['cirrhosis']
             }]
           }
         },
@@ -225,11 +211,11 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: 'History of esophageal varices',
           description: 'History of esophageal varices. ICD-9: 456.20, ICD-10: I85.00',
           entity: {
-            type: EntityType.OBSERVATION,
+            type: EntityType.CONDITION,
             definitionComponents: [{
               valuePath: ValuePathDef.CONDITION_CODE,
               type: BinaryRelationalType.IN,
-              values: ['456.20', 'I85.00']
+              values: ['esophageal varices']
             }]
           }
         },
@@ -239,11 +225,11 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: 'History of Barrett’s esophagus',
           description: 'History of Barrett’s esophagus. ICD-9: 530.85, ICD-10: K22.7, K22.710, K22.711, K22.719',
           entity: {
-            type: EntityType.OBSERVATION,
+            type: EntityType.CONDITION,
             definitionComponents: [{
               valuePath: ValuePathDef.CONDITION_CODE,
               type: BinaryRelationalType.IN,
-              values: ['530.85', 'K22.7', 'K22.710', 'K22.711', 'K22.719']
+              values: ["Barrett’s esophagus"]
             }]
           }
         },
@@ -253,11 +239,11 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
           title: 'History of endoscopy in the last 5 years',
           description: 'History of endoscopy in the last 5 years. CPT-4: 43235-43270',
           entity: {
-            type: EntityType.OBSERVATION,
+            type: EntityType.PROCEDURE,
             definitionComponents: [{
-              valuePath: ValuePathDef.CONDITION_CODE,
+              valuePath: ValuePathDef.PROCEDURE_CODE,
               type: BinaryRelationalType.IN,
-              values: ['43235-43270']
+              values: ['endoscopy']
             }]
           }
         }
