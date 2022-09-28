@@ -109,6 +109,11 @@ a:hover {
 .panel-header-subtitle {
   font-size: 11px;
   line-height: 14px;
+  max-width: 200px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .panel-header-btn {

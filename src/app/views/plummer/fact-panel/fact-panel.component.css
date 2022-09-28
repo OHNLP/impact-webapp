@@ -11,10 +11,6 @@
 .fact-row:hover {
     background-color: whitesmoke;
 }
-.panel-header-subtitle {
-    max-width: 200px;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+.fact-row-active {
+    background-color: #EEEEEE;
 }

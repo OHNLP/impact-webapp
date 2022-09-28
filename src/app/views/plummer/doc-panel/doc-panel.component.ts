@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Fact } from 'src/app/models/clinical-data';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 
@@ -8,7 +9,8 @@ import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.se
   styleUrls: ['./doc-panel.component.css']
 })
 export class DocPanelComponent implements OnInit {
-  public html: string = '';
+
+  @Input() fact: Fact | undefined
 
   constructor(
     public appStatus: ApplicationStatusService,
@@ -18,4 +20,16 @@ export class DocPanelComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getHTML(): string {
+
+    if (this.fact == undefined) {
+      return ''
+    }
+
+    if (this.fact.full_text == undefined) {
+      return ''
+    }
+
+    return this.fact.full_text;
+  }
 }

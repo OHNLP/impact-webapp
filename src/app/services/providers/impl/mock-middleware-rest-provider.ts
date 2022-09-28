@@ -93,12 +93,23 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     ];
     for (let i = 0; i < n_facts; i++) {
       let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
+      let text = faker.lorem.lines(2);
+      let ps = text.split(' ');
+      let kw = ps[Math.floor(ps.length/2)];
+      text = text.replace(
+        kw,
+        '<span class="highlight">' + kw + '</span>'
+      );
+      let full_text = faker.lorem.lines(50) + '\n' +
+        text + '\n' + 
+        faker.lorem.lines(50);
       facts.push({
         id: 'RND-' + Math.random(),
         type: ft,
         date_time: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
 
-        summary: faker.lorem.lines(2),
+        summary: text,
+        full_text: full_text,
 
         code: "203.01",
         code_system: 'ICD-9-CM',

@@ -19,7 +19,7 @@ export class FactItemComponent implements OnInit {
   }
 
   onClickViewFullText(): void {
-    
+    this.appStatus.uwFact = this.fact;
   }
 
 }

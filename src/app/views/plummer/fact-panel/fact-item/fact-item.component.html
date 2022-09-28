@@ -1,6 +1,7 @@
 <div class="fact-item">
     <!-- first row is about the key information -->
-    <div class="fact-title">
+    <div class="fact-title"
+        (click)="onClickViewFullText()">
         <div class="mr-2">
             {{ this.appStatus.fmtDate(fact?.date_time) }}
         </div>
@@ -23,11 +24,14 @@
     
         <!-- last row is about the opers -->
         <div class="fact-oper">
-            <button class="cdt-btn cdt-btn-sm mr-2">
+            <button class="cdt-btn cdt-btn-sm mr-2"
+                (click)="onClickViewFullText()">
                 <i class="fas fa-external-link-alt"></i>
                 View Full
             </button>
-            <button class="cdt-btn cdt-btn-sm mr-2">
+
+            <button class="cdt-btn cdt-btn-sm mr-2"
+                (click)="this.appStatus.gotoEHR()">
                 <i class="fas fa-external-link-square-alt"></i>
                 EHR
             </button>

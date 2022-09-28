@@ -47,11 +47,16 @@
     <app-patient-panel></app-patient-panel>
 
     <div id="plummer-cfd">
-        <app-criteria-panel style="width: 510px;"></app-criteria-panel>
+        <app-criteria-panel style="width: 510px;">
+        </app-criteria-panel>
+
         <app-fact-panel style="width: 500px;"
           [criteria]="this.appStatus.uwCriteriaAssessing"
           [facts]="this.appStatus.uwFacts">
         </app-fact-panel>
-        <app-doc-panel style="width: calc(100% - 910px);"></app-doc-panel>
+
+        <app-doc-panel style="width: calc(100% - 910px);"
+          [fact]="this.appStatus.uwFact">
+        </app-doc-panel>
     </div>
 </div>

@@ -9,7 +9,7 @@
                     Full Document
                 </div>
                 <div class="panel-header-subtitle">
-                    &nbsp;
+                    {{ fact?.summary }}&nbsp;
                 </div>
             </div>
     
@@ -30,9 +30,9 @@
     </div>
 
     <div class="panel-body">
-        <mat-card *ngIf="html != ''">
+        <mat-card *ngIf="getHTML() != ''">
             <mat-card-content class="card-content">
-                <div [innerHTML]="html"></div>
+                <div [innerHTML]="getHTML()"></div>
             </mat-card-content>
         </mat-card>
     </div>

@@ -39,6 +39,7 @@ export class ApplicationStatusService {
   public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_GERD;
   public uwCriteriaAssessing: CohortDefinition| undefined;
   public uwCriteriaUseEditorMode: boolean = false;
+  public uwFact: Fact | undefined;
   
   // for facts
   public uwFacts: Fact[] | undefined;
@@ -208,5 +209,9 @@ export class ApplicationStatusService {
 
   public getToday():string {
     return this.fmtDate(new Date());
+  }
+
+  public gotoEHR(): void {
+    alert('Open EHR System');
   }
 }

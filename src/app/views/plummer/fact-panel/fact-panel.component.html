@@ -69,7 +69,10 @@
                 <!-- Position Column -->
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Fact</th>
-                    <td class="fact-row" mat-cell *matCellDef="let fact">
+                    <td class="fact-row" 
+                        mat-cell 
+                        [class.fact-row-active]="fact?.id == this.appStatus.uwFact?.id"
+                        *matCellDef="let fact">
                         <app-fact-item [fact]="fact"></app-fact-item>
                     </td>
                 </ng-container>

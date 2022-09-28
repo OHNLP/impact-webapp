@@ -9,6 +9,7 @@
     cursor: pointer;
     display: flex;
 }
+.fact-row-active .fact-title,
 .fact-item:hover .fact-title {
     font-weight: bold;
 }
