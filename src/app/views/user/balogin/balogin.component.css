@@ -1,0 +1,17 @@
+.login-container {
+    width: 400px;
+    margin: 10px auto;
+    padding: 50px;
+    border: 1px solid #EAEAEA;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}
+.wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: whitesmoke;
+}

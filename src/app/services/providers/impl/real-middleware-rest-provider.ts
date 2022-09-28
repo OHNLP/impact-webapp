@@ -4,9 +4,9 @@ import { Determination } from "src/app/models/determination";
 import { PatInfo } from "src/app/models/pat-info";
 import { Project } from "src/app/models/project";
 import { MiddlewareRestProvider } from "../middleware-rest-provider";
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, ObservableInput, of, throwError } from 'rxjs';
 import { JobInfo } from "src/app/models/job-info";
 
 @Injectable({
@@ -31,15 +31,75 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
     public base_url: string = 'http://localhost:8080';
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient
+    ) {
         super();
     }
 
-    public getUserName(): string {
+    public handleError(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {
+        if (error.status === 401) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error);
+          
+          throwError(() => new Error('401 happened;'));
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong.
+          console.error(
+            `Backend returned code ${error.status}, body was: `, error.error);
+        }
+        // Return an observable with a user-facing error message.
+        return throwError(() => new Error('Something bad happened;'));
+    }
+
+    public _get_headers(): HttpHeaders {
+        let auth = localStorage.getItem('header_user_credentials') || '';
+        return new HttpHeaders()
+            .set('Access-Control-Allow-Origin', '*')
+            .set('Authorization', auth);
+    }
+
+    public get_username(): string {
         throw new Error("Method not implemented.");
     }
     public get_projects(): Observable<Project[]> {
-        throw new Error("Method not implemented.");
+        // create the URL
+        let url = this.base_url + '/_projects/';
+
+        // set the parameters
+        const params = new HttpParams();
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params, 'headers': headers })
+            .pipe(
+                catchError(this.handleError),
+                map(rsp => {
+                let rs = rsp as Array<any>;
+                let prjs = [] as Project[];
+
+                for (let i = 0; i < rs.length; i++) {
+                    const r = rs[i];
+                    prjs.push({
+                        uid: r.uid,
+                        short_title: r.name,
+                        name: r.name + ' | ' + r.name,
+                        description: r.name,
+                        date_updated: new Date(),
+                        stat: {
+                            n_cohort: -1,
+                            n_records: -1,
+                            n_included: -1,
+                            n_excluded: -1,
+                            n_unjudged: -1
+                        }
+                    })
+                }
+
+                return prjs;
+        }));
     }
     public getCohortCriteria(project_uid: string): Observable<CohortDefinition> {
         // create the URL
@@ -47,12 +107,15 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
         // set the parameters
         const params = new HttpParams()
-            .set("project_uid", project_uid)
+            .set("project_uid", project_uid);
+
+        const headers = this._get_headers();
 
         // send request and parse the return
-        return this.http.get(url, { "params": params }).pipe(map(rsp => {
-            let criteria = rsp as CohortDefinition;
-            return criteria;
+        return this.http.get(url, { "params": params, 'headers': headers })
+            .pipe(map(rsp => {
+                let criteria = rsp as CohortDefinition;
+                return criteria;
         }));
     }
     public writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean {

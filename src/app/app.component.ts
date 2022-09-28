@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {map, shareReplay} from "rxjs/operators";
@@ -11,7 +11,7 @@ import {MiddlewareAdapterService} from "./services/middleware-adapter.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -19,10 +19,26 @@ export class AppComponent {
     );
   showProjectOptions: boolean = true;
 
+  username: string = '';
 
   constructor(private breakpointObserver: BreakpointObserver,
               public appStatus: ApplicationStatusService,
               public middleware: MiddlewareAdapterService) {
+  }
+
+  ngOnInit(): void {
+    let uc = localStorage.getItem('header_user_credentials');
+    if (uc == null) {
+      return;
+    }
+    let _un = localStorage.getItem('username');
+    if (_un == null) {
+      return;
+    }
+
+    // this user has already login, just go to project list
+    this.username = _un;
+    this.appStatus.activeView = View.PROJECT_LIST;
   }
 
   public get view(): typeof View {
@@ -56,6 +72,8 @@ export class AppComponent {
         return 'New Project';
       case View.PLUMMER:
         return 'Patient Assessment';
+      case View.USER_LOGIN:
+        return 'User Login';
     }
   }
 

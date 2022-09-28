@@ -46,7 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FactItemComponent } from './views/plummer/fact-panel/fact-item/fact-item.component';
 import { ProjectMakerComponent } from './views/project/project-maker/project-maker.component';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
-import { ProjectJobListComponent } from './views/project/project-job-list/project-job-list.component' 
+import { ProjectJobListComponent } from './views/project/project-job-list/project-job-list.component';
+import { BALoginComponent } from './views/user/balogin/balogin.component' 
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ProjectJobListComponent } from './views/project/project-job-list/projec
     CriteriaTreeNodeComponent,
     FactItemComponent,
     ProjectMakerComponent,
-    ProjectJobListComponent
+    ProjectJobListComponent,
+    BALoginComponent
   ],
   imports: [
     MatStepperModule,

@@ -17,7 +17,7 @@ import { JobInfo } from '../models/job-info';
   providedIn: 'root'
 })
 export class ApplicationStatusService {
-  private _activeView: View = View.PROJECT_LIST
+  private _activeView: View = View.USER_LOGIN
 
   // private _activeView: View = View.PLUMMER
   private _activePatientView: PatientView = PatientView.SUMMARY;
@@ -213,5 +213,35 @@ export class ApplicationStatusService {
 
   public gotoEHR(): void {
     alert('Open EHR System');
+  }
+
+  public userLogin(username: string, password: string): void {
+    let t = username + ':' + password;
+    var hash = window.btoa(t);
+    var header = "Basic " + hash;
+
+    localStorage.setItem(
+      'username',
+      username
+    );
+    localStorage.setItem(
+      'header_user_credentials',
+      header
+    );
+
+    // check
+    this.middleware.rest.get_projects().subscribe(projects=>{
+      // ok, login done, jump to project list
+      console.log('OK')
+      // update view
+      this.activeView = View.PROJECT_LIST;
+    });
+  }
+
+  public userLogout(): void {
+    localStorage.removeItem('username');
+    localStorage.removeItem('header_user_credentials');
+    // go to login
+    this.activeView = View.USER_LOGIN;
   }
 }

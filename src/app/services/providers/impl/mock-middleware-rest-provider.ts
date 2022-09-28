@@ -22,7 +22,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     throw new Error("Method not implemented.");
   }
 
-  getUserName(): string {
+  get_username(): string {
     return "Mock User";
   }
 

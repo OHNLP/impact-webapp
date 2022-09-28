@@ -8,7 +8,7 @@ import { JobInfo } from "src/app/models/job-info";
 
 export abstract class MiddlewareRestProvider {
   /* ===== Global/User Information Methods ===== */
-  public abstract getUserName(): string
+  public abstract get_username(): string
 
   /* ===== Project Management Methods ===== */
   public abstract get_projects(

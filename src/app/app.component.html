@@ -1,4 +1,6 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container 
+  *ngIf="appStatus.activeView !== view.USER_LOGIN"
+  class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -19,7 +21,8 @@
              Profile
           </a>
           |
-          <a href="javascript:void(0);">
+          <a href="javascript:void(0);"
+            (click)="this.appStatus.userLogout()">
             <i class="fas fa-sign-out-alt"></i>
             Logout
           </a>
@@ -104,7 +107,7 @@
         </button>
         <button mat-button *ngIf="(isHandset$ | async) === false">
           <mat-icon>person</mat-icon>
-          {{middleware.rest.getUserName()}}
+          {{middleware.rest.get_username()}}
           <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
 
@@ -141,3 +144,7 @@
   </mat-sidenav-content>
 
 </mat-sidenav-container>
+
+<app-balogin
+  *ngIf="appStatus.activeView === view.USER_LOGIN">
+</app-balogin>

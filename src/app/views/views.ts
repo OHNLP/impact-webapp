@@ -8,6 +8,8 @@ export enum View {
   COHORT_BROWSER,
   PROJECT_RELEVANCE_PATIENT_VIEW,
 
+  USER_LOGIN,
+
   // for making new project
   PROJECT_MAKER,
 
