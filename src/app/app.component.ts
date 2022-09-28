@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
     );
   showProjectOptions: boolean = true;
 
-  username: string = '';
 
   constructor(private breakpointObserver: BreakpointObserver,
               public appStatus: ApplicationStatusService,
@@ -31,14 +30,13 @@ export class AppComponent implements OnInit {
     if (uc == null) {
       return;
     }
-    let _un = localStorage.getItem('username');
-    if (_un == null) {
-      return;
-    }
 
     // this user has already login, just go to project list
-    this.username = _un;
     this.appStatus.activeView = View.PROJECT_LIST;
+  }
+
+  public get username(): string {
+    return localStorage.getItem('username') || '';
   }
 
   public get view(): typeof View {
