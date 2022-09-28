@@ -99,7 +99,7 @@
                   </mat-icon>
                 </td>
                 <td>
-                  {{ job.start_date }}
+                  {{ job.start_date | date }}
                 </td>
                 <td>
                   <span [class]="'label label-job-'+job.status">

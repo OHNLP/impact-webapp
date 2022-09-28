@@ -16,6 +16,14 @@ export class CohortBrowserComponent implements OnInit {
   private dirty: boolean = false // Tracks whether changes to cohort relevance have been made
   private cohort: Array<PatInfo> = [];
   public search_keywords: string = '';
+
+  public CohortInclusion = CohortInclusion
+
+  displayedColumns: string[] = [
+    'mrn', 'name', 
+    'stat1', 'stat2', 'stat3', 
+    'status', 'label', 'actions'
+  ]
   
   public dataSource!: MatTableDataSource<PatInfo>;
   @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
@@ -39,8 +47,14 @@ export class CohortBrowserComponent implements OnInit {
     }
   }
 
-  get inclusionState(): typeof CohortInclusion {
-    return CohortInclusion
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  clearFilter(event: Event): void {
+    this.search_keywords = '';
+    this.dataSource.filter = '';
   }
 
   public openPatient(pat: PatInfo): void {
@@ -52,17 +66,6 @@ export class CohortBrowserComponent implements OnInit {
   public openPlummer(pat: PatInfo): void {
     this.appStatus.activeView = View.PLUMMER;
     this.appStatus.uwPat = pat;
-  }
-
-  public getStatus(pat: PatInfo): string {
-    switch (pat.inclusion) {
-      case CohortInclusion.UNJUDGED:
-        return "Not Yet Judged";
-      case CohortInclusion.INCLUDE:
-        return "Included";
-      case CohortInclusion.EXCLUDE:
-        return "Excluded";
-    }
   }
 
   public updateInclusionState(pat: PatInfo, state: CohortInclusion) {
