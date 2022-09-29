@@ -15,6 +15,9 @@ import { environment } from "src/environments/environment";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+    public get_evidence(evidence_id: string): Observable<Object> {
+        throw new Error("Method not implemented.");
+    }
     public update_patient_decision(
         job_uid: string, 
         patient_uid: string, 
@@ -244,7 +247,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
             for (let i = 0; i < rs.length; i++) {
                 facts.push({
-                    id: 'RND-' + rs[i].evidenceUID,
+                    evidence_id: 'RND-' + rs[i].evidenceUID,
                     type: 'lab_result',
                     date_time: new Date(),
 

@@ -1,7 +1,7 @@
 import { Fact } from "../models/clinical-data";
 
 export const EXAMPLE_FACTS: Fact[] = [{
-    id: '459f651d-12be-47db-b9a2-40bb1b001308',
+    evidence_id: '459f651d-12be-47db-b9a2-40bb1b001308',
     type: 'lab_result',
     date_time: new Date(),
   
@@ -12,7 +12,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
   
     score: 0.3
   }, {
-    id: '46ef95ea-4a1b-467d-b638-a735968ab44e',
+    evidence_id: '46ef95ea-4a1b-467d-b638-a735968ab44e',
     type: 'lab_result',
     date_time: new Date(),
   
@@ -24,7 +24,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.3
   },
   {
-    id: '95365803-9cf8-4948-908a-9b8ffbd85e5c',
+    evidence_id: '95365803-9cf8-4948-908a-9b8ffbd85e5c',
     type: 'clinical_note',
     date_time: new Date(),
   
@@ -33,7 +33,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
   
     score: 0.4
   }, {
-    id: '95365803-9cf8-4948-908a-9b8ffbd85e5d',
+    evidence_id: '95365803-9cf8-4948-908a-9b8ffbd85e5d',
     type: 'clinical_note',
     date_time: new Date(),
   
@@ -43,7 +43,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.5
   },
   {
-    id: '3791313e-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: '3791313e-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   
@@ -56,7 +56,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.6
   },
   {
-    id: '3791313a-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: '3791313a-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   
@@ -69,7 +69,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.1
   },
   {
-    id: 'a791313a-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: 'a791313a-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   
@@ -82,7 +82,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.1
   },
   {
-    id: '5791313a-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: '5791313a-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   
@@ -95,7 +95,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.1
   },
   {
-    id: '6791313a-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: '6791313a-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   
@@ -108,7 +108,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.1
   },
   {
-    id: '7791313a-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: '7791313a-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   
@@ -121,7 +121,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.1
   },
   {
-    id: '8791313a-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: '8791313a-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   
@@ -134,7 +134,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     score: 0.1
   },
   {
-    id: '9791313a-04c8-4227-bf56-1d1b4ee22cc7',
+    evidence_id: '9791313a-04c8-4227-bf56-1d1b4ee22cc7',
     type: 'other_document',
     date_time: new Date(),
   

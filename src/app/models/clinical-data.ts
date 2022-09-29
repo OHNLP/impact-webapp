@@ -22,7 +22,7 @@ export interface StructuredData {
 
 export interface Fact {
   // evidence_id
-  id: string,
+  evidence_id: string,
   type: string,
   date_time: Date,
   summary: string,

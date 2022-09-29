@@ -28,7 +28,7 @@ export class FactPanelComponent implements OnChanges,OnInit {
   ) { }
 
   ngOnInit(): void {
-    // call async method
+    console.log('* init fact-panel');
   }
 
   ngOnChanges(): void {
