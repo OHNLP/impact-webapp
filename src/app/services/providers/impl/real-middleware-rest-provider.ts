@@ -72,10 +72,6 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
-    public set_determination(job_uid: string, dtmn: Determination): Observable<Determination> {
-        throw new Error("Method not implemented.");
-    }
-
     public _get_headers(): HttpHeaders {
         let auth = localStorage.getItem('header_user_credentials') || '';
         return new HttpHeaders()
@@ -202,7 +198,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         dtmn: Determination): Observable<Determination> {
         
         // create the URL
-        let url = this.base_url + '/_cohorts/node_evidence';
+        let url = this.base_url + '/_cohorts/criterion_match_status';
 
         // set the parameters
         const params = new HttpParams()
@@ -222,6 +218,9 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
             { "params": params, 'headers': headers }
         ).pipe(map(rsp => {
             let dd = rsp as Object;
+            if (rsp.hasOwnProperty(patient_uid)) {
+                console.error('* error setting dtmn for criterion!', dd);
+            }
             return dtmn;
         }));
       }

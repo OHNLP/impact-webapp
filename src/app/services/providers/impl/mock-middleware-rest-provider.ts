@@ -42,12 +42,6 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(decision);
   }
 
-  public set_determination(
-    job_uid: string, 
-    dtmn: Determination): Observable<Determination> {
-    return of(dtmn)
-  }
-
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
     return of(EXAMPLE_JOBS);
   }

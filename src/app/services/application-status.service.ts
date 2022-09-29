@@ -180,6 +180,20 @@ export class ApplicationStatusService {
     })
   }
 
+  public setDetermination(
+    criteria: CohortDefinition,
+    dtmn: Determination
+  ): void {
+    this.middleware.rest.update_determination(
+      this.uwJobSelected!.uid,
+      criteria.node_id,
+      this.uwPat!.pat_uid,
+      dtmn
+    ).subscribe(rsp => {
+      console.log('* set dtmn to ',dtmn,' returns:', rsp);
+    })
+  }
+
   public showDeterminations(): void {
     this.middleware.rest.get_determinations(
       '', // uid

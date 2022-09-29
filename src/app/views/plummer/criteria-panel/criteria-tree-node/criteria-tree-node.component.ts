@@ -82,21 +82,43 @@ export class CriteriaTreeNodeComponent implements OnInit {
     }
   }
 
-  setDeterminationValue(dtmn:Determination, value:DETERMINATION_VALUE):void {
-    dtmn.value = value;
+  setDeterminationValue(
+    criteria: CohortDefinition, 
+    value:DETERMINATION_VALUE
+  ):void {
+    // update UI
+    this.appStatus.uwDeterminationDict[
+      criteria.node_id
+    ].value = value;
 
     // update the judgement as well
     if (value == DETERMINATION_VALUE.YES) {
-      dtmn.judgement = JUDGEMENT_TYPE.JUDGED_MATCH;
+      this.appStatus.uwDeterminationDict[
+        criteria.node_id
+      ].judgement = JUDGEMENT_TYPE.JUDGED_MATCH;
 
     } else if (value == DETERMINATION_VALUE.NO) {
-      dtmn.judgement = JUDGEMENT_TYPE.JUDGED_MISMATCH;
+      this.appStatus.uwDeterminationDict[
+        criteria.node_id
+      ].judgement = JUDGEMENT_TYPE.JUDGED_MISMATCH;
 
     } else {
-      dtmn.judgement = JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE;
+      this.appStatus.uwDeterminationDict[
+        criteria.node_id
+      ].judgement = JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE;
     }
     // update the datetime
-    dtmn.date_updated = new Date();
+    this.appStatus.uwDeterminationDict[
+      criteria.node_id
+    ].date_updated = new Date();
+
+    // then, update database
+    this.appStatus.setDetermination(
+      criteria,
+      this.appStatus.uwDeterminationDict[
+        criteria.node_id
+      ]
+    )
   }
 
   appendDeterminationComment(dtmn:Determination, c:string): void {
@@ -106,5 +128,22 @@ export class CriteriaTreeNodeComponent implements OnInit {
   onChangeComment(event: Event): void {
     let val = (event.target as HTMLInputElement).value;
     console.log('* comment changed:', val);
+
+    // so ... need to update this dtmn's comment
+    this.appStatus.uwDeterminationDict[
+      this.appStatus.uwCriteriaAssessing!.node_id
+    ].comment = val;
+
+    // then, update database
+    this.appStatus.setDetermination(
+      this.appStatus.uwCriteriaAssessing!,
+      this.appStatus.uwDeterminationDict[
+        this.appStatus.uwCriteriaAssessing!.node_id
+      ]
+    )
+  }
+
+  onChangeJudgement(): void {
+
   }
 }
