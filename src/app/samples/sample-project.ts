@@ -3,10 +3,10 @@ import { Project } from "../models/project";
 export const EXAMPLE_PROJECTS: Project[] = [
 {
     uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
-    short_title: 'Bev-RRMM',
-    name: 'Bevacizumab in Treating Patients With Relapsed or Refractory Multiple Myeloma [NCT00482495]',
+    short_title: 'GERD',
+    name: 'Clinical trials feasibility screening for gastroesophageal reflux disease',
 
-    description: 'Monoclonal antibodies, such as bevacizumab, can block cancer growth in different ways. Some block the ability of cancer cells to grow and spread. Others find cancer cells and help kill them or carry cancer-killing substances to them. Bevacizumab may also stop the growth of multiple myeloma by blocking blood flow to the cancer.',
+    description: 'Screening gastroesophageal reflux disease (GERD) positive patients and GERD negative patients',
     date_updated: new Date(),
     stat: {
         n_cohort: 5120,

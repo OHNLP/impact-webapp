@@ -8,6 +8,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, ObservableInput, of, throwError } from 'rxjs';
 import { JobInfo } from "src/app/models/job-info";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -29,12 +30,13 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
-    public base_url: string = 'http://localhost:8080';
+    public base_url: string = 'http://localhost';
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
     ) {
         super();
+        this.base_url = environment.apiURL;
     }
 
     public handleError(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {
