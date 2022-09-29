@@ -12,6 +12,7 @@ import { EXAMPLE_PROJECTS } from '../samples/sample-project';
 import { EXAMPLE_PATIENTS } from '../samples/sample-patient';
 import { EXAMPLE_CRITERIA_GERD } from '../samples/sample-criteria';
 import { JobInfo } from '../models/job-info';
+import { EXAMPLE_JOBS } from '../samples/sample-job';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +34,9 @@ export class ApplicationStatusService {
 
   // for plummer
   public uwProject: Project | undefined = EXAMPLE_PROJECTS[0];
-  public uwLastCompletedJob: JobInfo | undefined;
+  public uwLastCompletedJob: JobInfo | undefined = EXAMPLE_JOBS[0];
   public uwJobs: JobInfo[] | undefined;
+  public uwCohort: PatInfo[] | undefined;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENTS[0];
   public uwCriteria: CohortDefinition| undefined = EXAMPLE_CRITERIA_GERD;
   public uwCriteriaAssessing: CohortDefinition| undefined;
@@ -99,7 +101,7 @@ export class ApplicationStatusService {
 
       if (project) {
         // first, load cohort
-        this.middleware.rest.getRetrievedCohort(project.uid).subscribe(rs => {
+        this.middleware.rest.get_patients(project.uid).subscribe(rs => {
           this._activeCohortSize = rs.length;
         });
 
@@ -150,8 +152,23 @@ export class ApplicationStatusService {
   }
 
   /////////////////////////////////////////////////////////
+  // Cohort related functions
+  /////////////////////////////////////////////////////////
+  public showCohort(): void {
+    
+  }
+
+  /////////////////////////////////////////////////////////
   // Plummer related functions
   /////////////////////////////////////////////////////////
+  public showCriteria(): void {
+    this.middleware.rest.getCohortCriteria(
+      this.activeProject!.uid
+    ).subscribe(criteria => {
+      console.log('* loaded latest criteria', criteria);
+      this.uwCriteria = criteria;
+    });
+  }
 
   public showDeterminations(): void {
     this.middleware.rest.get_determinations(
@@ -167,9 +184,9 @@ export class ApplicationStatusService {
         dd[ds[i].criteria_uid] = ds[i];
       }
 
+      console.log('* loaded latest determinations', dd);
       this.uwDeterminationDict = dd;
     });
-    console.log('* show determinations');
   }
 
   public showCriteriaByProject(project_uid: string): void {
@@ -247,6 +264,6 @@ export class ApplicationStatusService {
 
 
   public saveDetermination(dtmn: Determination): void {
-    
+
   }
 }

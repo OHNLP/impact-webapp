@@ -12,32 +12,35 @@ import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
 import { JobInfo } from "src/app/models/job-info";
 import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
-import { stringify, v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
-  public get_cohort_decisions(job_uid: string, patient_uids: string[]): Observable<Object> {
-    let decision = Object();
+  public get_patient_decisions(job_uid: string, patient_uids: string[]): Observable<Map<string, CohortInclusion>> {
+    let decision = new Map<string, CohortInclusion>;
     for (let i = 0; i < patient_uids.length; i++) {
       let patient_uid = patient_uids[i];
       let r = Math.random();
       if (r < 0.6) {
-        decision[patient_uid] = CohortInclusion.UNJUDGED;
+        decision.set(patient_uid, CohortInclusion.UNJUDGED);
       } else if (r < 0.9) {
-        decision[patient_uid] = CohortInclusion.EXCLUDE;
+        decision.set(patient_uid, CohortInclusion.EXCLUDE);
       } else {
-        decision[patient_uid] = CohortInclusion.INCLUDE;
+        decision.set(patient_uid, CohortInclusion.INCLUDE);
       }
     }
-    return decision;
+    return of(decision);
   }
+
   public set_determination(
     job_uid: string, 
     dtmn: Determination): Observable<Determination> {
     return of(dtmn)
   }
+
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
     return of(EXAMPLE_JOBS);
   }
+
   public get_document(): Observable<ClinicalDocument> {
     throw new Error("Method not implemented.");
   }
@@ -58,7 +61,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return false; // TODO
   }
 
-  getRetrievedCohort(project_uid: string): Observable<Array<PatInfo>> {
+  get_patients(project_uid: string): Observable<Array<PatInfo>> {
     let ps = JSON.parse(JSON.stringify(EXAMPLE_PATIENTS));
 
     // add more for demo

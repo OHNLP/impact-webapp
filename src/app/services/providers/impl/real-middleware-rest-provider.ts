@@ -1,7 +1,7 @@
 import { StructuredData, ClinicalDocument, Fact } from "src/app/models/clinical-data";
 import { CohortDefinition } from "src/app/models/cohort-definition";
 import { Determination } from "src/app/models/determination";
-import { PatInfo } from "src/app/models/pat-info";
+import { CohortInclusion, PatInfo } from "src/app/models/pat-info";
 import { Project } from "src/app/models/project";
 import { MiddlewareRestProvider } from "../middleware-rest-provider";
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -27,7 +27,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     }
 
 
-    public get_cohort_decisions(job_uid: string, patient_uids: string[]): Observable<Object> {
+    public get_patient_decisions(job_uid: string, patient_uids: string[]): Observable<Map<string, CohortInclusion>> {
         // create the URL
         let url = this.base_url + '/_cohorts/relevance';
 
@@ -41,7 +41,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
         // send request and parse the return
         return this.http.get(url, { "params":params, "headers":headers }).pipe(map(rsp => {
-            return rsp;
+            return rsp as Map<string, CohortInclusion>;
         }));
     }
 
@@ -151,7 +151,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     public writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean {
         throw new Error("Method not implemented.");
     }
-    public getRetrievedCohort(project_uid: string): Observable<PatInfo[]> {
+    public get_patients(project_uid: string): Observable<PatInfo[]> {
         throw new Error("Method not implemented.");
     }
     public writeRetrievedCohort(project_uid: string, cohort?: PatInfo[] | undefined): boolean {

@@ -18,10 +18,10 @@ export class PlummerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('* initing plummer');
+
     // get the criteria / refresh the criteria
-    this.middleware.rest.getCohortCriteria(
-      this.appStatus.activeProject!.uid
-    ).subscribe(criteria => this.appStatus.uwCriteria = criteria);
+    this.appStatus.showCriteria();
 
     // get the determinations
     this.appStatus.showDeterminations();

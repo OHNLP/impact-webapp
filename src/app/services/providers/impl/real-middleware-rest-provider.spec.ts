@@ -20,7 +20,7 @@ describe('RealMiddlewareRestProvider', () => {
     });
 
     it('should get cohort decisions', () => {
-        service.get_cohort_decisions(
+        service.get_patient_decisions(
             EXAMPLE_JOBS[0].uid,
             [
                 EXAMPLE_PATIENTS[0].pat_uid,

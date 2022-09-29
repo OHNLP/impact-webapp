@@ -1,5 +1,5 @@
 import {CohortDefinition} from "../../models/cohort-definition";
-import {PatInfo} from "../../models/pat-info";
+import {CohortInclusion, PatInfo} from "../../models/pat-info";
 import {ClinicalDocument, Fact, StructuredData} from "../../models/clinical-data";
 import {Project} from "../../models/project";
 import { Observable } from "rxjs";
@@ -25,7 +25,7 @@ export abstract class MiddlewareRestProvider {
     definition: CohortDefinition
   ): boolean;
 
-  public abstract getRetrievedCohort(
+  public abstract get_patients(
     project_uid: string
   ): Observable<Array<PatInfo>>;
 
@@ -37,10 +37,10 @@ export abstract class MiddlewareRestProvider {
   public abstract getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<ClinicalDocument>
 
   /* ===== Individual Patient Determination Related Methods =====*/
-  public abstract get_cohort_decisions(
+  public abstract get_patient_decisions(
     job_uid: string,
     patient_uids: string[]
-  ): Observable<Object>;
+  ): Observable<Map<string, CohortInclusion>>;
 
   public abstract get_determinations(
     uid: string, 
