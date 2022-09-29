@@ -194,6 +194,6 @@ export class ProjectSummaryComponent implements OnInit {
   }
 
   onClickSelectJob(job: JobInfo): void {
-    this.appStatus.uwLastCompletedJob = job;
+    this.appStatus.uwJobSelected = job;
   }
 }

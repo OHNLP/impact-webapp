@@ -20,11 +20,6 @@ export abstract class MiddlewareRestProvider {
     project_uid: string
   ): Observable<CohortDefinition>;
 
-  public abstract writeCohortCriteria(
-    project_uid: string, 
-    definition: CohortDefinition
-  ): boolean;
-
   public abstract get_patients(
     project_uid: string
   ): Observable<Array<PatInfo>>;
@@ -42,13 +37,21 @@ export abstract class MiddlewareRestProvider {
     patient_uids: string[]
   ): Observable<Map<string, CohortInclusion>>;
 
+  public abstract update_patient_decision(
+    job_uid: string,
+    patient_uid: string,
+    judgement: CohortInclusion
+  ): Observable<boolean>;
+
   public abstract get_determinations(
     uid: string, 
     patient_uid: string
   ): Observable<Array<Determination>>;
 
-  public abstract set_determination(
+  public abstract update_determination(
     job_uid: string,
+    criteria_uid: string,
+    patient_uid: string,
     dtmn: Determination
   ): Observable<Determination>;
 

@@ -15,6 +15,33 @@ import { environment } from "src/environments/environment";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+    public update_patient_decision(
+        job_uid: string, 
+        patient_uid: string, 
+        judgement: CohortInclusion
+    ): Observable<boolean> {
+        // create the URL
+        let url = this.base_url + '/_cohorts/relevance';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("job_uid", job_uid)
+            .set("patient_uid", patient_uid)
+            .set("judgement", judgement);
+
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.post(
+            url, 
+            {},
+            { "params":params, "headers":headers }
+        ).pipe(map(rsp => {
+            console.log('* /_cohorts/relevance = ' + rsp);
+            return true;
+        }));
+    }
 
     // need to update this when init
     public base_url: string = '';
@@ -148,9 +175,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
                 return criteria;
         }));
     }
-    public writeCohortCriteria(project_uid: string, definition: CohortDefinition): boolean {
-        throw new Error("Method not implemented.");
-    }
+   
     public get_patients(project_uid: string): Observable<PatInfo[]> {
         throw new Error("Method not implemented.");
     }
@@ -169,6 +194,37 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     ): Observable<Determination[]> {
         throw new Error("Method not implemented.");
     }
+    
+    public update_determination(
+        job_uid: string,
+        criteria_uid: string,
+        patient_uid: string,
+        dtmn: Determination): Observable<Determination> {
+        
+        // create the URL
+        let url = this.base_url + '/_cohorts/node_evidence';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("job_uid", job_uid)
+            .set('node_uid', criteria_uid)
+            .set('person_uid', patient_uid)
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.post(
+            url, 
+            {
+                "judgement": dtmn.judgement,
+                "comment": dtmn.comment
+            },
+            { "params": params, 'headers': headers }
+        ).pipe(map(rsp => {
+            let dd = rsp as Object;
+            return dtmn;
+        }));
+      }
 
     public get_facts(uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
         // create the URL
@@ -179,9 +235,11 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
             .set("uid", uid)
             .set('node_uid', criteria_uid)
             .set('person_uid', patient_uid)
+        // set the headers
+        const headers = this._get_headers();
 
         // send request and parse the return
-        return this.http.get(url, { "params": params }).pipe(map(rsp => {
+        return this.http.get(url, { "params": params, 'headers': headers }).pipe(map(rsp => {
             let rs = rsp as Array<any>;
             let facts = [] as Array<Fact>;
 

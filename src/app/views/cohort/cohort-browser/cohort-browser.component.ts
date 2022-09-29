@@ -45,7 +45,7 @@ export class CohortBrowserComponent implements OnInit {
         // send next request for decisions
         let pat_uids = ps.map(p=>p.pat_uid);
         this.middleware.rest.get_patient_decisions(
-          this.appStatus.uwLastCompletedJob!.uid,
+          this.appStatus.uwJobSelected!.uid,
           pat_uids
         ).subscribe(decisions => {
           let dd = decisions as Map<string, CohortInclusion>;

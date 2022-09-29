@@ -15,7 +15,18 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
-  public get_patient_decisions(job_uid: string, patient_uids: string[]): Observable<Map<string, CohortInclusion>> {
+  public update_patient_decision(
+    job_uid: string, 
+    patient_uid: string, 
+    judgement: CohortInclusion
+  ): Observable<boolean> {
+    return of(true);
+  }
+
+  public get_patient_decisions(
+    job_uid: string, 
+    patient_uids: string[]
+  ): Observable<Map<string, CohortInclusion>> {
     let decision = new Map<string, CohortInclusion>;
     for (let i = 0; i < patient_uids.length; i++) {
       let patient_uid = patient_uids[i];
@@ -57,8 +68,12 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(EXAMPLE_CRITERIA_GERD);
   }
 
-  writeCohortCriteria(project_uid: string, definition?: CohortDefinition): boolean {
-    return false; // TODO
+  update_determination(
+    job_uid: string,
+    criteria_uid: string,
+    patient_uid: string,
+    dtmn: Determination): Observable<Determination> {
+    return of(dtmn); // TODO
   }
 
   get_patients(project_uid: string): Observable<Array<PatInfo>> {

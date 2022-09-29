@@ -39,7 +39,10 @@ export class PatientPanelComponent implements OnInit {
   }
 
   public setDecision(decision: CohortInclusion): void {
+    // update UI
     this.appStatus.uwPat!.inclusion = decision;
+    // update database
+    this.appStatus.setDecision(decision);    
   }
 
 }

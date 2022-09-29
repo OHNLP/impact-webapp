@@ -34,7 +34,7 @@ export class ApplicationStatusService {
 
   // for plummer
   public uwProject: Project | undefined = EXAMPLE_PROJECTS[0];
-  public uwLastCompletedJob: JobInfo | undefined = EXAMPLE_JOBS[0];
+  public uwJobSelected: JobInfo | undefined = EXAMPLE_JOBS[0];
   public uwJobs: JobInfo[] | undefined;
   public uwCohort: PatInfo[] | undefined;
   public uwPat: PatInfo| undefined = EXAMPLE_PATIENTS[0];
@@ -111,10 +111,10 @@ export class ApplicationStatusService {
           this.uwJobs = rs;
 
           // specify working job
-          this.uwLastCompletedJob = rs[0];
+          this.uwJobSelected = rs[0];
 
           // set the uw job to the last completed
-          this.uwLastCompletedJob = this.uwJobs[0];
+          this.uwJobSelected = this.uwJobs[0];
         });
       }
 
@@ -168,6 +168,16 @@ export class ApplicationStatusService {
       console.log('* loaded latest criteria', criteria);
       this.uwCriteria = criteria;
     });
+  }
+
+  public setDecision(judgement: CohortInclusion): void {
+    this.middleware.rest.update_patient_decision(
+      this.uwJobSelected!.uid,
+      this.uwPat!.pat_uid,
+      judgement
+    ).subscribe(rsp => {
+      console.log('* set decision to ',judgement,' returns:', rsp);
+    })
   }
 
   public showDeterminations(): void {
