@@ -15,6 +15,11 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  public set_determination(
+    job_uid: string, 
+    dtmn: Determination): Observable<Determination> {
+    return of(dtmn)
+  }
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
     return of(EXAMPLE_JOBS);
   }

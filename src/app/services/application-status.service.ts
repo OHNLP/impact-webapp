@@ -244,4 +244,9 @@ export class ApplicationStatusService {
     // go to login
     this.activeView = View.USER_LOGIN;
   }
+
+
+  public saveDetermination(dtmn: Determination): void {
+    
+  }
 }

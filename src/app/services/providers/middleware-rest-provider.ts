@@ -42,6 +42,11 @@ export abstract class MiddlewareRestProvider {
     patient_uid: string
   ): Observable<Array<Determination>>;
 
+  public abstract set_determination(
+    job_uid: string,
+    dtmn: Determination
+  ): Observable<Determination>;
+
   public abstract get_facts(
     uid: string, 
     patient_uid: string,

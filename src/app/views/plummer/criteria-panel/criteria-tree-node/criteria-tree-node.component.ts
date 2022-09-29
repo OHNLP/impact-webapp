@@ -102,4 +102,9 @@ export class CriteriaTreeNodeComponent implements OnInit {
   appendDeterminationComment(dtmn:Determination, c:string): void {
     dtmn.comment += c + '\n';
   }
+
+  onChangeComment(event: Event): void {
+    let val = (event.target as HTMLInputElement).value;
+    console.log('* comment changed:', val);
+  }
 }

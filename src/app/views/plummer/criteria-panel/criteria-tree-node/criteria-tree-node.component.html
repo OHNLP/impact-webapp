@@ -133,6 +133,7 @@
         <div>
             <textarea class="tree-node-user-comment-textarea"
                 [(ngModel)]="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].comment"
+                (change)="onChangeComment($event)"
                 placeholder="Please leave any comments for this criteria if needed" rows="3"></textarea>
         </div>
     </div>
