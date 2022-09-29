@@ -6,7 +6,7 @@ export const EXAMPLE_PROJECTS: Project[] = [
     short_title: 'GERD',
     name: 'Clinical trials feasibility screening for gastroesophageal reflux disease',
 
-    description: 'Screening gastroesophageal reflux disease (GERD) positive patients and GERD negative patients',
+    description: 'Screening gastroesophageal reflux disease (GERD) positive patients and GERD negative patients. GERD occurs when stomach acid repeatedly flows back into the tube connecting your mouth and stomach (esophagus). This backwash (acid reflux) can irritate the lining of your esophagus.',
     date_updated: new Date(),
     stat: {
         n_cohort: 5120,

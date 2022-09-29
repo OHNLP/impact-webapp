@@ -13,7 +13,8 @@ import {MiddlewareAdapterService} from "../../../services/middleware-adapter.ser
 })
 export class CohortBrowserComponent implements OnInit {
 
-  private dirty: boolean = false // Tracks whether changes to cohort relevance have been made
+  // Tracks whether changes to cohort relevance have been made
+  private dirty: boolean = false 
   public search_keywords: string = '';
 
   public CohortInclusion = CohortInclusion

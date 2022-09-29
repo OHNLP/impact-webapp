@@ -31,7 +31,35 @@ export class FactPanelComponent implements OnChanges,OnInit {
     console.log('* init fact-panel');
   }
 
+  applySortByDate(asc_order: boolean): void {
+    this.facts!.sort(
+      (a, b) => {
+        if (asc_order) {
+          return Number(a.date_time) - Number(b.date_time);
+        }
+        return Number(b.date_time) - Number(a.date_time);
+      }
+    );
+    this.ngOnChanges();
+  }
+
+  applySortByScore(asc_order: boolean): void {
+    this.facts!.sort(
+      (a, b) => {
+        if (asc_order) {
+          return Number(a.score) - Number(b.score);
+        }
+        return Number(b.score) - Number(a.score);
+      }
+    );
+    this._updateDataSource();
+  }
+
   ngOnChanges(): void {
+    this.applySortByScore(false);
+  }
+
+  _updateDataSource(): void {
     this.dataSource = new MatTableDataSource<Fact>(this.facts);
     this.dataSource.paginator = this.paginator;
   }

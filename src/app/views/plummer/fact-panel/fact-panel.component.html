@@ -36,25 +36,35 @@
                     <mat-icon>more_vert</mat-icon>
                   </button> -->
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
+                    <button mat-menu-item
+                        (click)="applySortByDate(false)">
                         <mat-icon>sort</mat-icon>
                         <span>
-                            Sort by Date
+                            Sort by Date (Newest to Oldest)
                         </span>
                     </button>
-                    <button mat-menu-item>
+                    <button mat-menu-item
+                        (click)="applySortByDate(true)">
+                        <mat-icon>sort</mat-icon>
+                        <span>
+                            Sort by Date (Oldest to Newest)
+                        </span>
+                    </button>
+                    <button mat-menu-item
+                        (click)="applySortByScore(false)">
                         <mat-icon> format_list_numbered</mat-icon>
                         <span>
-                            Sort by Score
+                            Reset
                         </span>
                     </button>
-                    <mat-divider></mat-divider>
+
+                    <!-- <mat-divider></mat-divider>
                     <button mat-menu-item>
                         <mat-icon> border_all</mat-icon>
                         <span>
                             Show All Types
                         </span>
-                    </button>
+                    </button> -->
                 </mat-menu>
             </div>
 
