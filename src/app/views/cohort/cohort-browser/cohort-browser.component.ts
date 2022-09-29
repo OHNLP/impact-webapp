@@ -87,6 +87,9 @@ export class CohortBrowserComponent implements OnInit {
   public openPlummer(pat: PatInfo): void {
     this.appStatus.activeView = View.PLUMMER;
     this.appStatus.uwPat = pat;
+
+    // clear facts
+    this.appStatus.resetPlummer();
   }
 
   // public updateInclusionState(pat: PatInfo, state: CohortInclusion) {

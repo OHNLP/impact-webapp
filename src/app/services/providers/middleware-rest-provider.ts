@@ -61,7 +61,7 @@ export abstract class MiddlewareRestProvider {
     criteria_uid: string
   ): Observable<Array<Fact>>;
 
-  public abstract get_evidence(
+  public abstract get_fact_detail(
     evidence_id: string
   ): Observable<Object>;
 

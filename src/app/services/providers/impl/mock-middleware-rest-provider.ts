@@ -4,7 +4,7 @@ import {CohortDefinition} from "../../../models/cohort-definition";
 import {CohortInclusion, PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
-import { Determination, JUDGEMENT_TYPE } from "src/app/models/determination";
+import { Determination } from "src/app/models/determination";
 import { Observable, of } from 'rxjs';
 import { EXAMPLE_CRITERIA_GERD } from "src/app/samples/sample-criteria";
 import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
@@ -15,10 +15,7 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
-  public get_evidence(evidence_id: string): Observable<Object> {
-    throw new Error('Method not implemented.');
-  }
-  
+
   public update_patient_decision(
     job_uid: string, 
     patient_uid: string, 
@@ -140,7 +137,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         text + '\n' + 
         faker.lorem.lines(50);
       facts.push({
-        id: 'RND-' + Math.random(),
+        evidence_id: 'RND-' + Math.random(),
         type: ft,
         date_time: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
 
@@ -154,6 +151,14 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       })      
     }
     return of(facts);
+  }
+
+
+  public get_fact_detail(evidence_id: string): Observable<Object> {
+    return of({
+      "id": evidence_id,
+      "meta": {}
+    })
   }
 
   

@@ -71,7 +71,7 @@
                     <th mat-header-cell *matHeaderCellDef>Fact</th>
                     <td class="fact-row" 
                         mat-cell 
-                        [class.fact-row-active]="fact?.evidence_id == this.appStatus.uwFact?.evidence_id"
+                        [class.fact-row-active]="fact?.evidence_id === this.appStatus.uwFact?.evidence_id"
                         *matCellDef="let fact">
                         <app-fact-item [fact]="fact"></app-fact-item>
                     </td>

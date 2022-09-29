@@ -35,7 +35,10 @@ export interface Fact {
   code_system?: string,
 
   // optional. rank or relevant score 
-  score?: number | undefined
+  score: number,
+
+  // FHIR object for everything
+  fhir: Object
 }
 
 export interface FactCollection {

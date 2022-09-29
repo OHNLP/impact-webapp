@@ -15,9 +15,7 @@ import { environment } from "src/environments/environment";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
-    public get_evidence(evidence_id: string): Observable<Object> {
-        throw new Error("Method not implemented.");
-    }
+
     public update_patient_decision(
         job_uid: string, 
         patient_uid: string, 
@@ -251,17 +249,31 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
                     type: 'lab_result',
                     date_time: new Date(),
 
-                    summary: "At diagnosis, <span class='highlight'>marrow area</span> infiltrated by <span class='highlight'>myeloma</span> correlated negatively with hemoglobin, erythrocytes, and marrow erythroid cells. After successful chemotherapy ...",
-
-                    code: "203.01",
-                    code_system: 'ICD-9-CM',
-
-                    score: rs[i].score
+                    summary: "", // no 
+                    full_text: "", 
+                    score: rs[i].score,
+                    fhir: {}
                 });
 
             }
 
             return facts;
+        }));
+    }
+
+    public get_fact_detail(evidence_id: string): Observable<Object> {
+        // create the URL
+        let url = this.base_url + '/_cohorts/evidencebyuid';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("evidenceUID", evidence_id)
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params, 'headers': headers }).pipe(map(rsp => {
+            return rsp;
         }));
     }
 

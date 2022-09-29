@@ -161,6 +161,11 @@ export class ApplicationStatusService {
   /////////////////////////////////////////////////////////
   // Plummer related functions
   /////////////////////////////////////////////////////////
+  public resetPlummer(): void {
+    this.uwFacts = [];
+    this.uwFact = undefined;
+  }
+
   public showCriteria(): void {
     this.middleware.rest.getCohortCriteria(
       this.activeProject!.uid
@@ -215,6 +220,16 @@ export class ApplicationStatusService {
 
   public showCriteriaByProject(project_uid: string): void {
 
+  }
+
+  public showFactFullText(fact: Fact): void {
+    this.middleware.rest.get_fact_detail(
+      fact.evidence_id
+    ).subscribe(rsp => {
+      // update the fhir object
+      this.uwFact!.fhir = rsp;
+      console.log('* loaded fact full text', rsp);
+    });
   }
 
   public clearFacts(): void {

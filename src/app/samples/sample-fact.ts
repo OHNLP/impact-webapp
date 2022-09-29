@@ -7,9 +7,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
   
     summary: "Multiple myeloma, in remission",
   
-    code: "203.01",
-    code_system: 'ICD-9-CM',
-  
+    fhir: {},
     score: 0.3
   }, {
     evidence_id: '46ef95ea-4a1b-467d-b638-a735968ab44e',
@@ -21,7 +19,8 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
-    score: 0.3
+    fhir: {},
+    score: 0.3,
   },
   {
     evidence_id: '95365803-9cf8-4948-908a-9b8ffbd85e5c',
@@ -31,6 +30,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     summary: "<span class='highlight'>Bone marrow </span>is a spongy, soft tissue that resembles a jelly or jam that you would spread on toast. It comes in two colors, red and yellow. <span class='highlight'>Bone marrow </span>files the cavities of your bone ...n",
     full_text: "",
   
+    fhir: {},
     score: 0.4
   }, {
     evidence_id: '95365803-9cf8-4948-908a-9b8ffbd85e5d',
@@ -40,6 +40,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     summary: "Reported <span class='highlight'>uncontrolled bleeding</span>. Bruise easily, bleed for a long time when cut, develop a rash of pinpoint-sized reddish-purple spots, usually on the lower legs, and sometimes bleed from ...",
     full_text: "",
   
+    fhir: {},
     score: 0.5
   },
   {
@@ -53,6 +54,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.6
   },
   {
@@ -66,6 +68,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.1
   },
   {
@@ -79,6 +82,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.1
   },
   {
@@ -92,6 +96,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.1
   },
   {
@@ -105,6 +110,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.1
   },
   {
@@ -118,6 +124,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.1
   },
   {
@@ -131,6 +138,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.1
   },
   {
@@ -144,6 +152,7 @@ export const EXAMPLE_FACTS: Fact[] = [{
     code: "203.01",
     code_system: 'ICD-9-CM',
   
+    fhir: {},
     score: 0.1
   }
   ];
