@@ -37,6 +37,11 @@ export abstract class MiddlewareRestProvider {
   public abstract getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<ClinicalDocument>
 
   /* ===== Individual Patient Determination Related Methods =====*/
+  public abstract get_cohort_decisions(
+    job_uid: string,
+    patient_uids: string[]
+  ): Observable<Object>;
+
   public abstract get_determinations(
     uid: string, 
     patient_uid: string

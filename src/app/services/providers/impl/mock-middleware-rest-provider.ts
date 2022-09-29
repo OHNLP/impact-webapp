@@ -4,7 +4,7 @@ import {CohortDefinition} from "../../../models/cohort-definition";
 import {CohortInclusion, PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
-import { Determination } from "src/app/models/determination";
+import { Determination, JUDGEMENT_TYPE } from "src/app/models/determination";
 import { Observable, of } from 'rxjs';
 import { EXAMPLE_CRITERIA_GERD } from "src/app/samples/sample-criteria";
 import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
@@ -12,9 +12,24 @@ import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
 import { JobInfo } from "src/app/models/job-info";
 import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
-import { v4 as uuid } from 'uuid';
+import { stringify, v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  public get_cohort_decisions(job_uid: string, patient_uids: string[]): Observable<Object> {
+    let decision = Object();
+    for (let i = 0; i < patient_uids.length; i++) {
+      let patient_uid = patient_uids[i];
+      let r = Math.random();
+      if (r < 0.6) {
+        decision[patient_uid] = CohortInclusion.UNJUDGED;
+      } else if (r < 0.9) {
+        decision[patient_uid] = CohortInclusion.EXCLUDE;
+      } else {
+        decision[patient_uid] = CohortInclusion.INCLUDE;
+      }
+    }
+    return decision;
+  }
   public set_determination(
     job_uid: string, 
     dtmn: Determination): Observable<Determination> {

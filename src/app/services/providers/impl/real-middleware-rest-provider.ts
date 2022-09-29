@@ -15,6 +15,36 @@ import { environment } from "src/environments/environment";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+
+    // need to update this when init
+    public base_url: string = '';
+
+    constructor(
+        private http: HttpClient,
+    ) {
+        super();
+        this.base_url = environment.apiURL;
+    }
+
+
+    public get_cohort_decisions(job_uid: string, patient_uids: string[]): Observable<Object> {
+        // create the URL
+        let url = this.base_url + '/_cohorts/relevance';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("job_uid", job_uid)
+            .appendAll({"patient_uid": patient_uids})
+
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(url, { "params":params, "headers":headers }).pipe(map(rsp => {
+            return rsp;
+        }));
+    }
+
     public set_determination(job_uid: string, dtmn: Determination): Observable<Determination> {
         throw new Error("Method not implemented.");
     }
@@ -41,15 +71,6 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
             let jobs = rsp as JobInfo[];
             return jobs;
         }));
-    }
-
-    public base_url: string = 'http://localhost';
-
-    constructor(
-        private http: HttpClient,
-    ) {
-        super();
-        this.base_url = environment.apiURL;
     }
 
     public handleError(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {

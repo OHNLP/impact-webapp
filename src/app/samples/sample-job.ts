@@ -2,8 +2,8 @@ import { JobInfoStatus } from "../models/job-info";
 
 export const EXAMPLE_JOBS = [
     {
-        project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
         uid: '046b6c7f-jobs-43b9-b35d-6489e6daee91',
+        project_uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
         start_date: new Date(),
         status: JobInfoStatus.COMPLETE
     },
