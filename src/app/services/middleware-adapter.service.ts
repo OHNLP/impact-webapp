@@ -11,8 +11,8 @@ export class MiddlewareAdapterService {
 
   constructor(private http: HttpClient) { }
 
-  public rest: MiddlewareRestProvider = new MockMiddlewareRestProvider(); 
+  // public rest: MiddlewareRestProvider = new MockMiddlewareRestProvider(); 
 
-  public ajax: MiddlewareRestProvider = new RealMiddlewareRestProvider(this.http);
+  public rest: MiddlewareRestProvider = new RealMiddlewareRestProvider(this.http);
   // TODO replace with configurable
 }

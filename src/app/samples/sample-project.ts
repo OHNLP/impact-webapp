@@ -2,7 +2,7 @@ import { Project } from "../models/project";
 
 export const EXAMPLE_PROJECTS: Project[] = [
 {
-    uid: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+    uid: 'e6b48a82-f630-4736-8098-d5ddff69a9f5',
     short_title: 'GERD',
     name: 'Clinical trials feasibility screening for gastroesophageal reflux disease',
 

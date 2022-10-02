@@ -152,6 +152,18 @@ export class ApplicationStatusService {
   }
 
   /////////////////////////////////////////////////////////
+  // Job related functions
+  /////////////////////////////////////////////////////////
+  public submitNewJob(): void {
+    this.middleware.rest.submit_job(
+      this.uwProject!.uid
+    ).subscribe(rsp=>{
+      console.log('* created job', rsp);
+      window.alert('Created Job [' + rsp.uid + ']');
+    })
+  }
+
+  /////////////////////////////////////////////////////////
   // Cohort related functions
   /////////////////////////////////////////////////////////
   public showCohort(): void {

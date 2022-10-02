@@ -15,6 +15,9 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  public submit_job(project_uid: string): Observable<JobInfo> {
+    throw new Error('Method not implemented.');
+  }
 
   public update_patient_decision(
     job_uid: string, 

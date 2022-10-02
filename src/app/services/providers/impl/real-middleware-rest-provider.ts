@@ -15,6 +15,33 @@ import { environment } from "src/environments/environment";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+    public submit_job(project_uid: string): Observable<JobInfo> {
+        // create the URL
+        let url = this.base_url + '/_jobs/create';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("project_uid", project_uid)
+
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.post(
+            url, 
+            {},
+            { "params":params, "headers":headers }
+        ).pipe(map(rsp => {
+            let r = rsp as any;
+            console.log('* /_jobs/create = ' + rsp);
+            return {
+                project_uid: r.projectUID,
+                uid: r.jobUID,
+                start_date: r.startDate,
+                status: r.status,
+            };
+        }));
+    }
 
     public update_patient_decision(
         job_uid: string, 

@@ -27,4 +27,15 @@ export class ProjectJobListComponent implements OnInit {
     });
   }
 
+  onClickSubmitNewJob(): void {
+    var ret = window.confirm(
+      "Are you sure to submit a new job?"
+    );
+
+    if (ret) {
+      this.appStatus.submitNewJob();
+    } else {
+      // nothing to do
+    }
+  }
 }

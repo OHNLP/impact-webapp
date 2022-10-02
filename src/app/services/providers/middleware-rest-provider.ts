@@ -10,6 +10,13 @@ export abstract class MiddlewareRestProvider {
   /* ===== Global/User Information Methods ===== */
   public abstract get_username(): string
 
+  // public abstract create_project(): 
+
+  /* ===== Job Management Methods ===== */
+  public abstract submit_job(
+    project_uid: string
+  ): Observable<JobInfo>
+
   /* ===== Project Management Methods ===== */
   public abstract get_projects(
     // should be related to user
