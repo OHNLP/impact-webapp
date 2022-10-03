@@ -1,4 +1,4 @@
-import { StructuredData, ClinicalDocument, Fact } from "src/app/models/clinical-data";
+import { Fact } from "src/app/models/clinical-data";
 import { CohortDefinition } from "src/app/models/cohort-definition";
 import { Determination } from "src/app/models/determination";
 import { CohortInclusion, PatInfo } from "src/app/models/pat-info";

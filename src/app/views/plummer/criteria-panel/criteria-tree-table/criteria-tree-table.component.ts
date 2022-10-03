@@ -1,7 +1,7 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { BooleanOperationType, CohortDefinition, CriteriaMatchState, EntityType, NodeType } from 'src/app/models/cohort-definition';
+import { CohortDefinition } from 'src/app/models/cohort-definition';
 import { JUDGEMENT_TYPE } from 'src/app/models/determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
@@ -12,15 +12,6 @@ import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.se
  * the whole width of the tree)
  */
  export interface FlatTreeNode {
-  // nodeUID: string;
-  // nodeType: NodeType;
-  // value_type: BooleanOperationType | EntityType;
-  // match_state: CriteriaMatchState | undefined;
-  // title: string;
-  // description: string;
-
-  // value?: string;
-
   criteria: CohortDefinition;
   level: number;
   expandable: boolean;
@@ -38,13 +29,6 @@ export class CriteriaTreeTableComponent implements OnInit {
   /** Transform the data to something the tree can read. */
   transformer(node: CohortDefinition, level: number): FlatTreeNode {
     return {
-      // nodeUID: node.nodeUID,
-      // nodeType: node.nodeType,
-      // value_type: node.value_type,
-      // value: node.value,
-      // match_state: node.match_state,
-      // title: node.title,
-      // description: node.description,
       criteria: node,
       level: level,
       expandable: !!node.children && node.children.length > 0
