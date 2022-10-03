@@ -119,10 +119,6 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(ps);
   }
 
-  writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean {
-    return false; // TODO
-  }
-
   get_determinations(
     job_uid: string, 
     patient_uid: string,
@@ -208,49 +204,5 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       "id": evidence_id,
       "meta": {}
     })
-  }
-
-  
-
-  /////////////////////////////////////////////////////////
-  // Deprecated functions
-  /////////////////////////////////////////////////////////
-
-  getStructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<StructuredData> {
-    let i = 0
-    let data = []
-    while (i < 100) {
-      data.push({
-        code_system: 'ICD-9-CM',
-        code: i.toString(),
-        desc: "Full "+patient_uid+" of " +  i.toString(),
-        dtm: new Date(1900, 0, 1)
-      })
-      i += 1
-    }
-    return data;
-  }
-
-
-  getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<ClinicalDocument> {
-    let i = 0
-    let documents = []
-    while (i < 10) {
-      documents.push({
-        id: i.toString(),
-        type: "Discharge Summary",
-        dtm: new Date(1900,0, 1),
-        date_created: new Date(1900,0, 1),
-        summary: {
-          text: "Random test text 1\n\nRandom test text 2",
-          algorithmSpans: [[7, 11], [17, 18]],
-          userSpans: [[12, 16]],
-          editable: false
-        },
-        text: undefined
-      })
-      i += 1
-    }
-    return documents;
   }
 }

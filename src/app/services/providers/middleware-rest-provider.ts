@@ -31,13 +31,6 @@ export abstract class MiddlewareRestProvider {
     project_uid: string
   ): Observable<Array<PatInfo>>;
 
-  public abstract writeRetrievedCohort(project_uid: string, cohort?: Array<PatInfo>): boolean
-
-  /* ===== Individual Patient Evidence Related Methods =====*/
-  public abstract getStructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<StructuredData>
-
-  public abstract getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string): Array<ClinicalDocument>
-
   /* ===== Individual Patient Determination Related Methods =====*/
   public abstract get_patient_decisions(
     job_uid: string,

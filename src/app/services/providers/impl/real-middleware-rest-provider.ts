@@ -33,6 +33,67 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
             .set('Authorization', auth);
     }
 
+    public _handle_error(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {
+        if (error.status === 401) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error);
+          
+          throwError(() => new Error('401 happened;'));
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong.
+          console.error(
+            `Backend returned code ${error.status}, body was: `, error.error);
+        }
+        // Return an observable with a user-facing error message.
+        return throwError(() => new Error('Something bad happened;'));
+    }
+
+    public get_username(): string {
+        throw new Error("Method not implemented.");
+    }
+
+    public get_projects(): Observable<Project[]> {
+        // create the URL
+        let url = this.base_url + '/_projects/';
+
+        // set the parameters
+        const params = new HttpParams();
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params, 'headers': headers })
+            .pipe(
+                catchError(this._handle_error),
+                map(rsp => {
+                let rs = rsp as Array<any>;
+                let prjs = [] as Project[];
+
+                for (let i = 0; i < rs.length; i++) {
+                    const r = rs[i];
+                    let short_title = r.name.split(' ')[0];
+                    prjs.push({
+                        uid: r.uid,
+                        short_title: short_title,
+                        name: r.name + ' | ' + r.name,
+                        description: r.name,
+                        date_updated: new Date(),
+                        stat: {
+                            n_cohort: 3,
+                            n_records: 1,
+                            n_included: 1,
+                            n_excluded: 1,
+                            n_unjudged: 1
+                        }
+                    })
+                }
+
+                console.log('* get_projects', prjs);
+                return prjs;
+        }));
+    }
+
     public update_patient_decision(
         job_uid: string, 
         patient_uid: string, 
@@ -79,87 +140,6 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
-    public handleError(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {
-        if (error.status === 401) {
-          // A client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', error.error);
-          
-          throwError(() => new Error('401 happened;'));
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong.
-          console.error(
-            `Backend returned code ${error.status}, body was: `, error.error);
-        }
-        // Return an observable with a user-facing error message.
-        return throwError(() => new Error('Something bad happened;'));
-    }
-
-    public get_username(): string {
-        throw new Error("Method not implemented.");
-    }
-
-    public get_projects(): Observable<Project[]> {
-        // create the URL
-        let url = this.base_url + '/_projects/';
-
-        // set the parameters
-        const params = new HttpParams();
-        // set the headers
-        const headers = this._get_headers();
-
-        // send request and parse the return
-        return this.http.get(url, { "params": params, 'headers': headers })
-            .pipe(
-                catchError(this.handleError),
-                map(rsp => {
-                let rs = rsp as Array<any>;
-                let prjs = [] as Project[];
-
-                for (let i = 0; i < rs.length; i++) {
-                    const r = rs[i];
-                    let short_title = r.name.split(' ')[0];
-                    prjs.push({
-                        uid: r.uid,
-                        short_title: short_title,
-                        name: r.name + ' | ' + r.name,
-                        description: r.name,
-                        date_updated: new Date(),
-                        stat: {
-                            n_cohort: 3,
-                            n_records: 1,
-                            n_included: 1,
-                            n_excluded: 1,
-                            n_unjudged: 1
-                        }
-                    })
-                }
-
-                console.log('* get_projects', prjs);
-                return prjs;
-        }));
-    }
-
-    public get_criteria(project_uid: string): Observable<CohortDefinition> {
-        // create the URL
-        let url = this.base_url + '/_projects/criterion';
-
-        // set the parameters
-        const params = new HttpParams()
-            .set("project_uid", project_uid);
-
-        const headers = this._get_headers();
-
-        // send request and parse the return
-        return this.http.get(url, { "params": params, 'headers': headers })
-            .pipe(map(rsp => {
-                let criteria = rsp as CohortDefinition;
-                console.log('* get_criteria', criteria);
-                return criteria;
-        }));
-    }
-
-
     public submit_job(project_uid: string): Observable<JobInfo> {
         // create the URL
         let url = this.base_url + '/_jobs/create';
@@ -203,6 +183,25 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
             let jobs = rsp as JobInfo[];
             console.log('* get_jobs', jobs);
             return jobs;
+        }));
+    }
+
+    public get_criteria(project_uid: string): Observable<CohortDefinition> {
+        // create the URL
+        let url = this.base_url + '/_projects/criterion';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("project_uid", project_uid);
+
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params, 'headers': headers })
+            .pipe(map(rsp => {
+                let criteria = rsp as CohortDefinition;
+                console.log('* get_criteria', criteria);
+                return criteria;
         }));
     }
    
@@ -386,15 +385,4 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
-    public writeRetrievedCohort(project_uid: string, cohort?: PatInfo[] | undefined): boolean {
-        throw new Error("Method not implemented.");
-    }
-
-    public getStructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): StructuredData[] {
-        throw new Error("Method not implemented.");
-    }
-
-    public getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): ClinicalDocument[] {
-        throw new Error("Method not implemented.");
-    }
 }
