@@ -246,11 +246,59 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     }
 
     public get_determinations(
-        uid: string, 
+        job_uid: string, 
         patient_uid: string,
         criteria?: CohortDefinition
     ): Observable<Determination[]> {
-        throw new Error("Method not implemented.");
+        // create the URL
+        let url = this.base_url + '/_cohorts/criterion_match_status';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("job_uid", job_uid)
+            .set('person_uid', patient_uid)
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(
+            url, 
+            { "params": params, 'headers': headers }
+        ).pipe(map(rsp => {
+            /*
+                dd = {
+                    "additionalProp1": {
+                        "judgement": "JUDGED_MATCH",
+                        "comment": "string"
+                    },
+                    "additionalProp2": {
+                        "judgement": "JUDGED_MATCH",
+                        "comment": "string"
+                    },
+                    "additionalProp3": {
+                        "judgement": "JUDGED_MATCH",
+                        "comment": "string"
+                    }
+                }
+            */
+            let dd = rsp as Object;
+            let dtmns: Determination[] = [];
+
+            let nodeUID: keyof typeof dd;
+            for (nodeUID in dd) {
+                const r = dd[nodeUID] as any;
+                dtmns.push({
+                    job_uid: job_uid,
+                    patient_uid: patient_uid,
+                    criteria_uid: nodeUID,
+                    judgement: r.judgement,
+                    comment: r.comment,
+                    date_updated: new Date(),
+                });
+            }
+
+            return dtmns;
+        }));
     }
     
     public update_determination(

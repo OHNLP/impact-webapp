@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { EXAMPLE_CRITERIA_GERD } from "src/app/samples/sample-criteria";
 import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
 import { EXAMPLE_DETERMINATIONS } from "src/app/samples/sample-determination";
-import { JobInfo } from "src/app/models/job-info";
+import { JobInfo, JobInfoStatus } from "src/app/models/job-info";
 import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
@@ -53,7 +53,20 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
-    return of(EXAMPLE_JOBS);
+    let jobs: JobInfo[] = [];
+    
+    let n = Math.floor(Math.random() * 50);
+
+    for (let i = 0; i < n; i++) {
+      jobs.push({
+        uid: uuid(),
+        project_uid: project_uid,
+        start_date: faker.date.between('2010-01-01', '2022-12-31'),
+        status: this.randomEnumValue(JobInfoStatus)
+      });
+    }
+
+    return of(jobs);
   }
 
   get_username(): string {
@@ -111,7 +124,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   get_determinations(
-    project_uid: string, 
+    job_uid: string, 
     patient_uid: string,
     criteria?: CohortDefinition
   ): Observable<Array<Determination>> {
@@ -136,7 +149,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     for (let i = 0; i < nodes.length; i++) {
       const n = nodes[i];
       dtmns.push({
-        project_uid: project_uid,
+        job_uid: job_uid,
         patient_uid: patient_uid,
         criteria_uid: n.nodeUID,
         judgement: this.randomEnumValue(JUDGEMENT_TYPE),

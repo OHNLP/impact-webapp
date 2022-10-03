@@ -245,6 +245,11 @@ a:hover {
   color: #999999;
 }
 
+.label-job-PREFLIGHT {
+  background-color: #ee80f1;
+  color: white;
+}
+
 .label-job-IN_PROGRESS {
   background-color: #013d75;
   color: white;

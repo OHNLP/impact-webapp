@@ -196,4 +196,15 @@ export class ProjectSummaryComponent implements OnInit {
   onClickSelectJob(job: JobInfo): void {
     this.appStatus.uwJobSelected = job;
   }
+
+  getLatestNJobs(jobs: JobInfo[]|undefined, n: Number=5): JobInfo[] {
+    if (jobs == undefined) {
+      return [];
+    }
+    if (jobs.length > n) {
+      return jobs.slice(0, 5);
+    } else {
+      return jobs;
+    }
+  }
 }

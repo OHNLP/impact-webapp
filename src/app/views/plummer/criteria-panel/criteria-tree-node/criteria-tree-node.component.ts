@@ -66,7 +66,7 @@ export class CriteriaTreeNodeComponent implements OnInit {
     judgement?: JUDGEMENT_TYPE ) 
   {
     return {
-      project_uid: project_uid,
+      job_uid: project_uid,
       patient_uid: patient_uid,
       criteria_uid: criteria_uid,
       judgement: JUDGEMENT_TYPE.UNJUDGED,

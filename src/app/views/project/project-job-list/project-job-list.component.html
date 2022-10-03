@@ -15,3 +15,76 @@
    </button>
 </div>
 
+
+<table mat-table [dataSource]="dataSource" style="width:100%">
+  <ng-container matColumnDef="icon">
+    <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+    <td mat-cell 
+      *matCellDef="let job"
+      class="clickable">
+      <mat-icon *ngIf="job.uid == appStatus.uwJobSelected?.uid">
+        arrow_circle_right
+      </mat-icon>
+      &nbsp;
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Start Date</th>
+    <td mat-cell 
+      *matCellDef="let job"
+      class="clickable">
+      {{ job.start_date }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Job Status</th>
+    <td mat-cell *matCellDef="let job"
+      class="clickable">
+      <span [class]="'label label-job-'+job.status">
+        {{ job.status }}
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let job">
+      <button mat-raised-button
+        class="mr-2"
+        *ngIf="job.status == JobInfoStatus.COMPLETE"
+        (click)="onClickSelectJob(job)">
+        Select
+      </button>
+
+      <button mat-raised-button
+        class="mr-2"
+        *ngIf="job.status == JobInfoStatus.IN_PROGRESS">
+        Cancel
+      </button>
+
+      <button mat-raised-button
+        class="mr-2">
+        <mat-icon>
+          delete
+        </mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row 
+    *matHeaderRowDef="displayedColumns">
+  </tr>
+  <tr mat-row 
+    *matRowDef="let job; columns: displayedColumns"
+    class="hoverable">
+  </tr>
+</table>
+
+<mat-paginator #paginator 
+  [pageSize]="10"
+  [pageSizeOptions]="[10,20,50,100,200,500]" 
+  showFirstLastButtons>
+</mat-paginator>
+

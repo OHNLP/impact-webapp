@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { JobInfo } from 'src/app/models/job-info';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { JobInfo, JobInfoStatus } from 'src/app/models/job-info';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 
@@ -12,6 +14,15 @@ export class ProjectJobListComponent implements OnInit {
 
   public jobs: JobInfo[] = [];
 
+  displayedColumns: string[] = [
+    'icon', 'date', 'status', 'actions', 
+  ]
+
+  JobInfoStatus = JobInfoStatus
+  
+  public dataSource!: MatTableDataSource<JobInfo>;
+  @ViewChild(MatPaginator, {static: true}) paginator!: MatPaginator;
+
   constructor(
     public appStatus: ApplicationStatusService, 
     public middleware: MiddlewareAdapterService
@@ -19,11 +30,14 @@ export class ProjectJobListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("* init app-project-job-list");
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.paginator = this.paginator;
 
     // load jobs
     this.middleware.rest.get_jobs(this.appStatus.uwProject!.uid).subscribe(rs => {
       // load jobs
       this.jobs = rs;
+      this.dataSource.data = this.jobs;
     });
   }
 
@@ -37,5 +51,9 @@ export class ProjectJobListComponent implements OnInit {
     } else {
       // nothing to do
     }
+  }
+
+  onClickSelectJob(job: JobInfo): void {
+    this.appStatus.uwJobSelected = job;
   }
 }

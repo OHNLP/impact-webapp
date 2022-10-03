@@ -1,6 +1,6 @@
 export interface Determination {
     // system information
-    project_uid: string,
+    job_uid: string,
     patient_uid: string,
     criteria_uid: string,
     judgement: JUDGEMENT_TYPE,
