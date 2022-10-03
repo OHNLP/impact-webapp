@@ -52,7 +52,8 @@ export abstract class MiddlewareRestProvider {
 
   public abstract get_determinations(
     uid: string, 
-    patient_uid: string
+    patient_uid: string,
+    criteria?: CohortDefinition
   ): Observable<Array<Determination>>;
 
   public abstract update_determination(

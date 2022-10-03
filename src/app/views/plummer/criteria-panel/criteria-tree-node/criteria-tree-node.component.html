@@ -65,7 +65,7 @@
                     <div class="clr-d-yes node-dtmn-hover-show">
                         <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
                             matTooltip="Yes"
-                            (click)="setDeterminationValue(node?.criteria!, DETERMINATION_VALUE.YES)">
+                            (click)="setDeterminationValue(node?.criteria!, JUDGEMENT_TYPE.JUDGED_MATCH)">
                             <i class="fas fa-check"></i>
                         </button>
                     </div>
@@ -76,7 +76,7 @@
                     <div class="clr-d-no node-dtmn-hover-show">
                         <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
                             matTooltip="No"
-                            (click)="setDeterminationValue(node?.criteria!,DETERMINATION_VALUE.NO)">
+                            (click)="setDeterminationValue(node?.criteria!,JUDGEMENT_TYPE.JUDGED_MISMATCH)">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -86,7 +86,7 @@
                     <div class="clr-d-na node-dtmn-hover-show">
                         <button class="cdt-btn cdt-btn-sm cdt-btn-w20"
                             matTooltip="NA"
-                            (click)="setDeterminationValue(node?.criteria!, DETERMINATION_VALUE.NA)">
+                            (click)="setDeterminationValue(node?.criteria!, JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE)">
                             <i class="fas fa-minus"></i>
                         </button>
                     </div>

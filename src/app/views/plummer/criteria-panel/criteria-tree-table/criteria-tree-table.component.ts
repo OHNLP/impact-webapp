@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BooleanOperationType, CohortDefinition, CriteriaMatchState, EntityType, NodeType } from 'src/app/models/cohort-definition';
-import { DETERMINATION_VALUE, JUDGEMENT_TYPE } from 'src/app/models/determination';
+import { JUDGEMENT_TYPE } from 'src/app/models/determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 
@@ -87,22 +87,22 @@ export class CriteriaTreeTableComponent implements OnInit {
   }
 
   countDeterminationYes(): number {
-    return this.countDetermination(DETERMINATION_VALUE.YES);
+    return this.countDetermination(JUDGEMENT_TYPE.JUDGED_MATCH);
   }
 
   countDeterminationNo(): number {
-    return this.countDetermination(DETERMINATION_VALUE.NO);
+    return this.countDetermination(JUDGEMENT_TYPE.JUDGED_MISMATCH);
   }
 
   countDeterminationNA(): number {
-    return this.countDetermination(DETERMINATION_VALUE.NA);
+    return this.countDetermination(JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE);
   }
 
   countDeterminationUNK(): number {
-    return this.countDetermination(DETERMINATION_VALUE.UNK);
+    return this.countDetermination(JUDGEMENT_TYPE.UNJUDGED);
   }
 
-  countDetermination(dval:DETERMINATION_VALUE): number {
+  countDetermination(judgement:JUDGEMENT_TYPE): number {
     if (this.criteria?.children === undefined) {
       return 0
     }
@@ -114,7 +114,7 @@ export class CriteriaTreeTableComponent implements OnInit {
       if (d === undefined) {
         // oh .. no data yet
       } else {
-        if (d.value === dval) {
+        if (d.judgement === judgement) {
           // great!
           n += 1;
         }

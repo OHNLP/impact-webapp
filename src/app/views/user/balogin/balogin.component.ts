@@ -12,6 +12,7 @@ import { View } from '../../views';
 export class BALoginComponent implements OnInit {
 
   hide = true;
+  mwserver = new FormControl('', [Validators.required]);
   username = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
@@ -21,6 +22,15 @@ export class BALoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // load default value
+    let mws = localStorage.getItem(
+      'middleware_server'
+    );
+
+    if (mws == null) {
+      mws = 'mock';
+    }
+    this.mwserver.setValue(mws);
   }
 
   userLogin(): void {
@@ -31,6 +41,7 @@ export class BALoginComponent implements OnInit {
     }
     let u = this.username.getRawValue();
     let p = this.password.getRawValue();
+    let m = this.mwserver.getRawValue();
 
     if (u === null) {
       return;
@@ -39,6 +50,16 @@ export class BALoginComponent implements OnInit {
     if (p === null) {
       return;
     }
+
+    if (m === null) {
+      return;
+    }
+
+    // set current m
+    localStorage.setItem(
+      'middleware_server',
+      m
+    );
 
     this.appStatus.userLogin(u, p);
 

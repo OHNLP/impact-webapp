@@ -19,20 +19,9 @@ import { EXAMPLE_JOBS } from '../samples/sample-job';
 })
 export class ApplicationStatusService {
   public activeView: View = View.USER_LOGIN
-
-  // private activeView: View = View.PLUMMER
-  private _activePatientView: PatientView = PatientView.SUMMARY;
-  private _activePatientViewTabIndex: number = 1;
-  private _activePatient: PatInfo | undefined;
-  private _uwProject: Project | undefined;
-  private _activePatientIdx: number = 0;
-  private _activeCohortSize: number = 0;
-  private _selectedPatientCriteriaFilter: string | undefined;
-
-  // uw means the user is watching XXX
-  public CohortInclusion = CohortInclusion;
-
+  
   // for plummer
+  // uw means the user is watching XXX
   public uwProject: Project | undefined;
   public uwJobSelected: JobInfo | undefined;
   public uwJobs: JobInfo[] | undefined;
@@ -48,6 +37,9 @@ export class ApplicationStatusService {
 
   // for user generated infor
   public uwDeterminationDict: Record<string, Determination> = {};
+
+  // shortcuts
+  public CohortInclusion = CohortInclusion;
 
   constructor(
     private middleware: MiddlewareAdapterService,
@@ -139,7 +131,7 @@ export class ApplicationStatusService {
       this.uwPat!.pat_uid,
       dtmn
     ).subscribe(rsp => {
-      console.log('* set dtmn to ',dtmn,' returns:', rsp);
+      console.log('* set dtmn returns:', rsp);
     })
   }
 
@@ -147,6 +139,7 @@ export class ApplicationStatusService {
     this.middleware.rest.get_determinations(
       '', // uid
       this.uwPat!.pat_uid,
+      this.uwCriteria!
     ).subscribe(ds => {
       // to dictionary
       type dtmnRecord = Record<string, Determination>;
@@ -241,6 +234,17 @@ export class ApplicationStatusService {
   public userLogout(): void {
     localStorage.removeItem('username');
     localStorage.removeItem('header_user_credentials');
+    
+    // clear everything?
+    delete this.uwProject;
+    delete this.uwJobSelected;
+    delete this.uwJobs;
+    delete this.uwCohort;
+    delete this.uwPat;
+    delete this.uwCriteria;
+    delete this.uwCriteriaAssessing;
+    delete this.uwFact;
+
     // go to login
     this.activeView = View.USER_LOGIN;
   }

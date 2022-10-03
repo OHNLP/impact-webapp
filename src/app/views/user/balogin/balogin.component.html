@@ -32,6 +32,13 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-form-field appearance="fill">
+            <mat-label>Middleware Server</mat-label>
+            <mat-select matNativeControl [formControl]="mwserver" required>
+                <mat-option value="mock">Mock Server for Demo</mat-option>
+                <mat-option value="real">Real Server</mat-option>
+            </mat-select>
+          </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit"
             (click)="userLogin()">

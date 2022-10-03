@@ -4,7 +4,7 @@ import {CohortDefinition} from "../../../models/cohort-definition";
 import {CohortInclusion, PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
-import { Determination } from "src/app/models/determination";
+import { Determination, JUDGEMENT_TYPE } from "src/app/models/determination";
 import { Observable, of } from 'rxjs';
 import { EXAMPLE_CRITERIA_GERD } from "src/app/samples/sample-criteria";
 import { EXAMPLE_PROJECTS } from "src/app/samples/sample-project";
@@ -17,6 +17,12 @@ import { v4 as uuid } from 'uuid';
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   public submit_job(project_uid: string): Observable<JobInfo> {
     throw new Error('Method not implemented.');
+  }
+
+  public randomEnumValue(enumeration:any): any {
+    const values = Object.keys(enumeration);
+    const enumKey = values[Math.floor(Math.random() * values.length)];
+    return enumeration[enumKey];
   }
 
   public update_patient_decision(
@@ -106,9 +112,40 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
   get_determinations(
     project_uid: string, 
-    patient_uid: string
+    patient_uid: string,
+    criteria?: CohortDefinition
   ): Observable<Array<Determination>> {
-    return of(EXAMPLE_DETERMINATIONS);
+    var nodes = [];
+    function get_nodes(node:any) {
+      var ns: any[] = [];
+      if (node.hasOwnProperty('children')) {
+        for (let i = 0; i < node.children.length; i++) {
+          const c = node.children[i];
+          ns.push(c);
+          var _ns = get_nodes(c);
+          Array.prototype.push.apply(ns, _ns);
+        }
+      }
+
+      return ns;
+    }
+    nodes = get_nodes(criteria);
+    console.log('* flatten criteria', nodes);
+
+    let dtmns: Determination[] = [];
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      dtmns.push({
+        project_uid: project_uid,
+        patient_uid: patient_uid,
+        criteria_uid: n.nodeUID,
+        judgement: this.randomEnumValue(JUDGEMENT_TYPE),
+        comment: faker.lorem.lines(1),
+        date_updated: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
+      });
+    }
+
+    return of(dtmns);
   }
 
   get_facts(

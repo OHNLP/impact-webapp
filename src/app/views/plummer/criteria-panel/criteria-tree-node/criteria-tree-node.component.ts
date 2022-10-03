@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTree } from '@angular/material/tree';
 import { CohortDefinition, NodeType } from 'src/app/models/cohort-definition';
-import { Determination, DETERMINATION_VALUE, JUDGEMENT_TYPE } from 'src/app/models/determination';
+import { Determination, JUDGEMENT_TYPE } from 'src/app/models/determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 import { FlatTreeNode } from '../criteria-tree-table/criteria-tree-table.component';
@@ -15,7 +15,6 @@ export class CriteriaTreeNodeComponent implements OnInit {
   @Input() tree?: MatTree<any>
   @Input() node?: FlatTreeNode
 
-  DETERMINATION_VALUE = DETERMINATION_VALUE
   JUDGEMENT_TYPE = JUDGEMENT_TYPE
 
   constructor(
@@ -64,11 +63,8 @@ export class CriteriaTreeNodeComponent implements OnInit {
     project_uid: string, 
     patient_uid: string, 
     criteria_uid: string, 
-    value?: DETERMINATION_VALUE ) 
+    judgement?: JUDGEMENT_TYPE ) 
   {
-    if (value === undefined) {
-      value = DETERMINATION_VALUE.UNK;
-    }
     return {
       project_uid: project_uid,
       patient_uid: patient_uid,
@@ -76,7 +72,6 @@ export class CriteriaTreeNodeComponent implements OnInit {
       judgement: JUDGEMENT_TYPE.UNJUDGED,
 
       // user created information
-      value: value,
       comment: '',
       date_updated: new Date()
     }
@@ -84,29 +79,13 @@ export class CriteriaTreeNodeComponent implements OnInit {
 
   setDeterminationValue(
     criteria: CohortDefinition, 
-    value:DETERMINATION_VALUE
+    judgement:JUDGEMENT_TYPE
   ):void {
     // update UI
     this.appStatus.uwDeterminationDict[
       criteria.nodeUID
-    ].value = value;
+    ].judgement = judgement;
 
-    // update the judgement as well
-    if (value == DETERMINATION_VALUE.YES) {
-      this.appStatus.uwDeterminationDict[
-        criteria.nodeUID
-      ].judgement = JUDGEMENT_TYPE.JUDGED_MATCH;
-
-    } else if (value == DETERMINATION_VALUE.NO) {
-      this.appStatus.uwDeterminationDict[
-        criteria.nodeUID
-      ].judgement = JUDGEMENT_TYPE.JUDGED_MISMATCH;
-
-    } else {
-      this.appStatus.uwDeterminationDict[
-        criteria.nodeUID
-      ].judgement = JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE;
-    }
     // update the datetime
     this.appStatus.uwDeterminationDict[
       criteria.nodeUID

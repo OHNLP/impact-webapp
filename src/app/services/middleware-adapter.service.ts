@@ -8,11 +8,27 @@ import {MiddlewareRestProvider} from "./providers/middleware-rest-provider";
   providedIn: 'root'
 })
 export class MiddlewareAdapterService {
+  // servers
+  public mock: MiddlewareRestProvider = new MockMiddlewareRestProvider(); 
+  public ajax: MiddlewareRestProvider = new RealMiddlewareRestProvider(this.http);
 
-  constructor(private http: HttpClient) { }
+  public get rest(): MiddlewareRestProvider {
+    let server = localStorage.getItem(
+      'middleware_server'
+    )
+    if (server == 'mock') {
+      return this.mock;
 
-  // public rest: MiddlewareRestProvider = new MockMiddlewareRestProvider(); 
+    } else if (server == 'real') {
+      return this.ajax;
+    }
 
-  public rest: MiddlewareRestProvider = new RealMiddlewareRestProvider(this.http);
-  // TODO replace with configurable
+    throw Error('server not specified')
+  }
+  
+  constructor(
+    private http: HttpClient
+  ) {
+
+  }
 }

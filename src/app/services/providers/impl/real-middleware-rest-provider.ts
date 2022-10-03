@@ -247,7 +247,8 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
     public get_determinations(
         uid: string, 
-        patient_uid: string
+        patient_uid: string,
+        criteria?: CohortDefinition
     ): Observable<Determination[]> {
         throw new Error("Method not implemented.");
     }

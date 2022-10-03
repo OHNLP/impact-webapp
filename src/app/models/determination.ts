@@ -6,16 +6,8 @@ export interface Determination {
     judgement: JUDGEMENT_TYPE,
 
     // user created information
-    value: DETERMINATION_VALUE,
     comment: string,
     date_updated: Date,
-}
-
-export enum DETERMINATION_VALUE {
-    UNK = "UNK",
-    YES = "YES",
-    NO = "NO",
-    NA = "NA"
 }
 
 export enum JUDGEMENT_TYPE {
