@@ -26,9 +26,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ProjectListComponent} from './views/project/project-list/project-list.component';
 import {CohortDefinitionComponent} from './views/cohort/cohort-definition/cohort-definition.component';
 import {MatTreeModule} from '@angular/material/tree';
-import {
-  CohortDefinitionItemEditorModalComponent
-} from './views/cohort/cohort-definition/cohort-definition-item-editor-modal/cohort-definition-item-editor-modal.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
@@ -56,7 +53,6 @@ import { BALoginComponent } from './views/user/balogin/balogin.component'
     CohortBrowserComponent,
     ProjectListComponent,
     CohortDefinitionComponent,
-    CohortDefinitionItemEditorModalComponent,
     PlummerComponent,
     PatientPanelComponent,
     LabelBoxComponent,

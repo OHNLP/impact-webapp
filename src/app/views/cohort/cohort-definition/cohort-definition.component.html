@@ -31,7 +31,7 @@
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
       <button mat-icon-button disabled></button>
       <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
-        {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
+        {{ node.nodeType === nodeType.ENTITY ? 'description' : 'folder' }}
       </mat-icon>
       {{ getNodeName(node) }}
       <!-- <button mat-icon-button *ngIf="node.value !== 'root'" (click)="openEditorDialog(node)">
@@ -50,8 +50,8 @@
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
-        <mat-icon class="type-icon" [attr.aria-label]="node.node_type + 'icon'">
-          {{ node.node_type === nodeType.ENTITY ? 'description' : 'folder' }}
+        <mat-icon class="type-icon" [attr.aria-label]="node.nodeType + 'icon'">
+          {{ node.nodeType === nodeType.ENTITY ? 'description' : 'folder' }}
         </mat-icon>
         {{ getNodeName(node) }}
         <!-- <button mat-icon-button (click)="openEditorDialog(newNode(), node)">

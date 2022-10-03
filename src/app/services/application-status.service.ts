@@ -101,9 +101,9 @@ export class ApplicationStatusService {
 
       if (project) {
         // first, load cohort
-        this.middleware.rest.get_patients(project.uid).subscribe(rs => {
-          this._activeCohortSize = rs.length;
-        });
+        // this.middleware.rest.get_patients(project.uid).subscribe(rs => {
+        //   this._activeCohortSize = rs.length;
+        // });
 
         // then, load jobs
         this.middleware.rest.get_jobs(project.uid).subscribe(rs => {
@@ -179,7 +179,7 @@ export class ApplicationStatusService {
   }
 
   public showCriteria(): void {
-    this.middleware.rest.getCohortCriteria(
+    this.middleware.rest.get_criteria(
       this.activeProject!.uid
     ).subscribe(criteria => {
       console.log('* loaded latest criteria', criteria);
@@ -203,7 +203,7 @@ export class ApplicationStatusService {
   ): void {
     this.middleware.rest.update_determination(
       this.uwJobSelected!.uid,
-      criteria.node_id,
+      criteria.nodeUID,
       this.uwPat!.pat_uid,
       dtmn
     ).subscribe(rsp => {
@@ -260,7 +260,7 @@ export class ApplicationStatusService {
     this.middleware.rest.get_facts(
       '', // job uid
       '', // node_uid (criteria uid)
-      this.uwCriteriaAssessing.node_id
+      this.uwCriteriaAssessing.nodeUID
     ).subscribe(facts => {
       // ok // 
       console.log('* get_facts callback: ', facts);

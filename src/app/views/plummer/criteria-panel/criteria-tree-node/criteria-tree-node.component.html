@@ -2,7 +2,7 @@
     <div class="tree-node-info">
         <div>
             <div class="tree-node-info-title"
-                [class.active-tree-node-info-title]="this.appStatus.uwCriteriaAssessing?.node_id === node?.criteria?.node_id"
+                [class.active-tree-node-info-title]="this.appStatus.uwCriteriaAssessing?.nodeUID === node?.criteria?.nodeUID"
                 (click)="onClickTreeNode(node)"
                 [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
                 {{ node?.criteria?.title }}
@@ -10,7 +10,7 @@
 
             <div class="tree-node-info-comment" 
                 [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
-                {{ this.appStatus.uwDeterminationDict[node?.criteria!.node_id].comment }}
+                {{ this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].comment }}
             </div>
         </div>
 
@@ -20,15 +20,15 @@
             <div class="tree-node-info-dtmns tree-node-dtmn-signs">
 
                 <div class="node-dtmn">
-                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.JUDGED_MATCH"
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.JUDGED_MATCH"
                         class="clr-d-yes">
                         <i class="fas fa-check-circle"></i>
                     </div>
-                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.EVIDENCE_FOUND"
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.EVIDENCE_FOUND"
                         class="clr-d-may-yes">
                         <i class="far fa-question-circle"></i>
                     </div>
-                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP"
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP"
                         class="clr-d-may-yes" style="position: relative;">
                         <i class="far fa-question-circle"></i>
                         <span class="nlp-icon">NLP</span>
@@ -36,18 +36,18 @@
                 </div>
 
                 <div class="node-dtmn">
-                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.JUDGED_MISMATCH"
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.JUDGED_MISMATCH"
                         class="clr-d-no">
                         <i class="fas fa-times-circle"></i>
                     </div>
-                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.NO_EVIDENCE_FOUND"
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.NO_EVIDENCE_FOUND"
                         class="clr-d-may-no">
                         <i class="far fa-question-circle"></i>
                     </div>
                 </div>
 
                 <div class="node-dtmn">
-                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].judgement === JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE"
+                    <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE"
                         class="clr-d-na">
                         <i class="fas fa-minus-circle"></i>
                     </div>
@@ -108,12 +108,12 @@
         </div>
     </div>
 
-    <div *ngIf="this.appStatus.uwCriteriaAssessing?.node_id === node?.criteria?.node_id" 
+    <div *ngIf="this.appStatus.uwCriteriaAssessing?.nodeUID === node?.criteria?.nodeUID" 
         class="tree-node-info-description">
         {{ node?.criteria?.description }}
     </div>
 
-    <div *ngIf="this.appStatus.uwCriteriaAssessing?.node_id === node?.criteria?.node_id" 
+    <div *ngIf="this.appStatus.uwCriteriaAssessing?.nodeUID === node?.criteria?.nodeUID" 
         class="tree-node-user-comment">
         <div class="tree-node-user-comment-header">
             <span class="fs-12 mr-5">
@@ -122,13 +122,13 @@
             </span>
 
             <button class="cdt-btn cdt-btn-sm"
-                (click)="appendDeterminationComment(this.appStatus.uwDeterminationDict[node?.criteria!.node_id], 'Not found')">
+                (click)="appendDeterminationComment(this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID], 'Not found')">
                 Not found
             </button>
         </div>
         <div>
             <textarea class="tree-node-user-comment-textarea"
-                [(ngModel)]="this.appStatus.uwDeterminationDict[node?.criteria!.node_id].comment"
+                [(ngModel)]="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].comment"
                 (change)="onChangeComment($event)"
                 placeholder="Please leave any comments for this criteria if needed" rows="3"></textarea>
         </div>

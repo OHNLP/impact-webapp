@@ -23,7 +23,7 @@ export abstract class MiddlewareRestProvider {
   ): Observable<Array<Project>>
 
   /* ===== Cohort Related Methods ====== */
-  public abstract getCohortCriteria(
+  public abstract get_criteria(
     project_uid: string
   ): Observable<CohortDefinition>;
 

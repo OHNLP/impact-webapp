@@ -1,21 +1,18 @@
 export interface CohortDefinition {
   // for node it self
-  node_id: string;
-  node_type: NodeType;
+  nodeUID: string;
+  nodeType: string;
 
   // basic information for reading
   title: string;
   description: string;
+  type: string;
+  numericModifier?: number;
 
   // the condition information
-  entity?: {
-    type: EntityType;
-    definitionComponents: ValueDefinition[]
-  };
+  components?: any[];
 
   // other
-  value_type?: BooleanOperationType | EntityType;
-  value?: string;
   children?: CohortDefinition[];
 }
 

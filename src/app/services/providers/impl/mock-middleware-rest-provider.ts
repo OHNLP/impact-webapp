@@ -62,7 +62,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(EXAMPLE_PROJECTS);
   }
 
-  getCohortCriteria(project_uid: string): Observable<CohortDefinition> {
+  get_criteria(project_uid: string): Observable<CohortDefinition> {
     return of(EXAMPLE_CRITERIA_GERD);
   }
 

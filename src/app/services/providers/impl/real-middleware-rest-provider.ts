@@ -118,8 +118,9 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         const headers = this._get_headers();
 
         // send request and parse the return
-        return this.http.get(url, { "params": params }).pipe(map(rsp => {
+        return this.http.get(url, { "params": params, "headers":headers }).pipe(map(rsp => {
             let jobs = rsp as JobInfo[];
+            console.log('* get_jobs', jobs);
             return jobs;
         }));
     }
@@ -182,7 +183,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
                 return prjs;
         }));
     }
-    public getCohortCriteria(project_uid: string): Observable<CohortDefinition> {
+    public get_criteria(project_uid: string): Observable<CohortDefinition> {
         // create the URL
         let url = this.base_url + '/_projects/criterion';
 
@@ -196,6 +197,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         return this.http.get(url, { "params": params, 'headers': headers })
             .pipe(map(rsp => {
                 let criteria = rsp as CohortDefinition;
+                console.log('* get_criteria', criteria);
                 return criteria;
         }));
     }

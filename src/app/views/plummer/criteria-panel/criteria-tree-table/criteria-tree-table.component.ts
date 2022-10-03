@@ -12,8 +12,8 @@ import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.se
  * the whole width of the tree)
  */
  export interface FlatTreeNode {
-  // node_id: string;
-  // node_type: NodeType;
+  // nodeUID: string;
+  // nodeType: NodeType;
   // value_type: BooleanOperationType | EntityType;
   // match_state: CriteriaMatchState | undefined;
   // title: string;
@@ -38,8 +38,8 @@ export class CriteriaTreeTableComponent implements OnInit {
   /** Transform the data to something the tree can read. */
   transformer(node: CohortDefinition, level: number): FlatTreeNode {
     return {
-      // node_id: node.node_id,
-      // node_type: node.node_type,
+      // nodeUID: node.nodeUID,
+      // nodeType: node.nodeType,
       // value_type: node.value_type,
       // value: node.value,
       // match_state: node.match_state,
@@ -48,7 +48,7 @@ export class CriteriaTreeTableComponent implements OnInit {
       criteria: node,
       level: level,
       expandable: !!node.children && node.children.length > 0
-      // expandable: node.node_type === NodeType.BOOLEAN || node.node_type === NodeType.CATEGORY
+      // expandable: node.nodeType === NodeType.BOOLEAN || node.nodeType === NodeType.CATEGORY
     };
   }
   
@@ -110,7 +110,7 @@ export class CriteriaTreeTableComponent implements OnInit {
     for (let i = 0; i < this.criteria.children.length; i++) {
       const criteria = this.criteria.children[i];
       // check Determination
-      let d = this.appStatus.uwDeterminationDict[criteria.node_id];
+      let d = this.appStatus.uwDeterminationDict[criteria.nodeUID];
       if (d === undefined) {
         // oh .. no data yet
       } else {

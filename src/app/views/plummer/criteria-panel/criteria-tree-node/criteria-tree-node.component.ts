@@ -25,11 +25,11 @@ export class CriteriaTreeNodeComponent implements OnInit {
 
   ngOnInit(): void {
     // check if this criterion exists
-    if (this.appStatus.uwDeterminationDict[this.node!.criteria.node_id] === undefined) {
-      this.appStatus.uwDeterminationDict[this.node!.criteria.node_id] = this.createDetermination(
+    if (this.appStatus.uwDeterminationDict[this.node!.criteria.nodeUID] === undefined) {
+      this.appStatus.uwDeterminationDict[this.node!.criteria.nodeUID] = this.createDetermination(
         '', // project_uid
         '', // patient_uid
-        this.node!.criteria.node_id
+        this.node!.criteria.nodeUID
       );
     }
   }
@@ -37,14 +37,14 @@ export class CriteriaTreeNodeComponent implements OnInit {
   onClickTreeNode(node?: FlatTreeNode): void {
     console.log('* clicked criteria: ', node?.criteria);
     // toggle the clicked node
-    if (this.appStatus.uwCriteriaAssessing?.node_id == node?.criteria?.node_id) {
+    if (this.appStatus.uwCriteriaAssessing?.nodeUID == node?.criteria?.nodeUID) {
       this.appStatus.uwCriteriaAssessing = undefined;
       return;
     }
     // ok, let's show this criteria
     this.appStatus.uwCriteriaAssessing = node?.criteria;
 
-    if (node?.criteria?.node_type === NodeType.ENTITY ){
+    if (node?.criteria?.nodeType === NodeType.ENTITY ){
       // and notify update the facts if is leaf
       this.appStatus.showFactsByCriterion(node.criteria);
     } else {
@@ -88,35 +88,35 @@ export class CriteriaTreeNodeComponent implements OnInit {
   ):void {
     // update UI
     this.appStatus.uwDeterminationDict[
-      criteria.node_id
+      criteria.nodeUID
     ].value = value;
 
     // update the judgement as well
     if (value == DETERMINATION_VALUE.YES) {
       this.appStatus.uwDeterminationDict[
-        criteria.node_id
+        criteria.nodeUID
       ].judgement = JUDGEMENT_TYPE.JUDGED_MATCH;
 
     } else if (value == DETERMINATION_VALUE.NO) {
       this.appStatus.uwDeterminationDict[
-        criteria.node_id
+        criteria.nodeUID
       ].judgement = JUDGEMENT_TYPE.JUDGED_MISMATCH;
 
     } else {
       this.appStatus.uwDeterminationDict[
-        criteria.node_id
+        criteria.nodeUID
       ].judgement = JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE;
     }
     // update the datetime
     this.appStatus.uwDeterminationDict[
-      criteria.node_id
+      criteria.nodeUID
     ].date_updated = new Date();
 
     // then, update database
     this.appStatus.setDetermination(
       criteria,
       this.appStatus.uwDeterminationDict[
-        criteria.node_id
+        criteria.nodeUID
       ]
     )
   }
@@ -131,14 +131,14 @@ export class CriteriaTreeNodeComponent implements OnInit {
 
     // so ... need to update this dtmn's comment
     this.appStatus.uwDeterminationDict[
-      this.appStatus.uwCriteriaAssessing!.node_id
+      this.appStatus.uwCriteriaAssessing!.nodeUID
     ].comment = val;
 
     // then, update database
     this.appStatus.setDetermination(
       this.appStatus.uwCriteriaAssessing!,
       this.appStatus.uwDeterminationDict[
-        this.appStatus.uwCriteriaAssessing!.node_id
+        this.appStatus.uwCriteriaAssessing!.nodeUID
       ]
     )
   }

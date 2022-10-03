@@ -8,9 +8,6 @@ import {
   EntityTypeToDisplayNameMap,
   NodeType
 } from "../../../models/cohort-definition";
-import {
-  CohortDefinitionItemEditorModalComponent
-} from "./cohort-definition-item-editor-modal/cohort-definition-item-editor-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ApplicationStatusService} from "../../../services/application-status.service";
 import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
@@ -18,8 +15,8 @@ import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
 export const base_empty_criteria = [
   {
-    node_id: crypto.randomUUID(),
-    node_type: NodeType.BOOLEAN,
+    nodeUID: crypto.randomUUID(),
+    nodeType: NodeType.BOOLEAN,
     title: '',
     description: '',
     value_type: BooleanOperationType.AND,
@@ -61,9 +58,9 @@ export class CohortDefinitionComponent {
   ) {
     if (appStatus.activeProject) {
       // this.unmodifiedTree = 
-      middleware.rest.getCohortCriteria(appStatus.activeProject?.uid).subscribe(criteria => this.unmodifiedTree = criteria);
+      middleware.rest.get_criteria(appStatus.activeProject?.uid).subscribe(criteria => this.unmodifiedTree = criteria);
       // this.workingTree = 
-      middleware.rest.getCohortCriteria(appStatus.activeProject?.uid).subscribe(
+      middleware.rest.get_criteria(appStatus.activeProject?.uid).subscribe(
         criteria => this.workingTree = criteria
       );
     } else {
@@ -90,22 +87,19 @@ export class CohortDefinitionComponent {
     return NodeType
   }
 
-  hasChild = (_: number, node: CohortDefinition) => node.node_type === NodeType.BOOLEAN;
+  hasChild = (_: number, node: CohortDefinition) => node.nodeType === NodeType.BOOLEAN;
 
   getNodeName(node: CohortDefinition): string {
-    if (node.node_type === NodeType.BOOLEAN) {
-      if (node.value_type === BooleanOperationType.MIN_OR) {
+    if (node.nodeType === NodeType.BOOLEAN) {
+      if (node.type === BooleanOperationType.MIN_OR) {
         return 'At least one of: ' + node.title;
-      } else if (node.value_type === BooleanOperationType.NOT) {
+      } else if (node.type === BooleanOperationType.NOT) {
         return 'All No: ' + node.title;
       } else {
         return 'All Yes: ' + node.title;
       }
-    } else if (node.node_type === NodeType.ENTITY) {
-      return node.title + "(" +
-        EntityTypeToDisplayNameMap[(<EntityType>node.entity?.type)] + ": " + 
-        node.entity?.definitionComponents[0].values[0] + 
-        ")";
+    } else if (node.nodeType === NodeType.ENTITY) {
+      return node.title;
     } else {
       return node.title;
     }
@@ -120,70 +114,70 @@ export class CohortDefinitionComponent {
   }
 
   resetTreeEmpty(): void {
-    this.dataSource.data = base_empty_criteria
-    this.treeControl.dataNodes = this.dataSource.data
-    this.treeControl.expandAll()
+    // this.dataSource.data = base_empty_criteria
+    // this.treeControl.dataNodes = this.dataSource.data
+    // this.treeControl.expandAll()
   }
 
   newNode(): CohortDefinition {
     return {
-      node_id: crypto.randomUUID(),
-      node_type: NodeType.BOOLEAN,
+      nodeUID: crypto.randomUUID(),
+      nodeType: NodeType.BOOLEAN,
       title: '',
       description: '',
-      value_type: BooleanOperationType.MIN_OR,
-      value: '1',
+      type: BooleanOperationType.MIN_OR,
+      numericModifier: 1,
       children: []
     }
   }
 
   openEditorDialog(node: CohortDefinition, parent?: CohortDefinition): void {
-    const dialogRef = this.dialog.open(CohortDefinitionItemEditorModalComponent, {
-      width: '80%',
-      data: {
-        node_id: node.node_id,
-        node_type: node.node_type,
-        value_type: node.value_type,
-        value: node.value,
-        children: node.children
-      }
-    });
+    // const dialogRef = this.dialog.open(CohortDefinitionItemEditorModalComponent, {
+    //   width: '80%',
+    //   data: {
+    //     nodeUID: node.nodeUID,
+    //     nodeType: node.nodeType,
+    //     type: node.type,
+    //     value: node.value,
+    //     children: node.children
+    //   }
+    // });
 
-    dialogRef.afterClosed().subscribe((result: CohortDefinition) => {
-      console.log('The dialog was closed');
-      if (!result) {
-        return
-      }
-      console.log("Committing changes")
-      if (parent) {
-        console.log('Adding new node to parent node ' + parent.node_id)
-        if (!parent.children) {
-          parent.children = []
-        }
-        parent.children.push(result)
-      } else {
-        console.log('Editing existing node ' + node.node_id)
-        node.node_type = result.node_type
-        node.value_type = result.value_type
-        node.value = result.value
-        node.children = result.children
-      }
-      const data = this.dataSource.data;
-      this.dataSource.data = [];
-      this.dataSource.data = data;
-    });
+    // dialogRef.afterClosed().subscribe((result: CohortDefinition) => {
+    //   console.log('The dialog was closed');
+    //   if (!result) {
+    //     return
+    //   }
+    //   console.log("Committing changes")
+    //   if (parent) {
+    //     console.log('Adding new node to parent node ' + parent.nodeUID)
+    //     if (!parent.children) {
+    //       parent.children = []
+    //     }
+    //     parent.children.push(result)
+    //   } else {
+    //     console.log('Editing existing node ' + node.nodeUID)
+    //     node.nodeType = result.nodeType
+    //     node.value_type = result.value_type
+    //     node.value = result.value
+    //     node.children = result.children
+    //   }
+    //   const data = this.dataSource.data;
+    //   this.dataSource.data = [];
+    //   this.dataSource.data = data;
+    // });
   }
 
-  public findNodeByNodeId(node_id: string): CohortDefinition | undefined {
-    return this.findNodeByNodeIdRecurs(node_id, this.workingTree)
+  public findNodeByNodeId(nodeUID: string): CohortDefinition | undefined {
+    return this.findNodeByNodeIdRecurs(nodeUID, this.workingTree)
   }
 
-  private findNodeByNodeIdRecurs(node_id: string, curr: CohortDefinition): CohortDefinition | undefined {
-    if (curr.node_id === node_id) {
+  private findNodeByNodeIdRecurs(nodeUID: string, curr: CohortDefinition): CohortDefinition | undefined {
+    if (curr.nodeUID === nodeUID) {
       return curr
     } else {
       for (let node of (curr.children ? curr.children : [])) {
-        let val = this.findNodeByNodeIdRecurs(node_id, node);
+        let val = this.findNodeByNodeIdRecurs(nodeUID, node);
         if (val) {
           return val;
         }
@@ -193,26 +187,26 @@ export class CohortDefinitionComponent {
   }
 
   public deleteNode(node: CohortDefinition): void {
-    this.deleteNodeRecurs(node.node_id, this.workingTree);
+    this.deleteNodeRecurs(node.nodeUID, this.workingTree);
     // Force-refresh tree render
     const data = this.dataSource.data;
     this.dataSource.data = [];
     this.dataSource.data = data;
   }
 
-  private deleteNodeRecurs(node_id: string, curr: CohortDefinition) {
+  private deleteNodeRecurs(nodeUID: string, curr: CohortDefinition) {
     if (!curr.children) {
       return
     }
     for (let node of curr.children) {
-      if (node.node_id === node_id) {
+      if (node.nodeUID === nodeUID) {
         let idx = curr.children.indexOf(node)
         if (idx > -1) {
           curr.children?.splice(idx, 1)
           return
         }
       } else {
-        this.deleteNodeRecurs(node_id, node)
+        this.deleteNodeRecurs(nodeUID, node)
       }
     }
   }
