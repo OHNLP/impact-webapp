@@ -16,7 +16,7 @@ import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 export const base_empty_criteria = [
   {
     nodeUID: crypto.randomUUID(),
-    nodeType: NodeType.BOOLEAN,
+    nodeType: NodeType.LOGICAL,
     title: '',
     description: '',
     value_type: BooleanOperationType.AND,
@@ -56,25 +56,32 @@ export class CohortDefinitionComponent {
     public middleware: MiddlewareAdapterService,
     public dialog: MatDialog
   ) {
+
+    // init the json editor
+    this.editorOptions = new JsonEditorOptions()
+    // set all allowed modes
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view']; 
+    // update the tree view?
+    this.treeControl = new NestedTreeControl<CohortDefinition>(node => node.children);
+    this.dataSource = new MatTreeNestedDataSource<CohortDefinition>();
+
     if (appStatus.activeProject) {
       // this.unmodifiedTree = 
-      middleware.rest.get_criteria(appStatus.activeProject?.uid).subscribe(criteria => this.unmodifiedTree = criteria);
+      // middleware.rest.get_criteria(appStatus.activeProject?.uid).subscribe(
+      //   criteria => this.unmodifiedTree = criteria
+      // );
       // this.workingTree = 
       middleware.rest.get_criteria(appStatus.activeProject?.uid).subscribe(
-        criteria => this.workingTree = criteria
+        criteria => {
+          this.workingTree = criteria;
+          this.dataSource.data = [this.workingTree];
+          this.treeControl.dataNodes = this.dataSource.data
+          this.treeControl.expandAll()
+        }
       );
     } else {
       throw new Error("Cohort definition attempted without active project")
     }
-    this.treeControl = new NestedTreeControl<CohortDefinition>(node => node.children);
-    this.dataSource = new MatTreeNestedDataSource<CohortDefinition>();
-    this.dataSource.data = [this.workingTree];
-    this.treeControl.dataNodes = this.dataSource.data
-    this.treeControl.expandAll()
-
-    // init the json editor
-    this.editorOptions = new JsonEditorOptions()
-    this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
   }
 
 
@@ -87,10 +94,12 @@ export class CohortDefinitionComponent {
     return NodeType
   }
 
-  hasChild = (_: number, node: CohortDefinition) => node.nodeType === NodeType.BOOLEAN;
+  hasChild(_: number, node: CohortDefinition): boolean {
+    return node.nodeType === NodeType.LOGICAL;
+  }
 
   getNodeName(node: CohortDefinition): string {
-    if (node.nodeType === NodeType.BOOLEAN) {
+    if (node.nodeType === NodeType.LOGICAL) {
       if (node.type === BooleanOperationType.MIN_OR) {
         return 'At least one of: ' + node.title;
       } else if (node.type === BooleanOperationType.NOT) {
@@ -122,7 +131,7 @@ export class CohortDefinitionComponent {
   newNode(): CohortDefinition {
     return {
       nodeUID: crypto.randomUUID(),
-      nodeType: NodeType.BOOLEAN,
+      nodeType: NodeType.LOGICAL,
       title: '',
       description: '',
       type: BooleanOperationType.MIN_OR,

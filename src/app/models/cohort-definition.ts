@@ -27,14 +27,14 @@ export interface ValueDefinition {
  * name map as well
  */
 export enum NodeType {
-  BOOLEAN = "BOOLEAN",
+  LOGICAL = "LOGICAL",
   RELATIONAL = "RELATIONAL",
   ENTITY = "ENTITY",
   CATEGORY = 'CATEGORY'
 }
 
 export const NodeTypeToDisplayNameMap: Record<NodeType, string> = {
-  BOOLEAN: "Logical",
+  LOGICAL: "Logical",
   RELATIONAL: "Relational",
   ENTITY: "Clinical Entity",
   CATEGORY: "Category"
