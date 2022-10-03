@@ -50,10 +50,6 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(EXAMPLE_JOBS);
   }
 
-  public get_document(): Observable<ClinicalDocument> {
-    throw new Error("Method not implemented.");
-  }
-
   get_username(): string {
     return "Mock User";
   }

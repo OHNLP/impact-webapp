@@ -32,7 +32,10 @@ export class ProjectListComponent implements OnInit {
 
   onClickOpenProject(project: Project): void {
     // set the working project
-    this.appStatus.activeProject = project;
+    this.appStatus.setProject(project);
+
+    // then go to dashboard
+    this.appStatus.setView(View.PROJECT_DASHBOARD);
   }
 
   onClickArchiveProject(project: Project): void {

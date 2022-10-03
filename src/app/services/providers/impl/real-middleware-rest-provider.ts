@@ -9,38 +9,28 @@ import { Injectable } from "@angular/core";
 import { catchError, map, Observable, ObservableInput, of, throwError } from 'rxjs';
 import { JobInfo } from "src/app/models/job-info";
 import { environment } from "src/environments/environment";
+import { faker } from "@faker-js/faker";
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
-    public submit_job(project_uid: string): Observable<JobInfo> {
-        // create the URL
-        let url = this.base_url + '/_jobs/create';
+    // need to update this when init
+    public base_url: string = '';
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("project_uid", project_uid)
+    constructor(
+        private http: HttpClient,
+    ) {
+        super();
+        this.base_url = environment.apiURL;
+    }
 
-        // set the headers
-        const headers = this._get_headers();
-
-        // send request and parse the return
-        return this.http.post(
-            url, 
-            {},
-            { "params":params, "headers":headers }
-        ).pipe(map(rsp => {
-            let r = rsp as any;
-            console.log('* /_jobs/create = ' + rsp);
-            return {
-                project_uid: r.projectUID,
-                uid: r.jobUID,
-                start_date: r.startDate,
-                status: r.status,
-            };
-        }));
+    public _get_headers(): HttpHeaders {
+        let auth = localStorage.getItem('header_user_credentials') || '';
+        return new HttpHeaders()
+            .set('Access-Control-Allow-Origin', '*')
+            .set('Authorization', auth);
     }
 
     public update_patient_decision(
@@ -71,17 +61,6 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
-    // need to update this when init
-    public base_url: string = '';
-
-    constructor(
-        private http: HttpClient,
-    ) {
-        super();
-        this.base_url = environment.apiURL;
-    }
-
-
     public get_patient_decisions(job_uid: string, patient_uids: string[]): Observable<Map<string, CohortInclusion>> {
         // create the URL
         let url = this.base_url + '/_cohorts/relevance';
@@ -97,31 +76,6 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         // send request and parse the return
         return this.http.get(url, { "params":params, "headers":headers }).pipe(map(rsp => {
             return rsp as Map<string, CohortInclusion>;
-        }));
-    }
-
-    public _get_headers(): HttpHeaders {
-        let auth = localStorage.getItem('header_user_credentials') || '';
-        return new HttpHeaders()
-            .set('Access-Control-Allow-Origin', '*')
-            .set('Authorization', auth);
-    }
-
-    public get_jobs(project_uid: string): Observable<JobInfo[]> {
-        // create the URL
-        let url = this.base_url + '/_jobs/project';
-
-        // set the parameters
-        const params = new HttpParams()
-            .set("project_uid", project_uid)
-        // set the headers
-        const headers = this._get_headers();
-
-        // send request and parse the return
-        return this.http.get(url, { "params": params, "headers":headers }).pipe(map(rsp => {
-            let jobs = rsp as JobInfo[];
-            console.log('* get_jobs', jobs);
-            return jobs;
         }));
     }
 
@@ -164,25 +118,28 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
                 for (let i = 0; i < rs.length; i++) {
                     const r = rs[i];
+                    let short_title = r.name.split(' ')[0];
                     prjs.push({
                         uid: r.uid,
-                        short_title: r.name,
+                        short_title: short_title,
                         name: r.name + ' | ' + r.name,
                         description: r.name,
                         date_updated: new Date(),
                         stat: {
-                            n_cohort: -1,
-                            n_records: -1,
-                            n_included: -1,
-                            n_excluded: -1,
-                            n_unjudged: -1
+                            n_cohort: 3,
+                            n_records: 1,
+                            n_included: 1,
+                            n_excluded: 1,
+                            n_unjudged: 1
                         }
                     })
                 }
 
+                console.log('* get_projects', prjs);
                 return prjs;
         }));
     }
+
     public get_criteria(project_uid: string): Observable<CohortDefinition> {
         // create the URL
         let url = this.base_url + '/_projects/criterion';
@@ -201,19 +158,93 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
                 return criteria;
         }));
     }
+
+
+    public submit_job(project_uid: string): Observable<JobInfo> {
+        // create the URL
+        let url = this.base_url + '/_jobs/create';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("project_uid", project_uid)
+
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.post(
+            url, 
+            {},
+            { "params":params, "headers":headers }
+        ).pipe(map(rsp => {
+            let r = rsp as any;
+            console.log('* /_jobs/create', rsp);
+            return {
+                project_uid: r.projectUID,
+                uid: r.jobUID,
+                start_date: r.startDate,
+                status: r.status,
+            };
+        }));
+    }
+
+    public get_jobs(project_uid: string): Observable<JobInfo[]> {
+        // create the URL
+        let url = this.base_url + '/_jobs/project';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("project_uid", project_uid)
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params, "headers":headers }).pipe(map(rsp => {
+            let jobs = rsp as JobInfo[];
+            console.log('* get_jobs', jobs);
+            return jobs;
+        }));
+    }
    
-    public get_patients(project_uid: string): Observable<PatInfo[]> {
-        throw new Error("Method not implemented.");
+    public get_patients(job_uid: string): Observable<PatInfo[]> {
+        // create the URL
+        let url = this.base_url + '/_cohorts/';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("job_uid", job_uid);
+
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.get(url, { "params": params, 'headers': headers })
+            .pipe(map(rsp => {
+                let rs = rsp as any[];
+                console.log('* get_patients', rs);
+
+                let pats = [] as PatInfo[];
+                for (let i = 0; i < rs.length; i++) {
+                    const r = rs[i];
+                    pats.push({
+                        pat_uid: r['patUID'],
+                        name: faker.name.fullName(),
+                        inclusion: r['inclusion'],
+
+                        // init others
+                        labels: [],
+                        stat: {
+                            n_records: -1,
+                            n_criteria_yes: -1,
+                            n_criteria_no: -1,
+                            n_criteria_na: -1,
+                            n_criteria_unknown: -1,
+                        }
+                    })
+                }
+                return pats;
+        }));
     }
-    public writeRetrievedCohort(project_uid: string, cohort?: PatInfo[] | undefined): boolean {
-        throw new Error("Method not implemented.");
-    }
-    public getStructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): StructuredData[] {
-        throw new Error("Method not implemented.");
-    }
-    public getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): ClinicalDocument[] {
-        throw new Error("Method not implemented.");
-    }
+
     public get_determinations(
         uid: string, 
         patient_uid: string
@@ -306,7 +337,15 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
-    public get_document(): Observable<ClinicalDocument> {
+    public writeRetrievedCohort(project_uid: string, cohort?: PatInfo[] | undefined): boolean {
+        throw new Error("Method not implemented.");
+    }
+
+    public getStructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): StructuredData[] {
+        throw new Error("Method not implemented.");
+    }
+
+    public getUnstructuredEvidence(project_uid: string, patient_uid: string, criterion?: string | undefined): ClinicalDocument[] {
         throw new Error("Method not implemented.");
     }
 }

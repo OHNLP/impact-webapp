@@ -19,10 +19,13 @@ export class AppComponent implements OnInit {
     );
   showProjectOptions: boolean = true;
 
+  View = View;
 
-  constructor(private breakpointObserver: BreakpointObserver,
-              public appStatus: ApplicationStatusService,
-              public middleware: MiddlewareAdapterService) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public appStatus: ApplicationStatusService,
+    public middleware: MiddlewareAdapterService
+  ) {
   }
 
   ngOnInit(): void {
@@ -39,49 +42,8 @@ export class AppComponent implements OnInit {
     return localStorage.getItem('username') || '';
   }
 
-  public get view(): typeof View {
-    return View
-  }
-
-  public get patientView(): typeof PatientView {
-    return PatientView
-  }
-
-  public get title(): string {
-    switch (this.appStatus.activeView) {
-      case View.GLOBAL_DASHBOARD:
-        return 'Home';
-      case View.PROJECT_LIST:
-        return 'Project List';
-
-      case View.PROJECT_JOB_LIST:
-        return 'Job List';
-
-      case View.PROJECT_DASHBOARD:
-        return 'Project Dashboard'
-      case View.PROJECT_QUERY_DEFINITION:
-        return 'Query Definition';
-      case View.COHORT_BROWSER:
-        return 'Cohort Browser';
-      case View.PROJECT_RELEVANCE_PATIENT_VIEW:
-        return 'Patient Details';
-      
-      case View.PROJECT_MAKER:
-        return 'New Project';
-      case View.PLUMMER:
-        return 'Patient Assessment';
-      case View.USER_LOGIN:
-        return 'User Login';
-    }
-  }
-
-  public setPatientView(view: PatientView): void {
-    this.appStatus.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
-    this.appStatus.activePatientView = view
-  }
-
   public displayProjectSuboptions(): boolean {
-    return this.showProjectOptions && this.appStatus.activeProject != null
+    return this.showProjectOptions && this.appStatus.uwProject != null
   }
 }
 

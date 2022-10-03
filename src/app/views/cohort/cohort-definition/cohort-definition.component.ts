@@ -65,13 +65,13 @@ export class CohortDefinitionComponent {
     this.treeControl = new NestedTreeControl<CohortDefinition>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<CohortDefinition>();
 
-    if (appStatus.activeProject) {
+    if (appStatus.uwProject) {
       // this.unmodifiedTree = 
-      // middleware.rest.get_criteria(appStatus.activeProject?.uid).subscribe(
+      // middleware.rest.get_criteria(appStatus.uwProject?.uid).subscribe(
       //   criteria => this.unmodifiedTree = criteria
       // );
       // this.workingTree = 
-      middleware.rest.get_criteria(appStatus.activeProject?.uid).subscribe(
+      middleware.rest.get_criteria(appStatus.uwProject?.uid).subscribe(
         criteria => {
           this.workingTree = criteria;
           this.dataSource.data = [this.workingTree];

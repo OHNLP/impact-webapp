@@ -72,10 +72,6 @@ export abstract class MiddlewareRestProvider {
     evidence_id: string
   ): Observable<Object>;
 
-  public abstract get_document(
-
-  ): Observable<ClinicalDocument>;
-
   /* ===== Jobs Related Methods =====*/
   public abstract get_jobs(
     project_uid: string

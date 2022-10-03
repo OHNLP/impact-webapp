@@ -62,7 +62,7 @@
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Project Name</th>
     <td class="project-name-cell hoverable" mat-cell *matCellDef="let project"
-      (click)="this.appStatus.activeProject = project">
+      (click)="this.appStatus.uwProject = project">
       {{ project.short_title }}
       <br>
       {{ project.name }}
@@ -71,7 +71,7 @@
   <ng-container matColumnDef="actions">
     <th width="500px" mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let project">
-      <button mat-button (click)="this.appStatus.activeProject = project">
+      <button mat-button (click)="this.appStatus.uwProject = project">
         <mat-icon>folder_open</mat-icon> Open
       </button>
       <button mat-button>

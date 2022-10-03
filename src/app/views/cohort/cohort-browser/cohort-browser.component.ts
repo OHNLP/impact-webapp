@@ -35,10 +35,18 @@ export class CohortBrowserComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('* init cohort browser');
+    this.dataSource = new MatTableDataSource()
+    this.dataSource.paginator = this.paginator;
 
-    if (this.appStatus.activeProject) {
+    if (this.appStatus.uwProject) {
+      if (this.appStatus.uwJobSelected === undefined) {
+        this.dataSource.data = [];
+        return;
+      }
+
+      // ok, now try to load patients
       this.middleware.rest.get_patients(
-        this.appStatus.activeProject!.uid
+        this.appStatus.uwJobSelected!.uid
       ).subscribe(ps => {
         // set the local cohort first
         this.appStatus.uwCohort = ps;
@@ -58,8 +66,6 @@ export class CohortBrowserComponent implements OnInit {
           }
 
           // finally, update data source
-          this.dataSource = new MatTableDataSource()
-          this.dataSource.paginator = this.paginator
           this.dataSource.data = this.appStatus.uwCohort!
         })
       })
@@ -79,12 +85,6 @@ export class CohortBrowserComponent implements OnInit {
     this.dataSource.filter = '';
   }
 
-  // public openPatient(pat: PatInfo): void {
-  //   this.appStatus.activeView = View.PROJECT_RELEVANCE_PATIENT_VIEW
-  //   this.appStatus.activePatient = pat
-  //   this.appStatus.activePatientIdx = this.appStatus.uwCohort.indexOf(pat)
-  // }
-
   public openPlummer(pat: PatInfo): void {
     this.appStatus.activeView = View.PLUMMER;
     this.appStatus.uwPat = pat;
@@ -93,11 +93,4 @@ export class CohortBrowserComponent implements OnInit {
     this.appStatus.resetPlummer();
   }
 
-  // public updateInclusionState(pat: PatInfo, state: CohortInclusion) {
-  //   if (this.appStatus.activeProject) {
-  //     pat.inclusion = state
-  //     this.middleware.rest.writeRetrievedCohort(this.appStatus.activeProject.uid, this.cohort)
-  //   }
-
-  // }
 }

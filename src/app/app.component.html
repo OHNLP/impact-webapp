@@ -1,5 +1,5 @@
 <mat-sidenav-container 
-  *ngIf="appStatus.activeView !== view.USER_LOGIN"
+  *ngIf="appStatus.activeView !== View.USER_LOGIN"
   class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -36,20 +36,20 @@
       style="margin-top: -10px;">
       <a mat-list-item 
         matTooltip="Create a New Project"
-        (click)="appStatus.activeView = view.PROJECT_MAKER">
+        (click)="appStatus.activeView = View.PROJECT_MAKER">
         <mat-icon>create_new_folder</mat-icon>
         New Project
       </a>
 
       <a mat-list-item 
-        (click)="appStatus.activeView = view.PROJECT_LIST">
+        (click)="appStatus.activeView = View.PROJECT_LIST">
         <mat-icon>view_list</mat-icon>
         Project List
       </a>
 
       <a mat-list-item 
         (click)="showProjectOptions = !showProjectOptions"
-         *ngIf="appStatus.activeProject != null">
+         *ngIf="appStatus.uwProject != null">
         <mat-icon>source</mat-icon>
           [{{ appStatus.uwProject?.short_title }}]
         <mat-icon>
@@ -58,7 +58,7 @@
       </a>
 
       <a mat-list-item 
-        (click)="appStatus.activeView = view.PROJECT_DASHBOARD"
+        (click)="appStatus.activeView = View.PROJECT_DASHBOARD"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>dashboard</mat-icon>
@@ -66,7 +66,7 @@
       </a>
 
       <a mat-list-item 
-        (click)="appStatus.activeView = view.PROJECT_QUERY_DEFINITION"
+        (click)="appStatus.activeView = View.PROJECT_QUERY_DEFINITION"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>assignment</mat-icon>
@@ -74,7 +74,7 @@
       </a>
 
       <a mat-list-item 
-        (click)="appStatus.activeView = view.COHORT_BROWSER"
+        (click)="appStatus.activeView = View.COHORT_BROWSER"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>people</mat-icon>
@@ -82,7 +82,7 @@
       </a>
       
       <a mat-list-item
-        (click)="appStatus.activeView = view.PROJECT_JOB_LIST"
+        (click)="appStatus.activeView = View.PROJECT_JOB_LIST"
         *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon>factory</mat-icon> 
@@ -100,7 +100,6 @@
           (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <span *ngIf="(isHandset$ | async) === false">Cohort Assessment Tool - {{title}}</span>
         <span style="flex: 1 1 auto"></span>
         <button mat-icon-button *ngIf="(isHandset$ | async)">
           <mat-icon>person</mat-icon>
@@ -114,31 +113,31 @@
       </mat-toolbar-row>
     </mat-toolbar> -->
     <app-project-maker 
-      *ngIf="appStatus.activeView === view.PROJECT_MAKER">
+      *ngIf="appStatus.activeView === View.PROJECT_MAKER">
     </app-project-maker>
 
     <app-project-list 
-      *ngIf="appStatus.activeView === view.PROJECT_LIST">
+      *ngIf="appStatus.activeView === View.PROJECT_LIST">
     </app-project-list>
 
     <app-project-summary 
-      *ngIf="appStatus.activeView === view.PROJECT_DASHBOARD">
+      *ngIf="appStatus.activeView === View.PROJECT_DASHBOARD">
     </app-project-summary>
 
     <app-project-job-list
-      *ngIf="appStatus.activeView === view.PROJECT_JOB_LIST">
+      *ngIf="appStatus.activeView === View.PROJECT_JOB_LIST">
     </app-project-job-list>
 
     <app-cohort-definition 
-      *ngIf="appStatus.activeView === view.PROJECT_QUERY_DEFINITION">
+      *ngIf="appStatus.activeView === View.PROJECT_QUERY_DEFINITION">
     </app-cohort-definition>
 
     <app-cohort-browser 
-      *ngIf="appStatus.activeView === view.COHORT_BROWSER">
+      *ngIf="appStatus.activeView === View.COHORT_BROWSER">
     </app-cohort-browser>
 
     <app-plummer 
-      *ngIf="appStatus.activeView === view.PLUMMER">
+      *ngIf="appStatus.activeView === View.PLUMMER">
     </app-plummer>
 
   </mat-sidenav-content>
@@ -146,5 +145,5 @@
 </mat-sidenav-container>
 
 <app-balogin
-  *ngIf="appStatus.activeView === view.USER_LOGIN">
+  *ngIf="appStatus.activeView === View.USER_LOGIN">
 </app-balogin>
