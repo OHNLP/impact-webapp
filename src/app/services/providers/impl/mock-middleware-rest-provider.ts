@@ -23,11 +23,23 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
   // fake database
   db = {
-    projects: this.cps(EXAMPLE_PROJECTS)
+    projects: this.cps(EXAMPLE_PROJECTS),
+    jobs: this.cps(EXAMPLE_JOBS)
+  }
+
+  public get_jobs(project_uid: string): Observable<JobInfo[]> {
+    return of(this.db.jobs);
   }
 
   public submit_job(project_uid: string): Observable<JobInfo> {
-    throw new Error('Method not implemented.');
+    let job = {
+      job_uid: uuid(),
+      project_uid: project_uid,
+      start_date: new Date(),
+      status: JobInfoStatus.QUEUED
+    };
+    this.db.jobs.push(job);
+    return of(job);
   }
 
   public randomEnumValue(enumeration:any): any {
@@ -61,23 +73,6 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       }
     }
     return of(decision);
-  }
-
-  public get_jobs(project_uid: string): Observable<JobInfo[]> {
-    let jobs: JobInfo[] = [];
-    
-    let n = Math.floor(Math.random() * 50);
-
-    for (let i = 0; i < n; i++) {
-      jobs.push({
-        job_uid: uuid(),
-        project_uid: project_uid,
-        start_date: faker.date.between('2010-01-01', '2022-12-31'),
-        status: this.randomEnumValue(JobInfoStatus)
-      });
-    }
-
-    return of(jobs);
   }
 
   get_username(): string {
