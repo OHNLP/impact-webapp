@@ -13,6 +13,7 @@ export class BALoginComponent implements OnInit {
 
   hide = true;
   mwserver = new FormControl('', [Validators.required]);
+  saddress = new FormControl('', [Validators.required]);
   username = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
 
@@ -31,6 +32,7 @@ export class BALoginComponent implements OnInit {
       mws = 'mock';
     }
     this.mwserver.setValue(mws);
+    this.saddress.setValue('localhost:8123');
   }
 
   userLogin(): void {
@@ -42,6 +44,7 @@ export class BALoginComponent implements OnInit {
     let u = this.username.getRawValue();
     let p = this.password.getRawValue();
     let m = this.mwserver.getRawValue();
+    let a = this.saddress.getRawValue();
 
     if (u === null) {
       return;
@@ -55,6 +58,10 @@ export class BALoginComponent implements OnInit {
       return;
     }
 
+    if (a === null) {
+      a = '';
+    }
+
     // set current m
     localStorage.setItem(
       'middleware_server',
@@ -62,11 +69,14 @@ export class BALoginComponent implements OnInit {
     );
 
     this.appStatus.userLogin(u, p);
-
   }
 
   clearUsername(): void {
     this.username.setValue('');
+  }
+
+  clearServerAddress(): void {
+    this.saddress.setValue('');
   }
 
   getUsernameErrorMessage() {
@@ -75,5 +85,9 @@ export class BALoginComponent implements OnInit {
 
   getPasswordErrorMessage() {
     return this.password.hasError('required') ? 'Need your password' : '';
+  }
+
+  getServerAddressErrorMessage() {
+    return this.saddress.hasError('required') ? 'Need server address' : '';
   }
 }

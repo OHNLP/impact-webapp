@@ -19,7 +19,7 @@ export class MiddlewareAdapterService {
     if (server == 'mock') {
       return this.mock;
 
-    } else if (server == 'real') {
+    } else if (server == 'test') {
       return this.ajax;
     }
 

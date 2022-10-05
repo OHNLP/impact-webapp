@@ -1,6 +1,14 @@
 <div class="wrapper">
     <div class="login-container">
         <h2 style="display: flex; align-items: center;">
+
+            <img src="/assets/CDT.png" alt="CDT" width="40px">
+            &nbsp;
+            CDT
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
             <mat-icon>login</mat-icon> &nbsp;
             User Login
         </h2>
@@ -36,12 +44,25 @@
             <mat-label>Middleware Server</mat-label>
             <mat-select matNativeControl [formControl]="mwserver" required>
                 <mat-option value="mock">Mock Server for Demo</mat-option>
-                <mat-option value="real">Real Server</mat-option>
+                <mat-option value="test">Development Server</mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit"
-            (click)="userLogin()">
+        <!-- <mat-form-field *ngIf="mwserver.getRawValue() == 'test'"
+            appearance="fill" style="margin-bottom: 10px;">
+            <mat-label>Server Address</mat-label>
+            <input matInput [formControl]="saddress" required>
+            <button mat-icon-button matSuffix (click)="clearServerAddress()">
+                <mat-icon>
+                    clear
+                </mat-icon>
+            </button>
+            <mat-error *ngIf="saddress.invalid">
+                {{ getServerAddressErrorMessage() }}
+            </mat-error>
+        </mat-form-field> -->
+
+        <button mat-raised-button color="primary" type="submit" (click)="userLogin()">
             Login
         </button>
 
