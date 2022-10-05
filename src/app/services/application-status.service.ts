@@ -62,17 +62,7 @@ export class ApplicationStatusService {
       this.uwProject = prj;
       this.activeView = View.PROJECT_DASHBOARD;
       // then, load jobs
-      this.middleware.rest.get_jobs(this.uwProject.uid).subscribe(rs => {
-        // load jobs
-        this.uwJobs = rs;
-
-        // set the uw job to the last completed
-        if (rs.length > 0) {
-          this.uwJobSelected = this.uwJobs[0];
-        } else {
-          this.uwJobSelected = undefined;
-        }
-      });
+      this.showJobs();
     }
   }
 
@@ -120,8 +110,22 @@ export class ApplicationStatusService {
       } else {
         window.alert('Canceling... refresh list later.');
       }
-      
+
     })
+  }
+
+  public showJobs(): void {
+    this.middleware.rest.get_jobs(this.uwProject!.uid).subscribe(rs => {
+      // load jobs
+      this.uwJobs = rs;
+
+      // set the uw job to the last completed
+      if (rs.length > 0) {
+        this.uwJobSelected = this.uwJobs[0];
+      } else {
+        this.uwJobSelected = undefined;
+      }
+    });
   }
 
   /////////////////////////////////////////////////////////

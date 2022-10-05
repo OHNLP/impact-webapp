@@ -12,8 +12,6 @@ import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.se
 })
 export class ProjectJobListComponent implements OnInit {
 
-  public jobs: JobInfo[] = [];
-
   displayedColumns: string[] = [
     'icon', 'date', 'status', 'actions', 
   ]
@@ -36,8 +34,8 @@ export class ProjectJobListComponent implements OnInit {
     // load jobs
     this.middleware.rest.get_jobs(this.appStatus.uwProject!.uid).subscribe(rs => {
       // load jobs
-      this.jobs = rs;
-      this.dataSource.data = this.jobs;
+      this.appStatus.uwJobs = rs;
+      this.dataSource.data = this.appStatus.uwJobs;
     });
   }
 
@@ -68,5 +66,14 @@ export class ProjectJobListComponent implements OnInit {
 
   onClickCancelJob(job: JobInfo): void {
     this.appStatus.cancelJob(job);
+  }
+
+  onClickRefresh(): void {
+    // load jobs
+    this.middleware.rest.get_jobs(this.appStatus.uwProject!.uid).subscribe(rs => {
+      // load jobs
+      this.appStatus.uwJobs = rs;
+      this.dataSource.data = this.appStatus.uwJobs;
+    });
   }
 }
