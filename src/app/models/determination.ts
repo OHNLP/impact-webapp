@@ -11,11 +11,15 @@ export interface Determination {
 }
 
 export enum JUDGEMENT_TYPE {
+    // human's judgement
     JUDGED_MATCH = "JUDGED_MATCH",
     JUDGED_MISMATCH = "JUDGED_MISMATCH",
     JUDGED_NO_EVIDENCE = "JUDGED_NO_EVIDENCE",
+    // machine's judgement
     EVIDENCE_FOUND = "EVIDENCE_FOUND",  // Yes by structure data
     EVIDENCE_FOUND_NLP = "EVIDENCE_FOUND_NLP", // Yes by NLP
     NO_EVIDENCE_FOUND = "NO_EVIDENCE_FOUND", // No 
+
+    // for reseting judgement
     UNJUDGED = "UNJUDGED",
 }

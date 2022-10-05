@@ -24,7 +24,10 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   // fake database
   db = {
     projects: this.cps(EXAMPLE_PROJECTS),
-    jobs: this.cps(EXAMPLE_JOBS)
+    jobs: this.cps(EXAMPLE_JOBS),
+    patients: [],
+    determinations: [],
+    decision: new Map<string, CohortInclusion>()
   }
 
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
@@ -53,6 +56,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     patient_uid: string, 
     judgement: CohortInclusion
   ): Observable<boolean> {
+    this.db.decision.set(patient_uid, judgement);
     return of(true);
   }
 
@@ -60,19 +64,22 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     job_uid: string, 
     patient_uids: string[]
   ): Observable<Map<string, CohortInclusion>> {
-    let decision = new Map<string, CohortInclusion>;
-    for (let i = 0; i < patient_uids.length; i++) {
-      let patient_uid = patient_uids[i];
-      let r = Math.random();
-      if (r < 0.6) {
-        decision.set(patient_uid, CohortInclusion.UNJUDGED);
-      } else if (r < 0.9) {
-        decision.set(patient_uid, CohortInclusion.EXCLUDE);
-      } else {
-        decision.set(patient_uid, CohortInclusion.INCLUDE);
+    if (this.db.decision.size == 0) {
+      let decision = new Map<string, CohortInclusion>;
+      for (let i = 0; i < patient_uids.length; i++) {
+        let patient_uid = patient_uids[i];
+        let r = Math.random();
+        if (r < 0.6) {
+          decision.set(patient_uid, CohortInclusion.UNJUDGED);
+        } else if (r < 0.9) {
+          decision.set(patient_uid, CohortInclusion.EXCLUDE);
+        } else {
+          decision.set(patient_uid, CohortInclusion.INCLUDE);
+        }
       }
+      this.db.decision = decision
     }
-    return of(decision);
+    return of(this.db.decision as Map<string, CohortInclusion>);
   }
 
   get_username(): string {
@@ -118,33 +125,36 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   get_patients(project_uid: string): Observable<Array<PatInfo>> {
-    let ps = JSON.parse(JSON.stringify(EXAMPLE_PATIENTS));
+    if (this.db.patients.length == 0) {
+      let ps = JSON.parse(JSON.stringify(EXAMPLE_PATIENTS));
 
-    // add more for demo
-    let sample_labels = [
-      'Check Later', 'Phase II', 'Phase III', 'Phase IV',
-      'Type 1 Diabetes', 'Type 2 Diabetes',
-      'ANC>10000', '>10 Lines', 'ECOG PS3', 'ECOG PS4'
-    ];
-    for (let i = 0; i < 1000; i++) {
-      let labels = sample_labels.sort(() => 0.5 - Math.random()).slice(0, 2);
-      ps.push({
-        pat_uid: uuid(),
-        name: faker.name.fullName(),
-        inclusion: CohortInclusion.UNJUDGED,
+      // add more for demo
+      let sample_labels = [
+        'Check Later', 'Phase II', 'Phase III', 'Phase IV',
+        'Type 1 Diabetes', 'Type 2 Diabetes',
+        'ANC>10000', '>10 Lines', 'ECOG PS3', 'ECOG PS4'
+      ];
+      for (let i = 0; i < 50000; i++) {
+        let labels = sample_labels.sort(() => 0.5 - Math.random()).slice(0, 2);
+        ps.push({
+          pat_uid: uuid(),
+          name: faker.name.fullName(),
+          inclusion: CohortInclusion.UNJUDGED,
 
-        labels: labels,
-        stat: {
-          n_records: parseInt(faker.random.numeric(3)),
-          n_criteria_yes: parseInt(faker.random.numeric()),
-          n_criteria_no: parseInt(faker.random.numeric()),
-          n_criteria_na: parseInt(faker.random.numeric()),
-          n_criteria_unknown: parseInt(faker.random.numeric()),
-        }
-      });
-      
+          labels: labels,
+          stat: {
+            n_records: parseInt(faker.random.numeric(3)),
+            n_criteria_yes: parseInt(faker.random.numeric()),
+            n_criteria_no: parseInt(faker.random.numeric()),
+            n_criteria_na: parseInt(faker.random.numeric()),
+            n_criteria_unknown: parseInt(faker.random.numeric()),
+          }
+        });
+        
+      }
+      this.db.patients = ps;
     }
-    return of(ps);
+    return of(this.db.patients);
   }
 
   get_determinations(
@@ -152,37 +162,42 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     patient_uid: string,
     criteria?: CohortDefinition
   ): Observable<Array<Determination>> {
-    var nodes = [];
-    function get_nodes(node:any) {
-      var ns: any[] = [];
-      if (node.hasOwnProperty('children')) {
-        for (let i = 0; i < node.children.length; i++) {
-          const c = node.children[i];
-          ns.push(c);
-          var _ns = get_nodes(c);
-          Array.prototype.push.apply(ns, _ns);
+    if (this.db.determinations.length == 0) {
+
+      var nodes = [];
+      function get_nodes(node:any) {
+        var ns: any[] = [];
+        if (node.hasOwnProperty('children')) {
+          for (let i = 0; i < node.children.length; i++) {
+            const c = node.children[i];
+            ns.push(c);
+            var _ns = get_nodes(c);
+            Array.prototype.push.apply(ns, _ns);
+          }
         }
+
+        return ns;
+      }
+      nodes = get_nodes(criteria);
+      console.log('* flatten criteria', nodes);
+
+      let dtmns:any = [];
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        dtmns.push({
+          job_uid: job_uid,
+          patient_uid: patient_uid,
+          criteria_uid: n.nodeUID,
+          judgement: this.randomEnumValue(JUDGEMENT_TYPE),
+          comment: faker.lorem.lines(1),
+          date_updated: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
+        });
       }
 
-      return ns;
-    }
-    nodes = get_nodes(criteria);
-    console.log('* flatten criteria', nodes);
-
-    let dtmns: Determination[] = [];
-    for (let i = 0; i < nodes.length; i++) {
-      const n = nodes[i];
-      dtmns.push({
-        job_uid: job_uid,
-        patient_uid: patient_uid,
-        criteria_uid: n.nodeUID,
-        judgement: this.randomEnumValue(JUDGEMENT_TYPE),
-        comment: faker.lorem.lines(1),
-        date_updated: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
-      });
+      this.db.determinations = dtmns;
     }
 
-    return of(dtmns);
+    return of(this.db.determinations);
   }
 
   get_facts(
