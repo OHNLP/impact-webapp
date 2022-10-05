@@ -17,6 +17,14 @@ export abstract class MiddlewareRestProvider {
     project_uid: string
   ): Observable<JobInfo>
 
+  public abstract cancel_job(
+    job_uid: string
+  ): Observable<boolean>
+
+  public abstract get_jobs(
+    project_uid: string
+  ): Observable<JobInfo[]>;
+
   /* ===== Project Management Methods ===== */
   public abstract get_projects(
     // should be related to user
@@ -70,9 +78,4 @@ export abstract class MiddlewareRestProvider {
   public abstract get_fact_detail(
     evidence_id: string
   ): Observable<Object>;
-
-  /* ===== Jobs Related Methods =====*/
-  public abstract get_jobs(
-    project_uid: string
-  ): Observable<JobInfo[]>;
 }

@@ -111,6 +111,19 @@ export class ApplicationStatusService {
     })
   }
 
+  public cancelJob(job: JobInfo): void {
+    this.middleware.rest.cancel_job(
+      job.job_uid
+    ).subscribe(rsp=>{
+      if (rsp) {
+        window.alert('Job [' + this.getJobShortUID(job) + '] is canceled.');
+      } else {
+        window.alert('Canceling... refresh list later.');
+      }
+      
+    })
+  }
+
   /////////////////////////////////////////////////////////
   // Cohort related functions
   /////////////////////////////////////////////////////////
@@ -222,6 +235,10 @@ export class ApplicationStatusService {
       return '-';
     }
     return formatDate(d, 'MM/dd/yyyy', this.locale_id)
+  }
+
+  public getJobShortUID(job: JobInfo): string {
+    return job.job_uid.split('-')[0];
   }
 
   public getToday():string {

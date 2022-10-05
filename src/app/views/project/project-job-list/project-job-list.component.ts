@@ -56,4 +56,17 @@ export class ProjectJobListComponent implements OnInit {
   onClickSelectJob(job: JobInfo): void {
     this.appStatus.uwJobSelected = job;
   }
+
+  isCancelAble(job: JobInfo): boolean {
+    if (job.status == JobInfoStatus.COMPLETE) {
+      return false;
+    } else if (job.status == JobInfoStatus.CANCELED) {
+      return false;
+    }
+    return true;
+  }
+
+  onClickCancelJob(job: JobInfo): void {
+    this.appStatus.cancelJob(job);
+  }
 }

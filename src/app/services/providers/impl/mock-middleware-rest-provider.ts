@@ -15,6 +15,9 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  public cancel_job(job_uid: string): Observable<boolean> {
+    return of(true);
+  }
   // copy an data obj
   public cps(obj: any): any { return JSON.parse(JSON.stringify(obj)); }
 

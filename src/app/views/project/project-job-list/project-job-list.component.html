@@ -18,7 +18,7 @@
 
 <table mat-table [dataSource]="dataSource" style="width:100%">
   <ng-container matColumnDef="icon">
-    <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+    <th mat-header-cell *matHeaderCellDef>Job UID</th>
     <td mat-cell 
       *matCellDef="let job"
       class="clickable">
@@ -26,6 +26,7 @@
         arrow_circle_right
       </mat-icon>
       &nbsp;
+      {{ appStatus.getJobShortUID(job) }}
     </td>
   </ng-container>
 
@@ -60,7 +61,8 @@
 
       <button mat-raised-button
         class="mr-2"
-        *ngIf="job.status == JobInfoStatus.IN_PROGRESS">
+        (click)="onClickCancelJob(job)"
+        *ngIf="isCancelAble(job)">
         Cancel
       </button>
 

@@ -97,6 +97,8 @@
                   <mat-icon *ngIf="job.job_uid == appStatus.uwJobSelected?.job_uid">
                     arrow_circle_right
                   </mat-icon>
+                  &nbsp;
+                  {{ appStatus.getJobShortUID(job) }}
                 </td>
                 <td>
                   {{ job.start_date | date }}
@@ -112,19 +114,6 @@
                     *ngIf="job.status == JobInfoStatus.COMPLETE"
                     (click)="onClickSelectJob(job)">
                     Select
-                  </button>
-
-                  <button mat-raised-button
-                    class="mr-2"
-                    *ngIf="job.status == JobInfoStatus.IN_PROGRESS">
-                    Cancel
-                  </button>
-
-                  <button mat-raised-button
-                    class="mr-2">
-                    <mat-icon>
-                      delete
-                    </mat-icon>
                   </button>
 
                 </td>

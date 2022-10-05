@@ -211,6 +211,27 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
     }
 
+    public cancel_job(job_uid: string): Observable<boolean> {
+        // create the URL
+        let url = this.base_url + '/_jobs/cancel';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("job_uid", job_uid)
+
+        const body = {
+            job_uid: job_uid
+        }
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.post(url, body, { "params": params, "headers":headers }).pipe(map(rsp => {
+            let r = eval(""+rsp);
+            return r;
+        }));
+    }
+
     public get_jobs(project_uid: string): Observable<JobInfo[]> {
         // create the URL
         let url = this.base_url + '/_jobs/project';
