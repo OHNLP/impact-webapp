@@ -22,6 +22,11 @@ export abstract class MiddlewareRestProvider {
     // should be related to user
   ): Observable<Array<Project>>
 
+  public abstract create_project(
+    // should be related to user
+    name: string
+  ): Observable<Project>
+
   /* ===== Cohort Related Methods ====== */
   public abstract get_criteria(
     project_uid: string

@@ -1,5 +1,6 @@
 <div class="menu-bar-box">
   <button mat-raised-button
+    (click)="onClickCreateProject()"
     class="mr-2">
     <mat-icon>create_new_folder</mat-icon> 
     Create New Project
@@ -7,7 +8,7 @@
 </div>
 
 <div class="prj-box">
-  <mat-card *ngFor="let prj of projects"
+  <mat-card *ngFor="let prj of appStatus.uwProjects"
     class="prj-card">
     <mat-card-title>
       {{ prj.short_title }}

@@ -15,8 +15,6 @@ import { EXAMPLE_PROJECTS } from 'src/app/samples/sample-project';
 })
 export class ProjectListComponent implements OnInit {
 
-  public projects: Array<Project> = []
-
   constructor(
     public appStatus: ApplicationStatusService, 
     public middleware: MiddlewareAdapterService
@@ -25,9 +23,13 @@ export class ProjectListComponent implements OnInit {
   ngOnInit(): void {
     this.middleware.rest.get_projects().subscribe(rs => {
       console.log("* loaded " + rs.length + ' projects');
-      this.projects = rs;
+      this.appStatus.uwProjects = rs;
     });
     
+  }
+
+  onClickCreateProject(): void {
+    this.appStatus.createProject();
   }
 
   onClickOpenProject(project: Project): void {

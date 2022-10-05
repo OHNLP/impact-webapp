@@ -15,6 +15,14 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  // copy an data obj
+  public cps(obj: any): any { return JSON.parse(JSON.stringify(obj)); }
+
+  // fake database
+  db = {
+    projects: this.cps(EXAMPLE_PROJECTS)
+  }
+
   public submit_job(project_uid: string): Observable<JobInfo> {
     throw new Error('Method not implemented.');
   }
@@ -73,8 +81,30 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return "Mock User";
   }
 
+  public create_project(name: string): Observable<Project> {
+    let np = {
+      uid: uuid(),
+      name: name,
+      short_title: name + ": " + name,
+      
+      // other information
+      description: name,
+      date_updated: new Date(),
+      stat: {
+        n_cohort: parseInt(faker.random.numeric(4)),
+        n_records: parseInt(faker.random.numeric(5)),
+        n_included: parseInt(faker.random.numeric(2)),
+        n_excluded: parseInt(faker.random.numeric(3)),
+        n_unjudged: parseInt(faker.random.numeric(3)),
+      }
+    }
+    // add to database
+    this.db.projects.push(np);
+    return of(np);
+  }
+
   get_projects(): Observable<Array<Project>> {
-    return of(EXAMPLE_PROJECTS);
+    return of(this.db.projects);
   }
 
   get_criteria(project_uid: string): Observable<CohortDefinition> {

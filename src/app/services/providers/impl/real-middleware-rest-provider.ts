@@ -34,23 +34,65 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     }
 
     public _handle_error(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {
+        console.error('Error occurred', error);
+
         if (error.status === 401) {
           // A client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', error.error);
-          
-          throwError(() => new Error('401 happened;'));
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong.
-          console.error(
-            `Backend returned code ${error.status}, body was: `, error.error);
-        }
+          throwError(() => new Error('Username or password is not correct.'));
+
+        } else if (error.status === 0) {
+          return throwError(()=>new Error('HTTP Failure. The middleware server is not unavailable or network issue. Please try later or contact the system administrator.'));
+
+        } 
         // Return an observable with a user-facing error message.
-        return throwError(() => new Error('Something bad happened;'));
+        return throwError(() => new Error('Error ['+error.status+'] happened. ' + error.message));
     }
 
     public get_username(): string {
         throw new Error("Method not implemented.");
+    }
+
+
+    public create_project(name: string): Observable<Project> {
+        // create the URL
+        let url = this.base_url + '/_projects/create';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set('name', name);
+        // set the request body
+        const body = {
+            name: name
+        };
+        // set the headers
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.put(url, 
+            body,
+            { "params": params, 'headers': headers })
+            .pipe(
+                catchError(this._handle_error),
+                map(rsp => {
+                let r = rsp as any;
+                let p = {
+                    uid: r.uid,
+                    short_title: r.name,
+                    name: r.name + ' | ' + r.name,
+                    description: r.name,
+                    date_updated: new Date(),
+                    stat: {
+                        n_cohort: -1,
+                        n_records: -1,
+                        n_included: -1,
+                        n_excluded: -1,
+                        n_unjudged: -1
+                    }
+                };
+
+                console.log('* created project', p);
+                return p;
+        }));
     }
 
     public get_projects(): Observable<Project[]> {

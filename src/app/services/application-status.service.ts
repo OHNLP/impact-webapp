@@ -22,6 +22,7 @@ export class ApplicationStatusService {
   
   // for plummer
   // uw means the user is watching XXX
+  public uwProjects: Project[] | undefined;
   public uwProject: Project | undefined;
   public uwJobSelected: JobInfo | undefined;
   public uwJobs: JobInfo[] | undefined;
@@ -70,6 +71,29 @@ export class ApplicationStatusService {
           this.uwJobSelected = this.uwJobs[0];
         } else {
           this.uwJobSelected = undefined;
+        }
+      });
+    }
+  }
+
+  public showProjects(): void {
+    this.middleware.rest.get_projects().subscribe(rs => {
+      console.log("* loaded " + rs.length + ' projects');
+      this.uwProjects = rs;
+    });
+  }
+
+  public createProject(): void {
+    var ret = window.prompt('Project Name');
+    var _this = this;
+    if (ret) {
+      this.middleware.rest.create_project(ret).subscribe({
+        next: function(p) {
+          // update the list
+          _this.showProjects();
+        },
+        error: function(err) {
+          alert(err);
         }
       });
     }
@@ -223,11 +247,17 @@ export class ApplicationStatusService {
     );
 
     // check
-    this.middleware.rest.get_projects().subscribe(projects=>{
-      // ok, login done, jump to project list
-      console.log('OK')
-      // update view
-      this.activeView = View.PROJECT_LIST;
+    var _this = this;
+    this.middleware.rest.get_projects().subscribe({
+      next(rsp) {
+          // ok, login done, jump to project list
+          console.log('* Login OK');
+          // update view
+          _this.activeView = View.PROJECT_LIST;
+      },
+      error(err) {
+        alert(err);
+      }
     });
   }
 
