@@ -35,11 +35,17 @@ export abstract class MiddlewareRestProvider {
     name: string
   ): Observable<Project>
 
-  /* ===== Cohort Related Methods ====== */
+  /* ===== Criteria Related Methods ====== */
   public abstract get_criteria(
     project_uid: string
   ): Observable<CohortDefinition>;
 
+  public abstract update_criteria(
+    project_uid: string,
+    criteria: CohortDefinition
+  ): Observable<boolean>;
+
+  /* ===== Cohort Related Methods ====== */
   public abstract get_patients(
     project_uid: string
   ): Observable<Array<PatInfo>>;

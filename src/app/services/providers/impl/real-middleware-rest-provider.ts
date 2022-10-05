@@ -17,6 +17,7 @@ import * as dayjs from "dayjs"
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+
     // need to update this when init
     public base_url: string = '';
 
@@ -276,6 +277,27 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
                 let criteria = rsp as CohortDefinition;
                 console.log('* get_criteria', criteria);
                 return criteria;
+        }));
+    }
+
+    public update_criteria(project_uid: string, criteria: CohortDefinition): Observable<boolean> {
+        // create the URL
+        let url = this.base_url + '/_projects/criterion';
+
+        // set the parameters
+        const params = new HttpParams()
+            .set("project_uid", project_uid);
+
+        const body = criteria;
+
+        const headers = this._get_headers();
+
+        // send request and parse the return
+        return this.http.post(url, body, { "params": params, 'headers': headers })
+            .pipe(map(rsp => {
+                let r = rsp as boolean;
+                console.log('* update_criteria', r);
+                return r;
         }));
     }
    

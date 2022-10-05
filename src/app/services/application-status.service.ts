@@ -152,6 +152,15 @@ export class ApplicationStatusService {
     });
   }
 
+  public saveCriteria(): void {
+    this.middleware.rest.update_criteria(
+      this.uwProject!.uid,
+      this.uwCriteria!
+    ).subscribe(rsp => {
+      console.log('* saved current criteria', rsp);
+    })
+  }
+
   public setDecision(judgement: CohortInclusion): void {
     this.middleware.rest.update_patient_decision(
       this.uwJobSelected!.job_uid,

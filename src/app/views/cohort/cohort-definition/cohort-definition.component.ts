@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTree, MatTreeNestedDataSource} from '@angular/material/tree';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {
@@ -31,9 +31,11 @@ export const base_empty_criteria = [
   templateUrl: './cohort-definition.component.html',
   styleUrls: ['./cohort-definition.component.css']
 })
-export class CohortDefinitionComponent {
+export class CohortDefinitionComponent implements OnInit {
   /** Reference to the Tree itself */
   @ViewChild('tree') tree!: MatTree<any>;
+
+  hasChanged: boolean = false;
 
   /** The TreeControl controls the expand/collapse state of tree nodes.  */
   treeControl: NestedTreeControl<CohortDefinition, CohortDefinition>;
@@ -61,22 +63,27 @@ export class CohortDefinitionComponent {
     this.editorOptions = new JsonEditorOptions()
     // set all allowed modes
     this.editorOptions.modes = ['code', 'text', 'tree', 'view']; 
+    
     // update the tree view?
     this.treeControl = new NestedTreeControl<CohortDefinition>(node => node.children);
     this.dataSource = new MatTreeNestedDataSource<CohortDefinition>();
+  }
 
-    if (appStatus.uwProject) {
+  ngOnInit(): void {
+
+    if (this.appStatus.uwProject) {
       // this.unmodifiedTree = 
       // middleware.rest.get_criteria(appStatus.uwProject?.uid).subscribe(
       //   criteria => this.unmodifiedTree = criteria
       // );
       // this.workingTree = 
-      middleware.rest.get_criteria(appStatus.uwProject?.uid).subscribe(
+      this.middleware.rest.get_criteria(this.appStatus.uwProject?.uid).subscribe(
         criteria => {
+          this.appStatus.uwCriteria = criteria;
           this.workingTree = criteria;
           this.dataSource.data = [this.workingTree];
-          this.treeControl.dataNodes = this.dataSource.data
-          this.treeControl.expandAll()
+          this.treeControl.dataNodes = this.dataSource.data;
+          this.treeControl.expandAll();
         }
       );
     } else {
@@ -116,10 +123,21 @@ export class CohortDefinitionComponent {
 
   toggleEditor(): void {
     this.appStatus.uwCriteriaUseEditorMode = !this.appStatus.uwCriteriaUseEditorMode;
+
+    // this.editor!.data = this.appStatus.uwCriteria!;
   }
 
-  onChangeJSONEditor(event:any): void {
-    // this.appStatus.uwCriteria = this.editor.get() as unknown as CohortDefinition;
+  onClickSaveChanges(): void {
+    let obj = this.editor!.get() as unknown as CohortDefinition;
+    console.log('* changed JSON', obj);
+    this.appStatus.uwCriteria = obj;
+    this.appStatus.saveCriteria();
+    // reset the status
+    this.hasChanged = false;
+  }
+
+  onChangeJSONEditor(event: Event): void {
+    this.hasChanged = true;
   }
 
   resetTreeEmpty(): void {

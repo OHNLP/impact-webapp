@@ -1,8 +1,11 @@
 <div class="menu-bar-box">
-  <button mat-raised-button
-    class="mr-2">
-    <mat-icon>save</mat-icon>
-    Save Changes
+  <button *ngIf="hasChanged"
+    mat-raised-button
+    (click)="onClickSaveChanges()"
+    class="mr-2"
+    style="color:red;">
+      <mat-icon>save</mat-icon>
+      Save Changes
   </button>
 
   <button mat-raised-button

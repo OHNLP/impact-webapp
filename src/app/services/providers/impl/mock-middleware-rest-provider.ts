@@ -15,6 +15,7 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+
   public cancel_job(job_uid: string): Observable<boolean> {
     return of(true);
   }
@@ -27,7 +28,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     jobs: this.cps(EXAMPLE_JOBS),
     patients: [],
     determinations: [],
-    decision: new Map<string, CohortInclusion>()
+    decision: new Map<string, CohortInclusion>(),
+    criteria: this.cps(EXAMPLE_CRITERIA_GERD)
   }
 
   public get_jobs(project_uid: string): Observable<JobInfo[]> {
@@ -113,7 +115,15 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   get_criteria(project_uid: string): Observable<CohortDefinition> {
-    return of(EXAMPLE_CRITERIA_GERD);
+    return of(this.db.criteria);
+  }
+
+  update_criteria(
+    project_uid: string, 
+    criteria: CohortDefinition
+  ): Observable<boolean> {
+    this.db.criteria = criteria;
+    return of(true);
   }
 
   update_determination(
