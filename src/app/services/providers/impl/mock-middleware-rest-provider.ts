@@ -67,7 +67,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
     for (let i = 0; i < n; i++) {
       jobs.push({
-        uid: uuid(),
+        job_uid: uuid(),
         project_uid: project_uid,
         start_date: faker.date.between('2010-01-01', '2022-12-31'),
         status: this.randomEnumValue(JobInfoStatus)

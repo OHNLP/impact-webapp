@@ -1,5 +1,5 @@
 export interface JobInfo {
-    uid: string,
+    job_uid: string,
     project_uid: string,
     start_date: Date,
     status: JobInfoStatus

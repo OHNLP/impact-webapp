@@ -107,7 +107,7 @@ export class ApplicationStatusService {
       this.uwProject!.uid
     ).subscribe(rsp=>{
       console.log('* created job', rsp);
-      window.alert('Created Job [' + rsp.uid + ']');
+      window.alert('Created Job [' + rsp.job_uid + ']');
     })
   }
 
@@ -137,7 +137,7 @@ export class ApplicationStatusService {
 
   public setDecision(judgement: CohortInclusion): void {
     this.middleware.rest.update_patient_decision(
-      this.uwJobSelected!.uid,
+      this.uwJobSelected!.job_uid,
       this.uwPat!.pat_uid,
       judgement
     ).subscribe(rsp => {
@@ -150,7 +150,7 @@ export class ApplicationStatusService {
     dtmn: Determination
   ): void {
     this.middleware.rest.update_determination(
-      this.uwJobSelected!.uid,
+      this.uwJobSelected!.job_uid,
       criteria.nodeUID,
       this.uwPat!.pat_uid,
       dtmn

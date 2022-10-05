@@ -22,7 +22,7 @@
     <td mat-cell 
       *matCellDef="let job"
       class="clickable">
-      <mat-icon *ngIf="job.uid == appStatus.uwJobSelected?.uid">
+      <mat-icon *ngIf="job.job_uid == appStatus.uwJobSelected?.job_uid">
         arrow_circle_right
       </mat-icon>
       &nbsp;

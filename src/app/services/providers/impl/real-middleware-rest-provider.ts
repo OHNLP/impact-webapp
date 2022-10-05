@@ -10,6 +10,7 @@ import { catchError, map, Observable, ObservableInput, of, throwError } from 'rx
 import { JobInfo } from "src/app/models/job-info";
 import { environment } from "src/environments/environment";
 import { faker } from "@faker-js/faker";
+import * as dayjs from "dayjs"
 
 @Injectable({
     providedIn: 'root'
@@ -203,7 +204,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
             console.log('* /_jobs/create', rsp);
             return {
                 project_uid: r.projectUID,
-                uid: r.jobUID,
+                job_uid: r.jobUID,
                 start_date: r.startDate,
                 status: r.status,
             };
@@ -222,7 +223,17 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
         // send request and parse the return
         return this.http.get(url, { "params": params, "headers":headers }).pipe(map(rsp => {
-            let jobs = rsp as JobInfo[];
+            let rs = rsp as any[];
+            let jobs: JobInfo[] = [];
+            for (let i = 0; i < rs.length; i++) {
+                const r = rs[i];
+                jobs.push({
+                    job_uid: r.jobUID,
+                    project_uid: r.projectUID,
+                    start_date: dayjs(r.startDate).toDate(),
+                    status: r.status
+                });
+            }
             console.log('* get_jobs', jobs);
             return jobs;
         }));
@@ -428,3 +439,4 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     }
 
 }
+

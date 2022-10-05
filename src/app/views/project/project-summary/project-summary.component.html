@@ -94,7 +94,7 @@
             <tbody>
               <tr *ngFor="let job of getLatestNJobs(appStatus.uwJobs)">
                 <td>
-                  <mat-icon *ngIf="job.uid == appStatus.uwJobSelected?.uid">
+                  <mat-icon *ngIf="job.job_uid == appStatus.uwJobSelected?.job_uid">
                     arrow_circle_right
                   </mat-icon>
                 </td>

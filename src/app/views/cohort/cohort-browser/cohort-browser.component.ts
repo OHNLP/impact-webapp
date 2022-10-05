@@ -46,7 +46,7 @@ export class CohortBrowserComponent implements OnInit {
 
       // ok, now try to load patients
       this.middleware.rest.get_patients(
-        this.appStatus.uwJobSelected!.uid
+        this.appStatus.uwJobSelected!.job_uid
       ).subscribe(ps => {
         // set the local cohort first
         this.appStatus.uwCohort = ps;
@@ -54,7 +54,7 @@ export class CohortBrowserComponent implements OnInit {
         // send next request for decisions
         let pat_uids = ps.map(p=>p.pat_uid);
         this.middleware.rest.get_patient_decisions(
-          this.appStatus.uwJobSelected!.uid,
+          this.appStatus.uwJobSelected!.job_uid,
           pat_uids
         ).subscribe(decisions => {
           let dd = decisions as Map<string, CohortInclusion>;
