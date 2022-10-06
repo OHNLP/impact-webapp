@@ -222,6 +222,7 @@ export class ApplicationStatusService {
       this.uwProject!.uid,
       this.uwCriteria!
     ).subscribe(rsp => {
+      this.toastr.success("Saved the criteria updates.");
       console.log('* saved current criteria', rsp);
     })
   }

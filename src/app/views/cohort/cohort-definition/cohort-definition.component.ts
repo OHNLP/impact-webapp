@@ -91,6 +91,9 @@ export class CohortDefinitionComponent implements OnInit {
     }
   }
 
+  /////////////////////////////////////////////////////////
+  // Tree view related functions
+  /////////////////////////////////////////////////////////
 
   /** Get the children for the node. */
   getChildren(node: CohortDefinition): CohortDefinition[] | null | undefined {
@@ -120,6 +123,10 @@ export class CohortDefinitionComponent implements OnInit {
       return node.title;
     }
   }
+
+  /////////////////////////////////////////////////////////
+  // Editor related functions
+  /////////////////////////////////////////////////////////
 
   toggleEditor(): void {
     this.appStatus.uwCriteriaUseEditorMode = !this.appStatus.uwCriteriaUseEditorMode;
