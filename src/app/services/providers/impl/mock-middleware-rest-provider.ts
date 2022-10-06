@@ -16,9 +16,6 @@ import { v4 as uuid } from 'uuid';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
-  public cancel_job(job_uid: string): Observable<boolean> {
-    return of(true);
-  }
   // copy an data obj
   public cps(obj: any): any { return JSON.parse(JSON.stringify(obj)); }
 
@@ -32,61 +29,23 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     criteria: this.cps(EXAMPLE_CRITERIA_GERD)
   }
 
-  public get_jobs(project_uid: string): Observable<JobInfo[]> {
-    return of(this.db.jobs);
-  }
-
-  public submit_job(project_uid: string): Observable<JobInfo> {
-    let job = {
-      job_uid: uuid(),
-      project_uid: project_uid,
-      start_date: new Date(),
-      status: JobInfoStatus.QUEUED
-    };
-    this.db.jobs.push(job);
-    return of(job);
-  }
-
   public randomEnumValue(enumeration:any): any {
     const values = Object.keys(enumeration);
     const enumKey = values[Math.floor(Math.random() * values.length)];
     return enumeration[enumKey];
   }
 
-  public update_patient_decision(
-    job_uid: string, 
-    patient_uid: string, 
-    judgement: CohortInclusion
-  ): Observable<boolean> {
-    this.db.decision.set(patient_uid, judgement);
-    return of(true);
-  }
+  /////////////////////////////////////////////////////////
+  // User related functions
+  /////////////////////////////////////////////////////////
 
-  public get_patient_decisions(
-    job_uid: string, 
-    patient_uids: string[]
-  ): Observable<Map<string, CohortInclusion>> {
-    if (this.db.decision.size == 0) {
-      let decision = new Map<string, CohortInclusion>;
-      for (let i = 0; i < patient_uids.length; i++) {
-        let patient_uid = patient_uids[i];
-        let r = Math.random();
-        if (r < 0.6) {
-          decision.set(patient_uid, CohortInclusion.UNJUDGED);
-        } else if (r < 0.9) {
-          decision.set(patient_uid, CohortInclusion.EXCLUDE);
-        } else {
-          decision.set(patient_uid, CohortInclusion.INCLUDE);
-        }
-      }
-      this.db.decision = decision
-    }
-    return of(this.db.decision as Map<string, CohortInclusion>);
-  }
-
-  get_username(): string {
+  public get_username(): string {
     return "Mock User";
   }
+
+  /////////////////////////////////////////////////////////
+  // Project related functions
+  /////////////////////////////////////////////////////////
 
   public create_project(name: string): Observable<Project> {
     let np = {
@@ -110,9 +69,36 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(np);
   }
 
-  get_projects(): Observable<Array<Project>> {
+  public get_projects(): Observable<Array<Project>> {
     return of(this.db.projects);
   }
+
+  /////////////////////////////////////////////////////////
+  // Job related functions
+  /////////////////////////////////////////////////////////
+
+  public cancel_job(job_uid: string): Observable<boolean> {
+    return of(true);
+  }
+
+  public get_jobs(project_uid: string): Observable<JobInfo[]> {
+    return of(this.db.jobs);
+  }
+
+  public submit_job(project_uid: string): Observable<JobInfo> {
+    let job = {
+      job_uid: uuid(),
+      project_uid: project_uid,
+      start_date: new Date(),
+      status: JobInfoStatus.QUEUED
+    };
+    this.db.jobs.push(job);
+    return of(job);
+  }
+
+  /////////////////////////////////////////////////////////
+  // Criteria related functions
+  /////////////////////////////////////////////////////////
 
   get_criteria(project_uid: string): Observable<CohortDefinition> {
     return of(this.db.criteria);
@@ -126,13 +112,9 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(true);
   }
 
-  update_determination(
-    job_uid: string,
-    criteria_uid: string,
-    patient_uid: string,
-    dtmn: Determination): Observable<Determination> {
-    return of(dtmn); // TODO
-  }
+  /////////////////////////////////////////////////////////
+  // Patient related functions
+  /////////////////////////////////////////////////////////
 
   get_patients(project_uid: string): Observable<Array<PatInfo>> {
     if (this.db.patients.length == 0) {
@@ -149,11 +131,11 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         ps.push({
           pat_uid: uuid(),
           name: faker.name.fullName(),
-          inclusion: CohortInclusion.UNJUDGED,
+          inclusion: this.get_random_decision() as CohortInclusion,
 
           labels: labels,
           stat: {
-            n_records: parseInt(faker.random.numeric(3)),
+            n_records: parseInt(faker.random.numeric(2)),
             n_criteria_yes: parseInt(faker.random.numeric()),
             n_criteria_no: parseInt(faker.random.numeric()),
             n_criteria_na: parseInt(faker.random.numeric()),
@@ -165,6 +147,47 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       this.db.patients = ps;
     }
     return of(this.db.patients);
+  }
+
+  /////////////////////////////////////////////////////////
+  // Decision related functions
+  /////////////////////////////////////////////////////////
+
+  public update_patient_decision(
+    job_uid: string, 
+    patient_uid: string, 
+    judgement: CohortInclusion
+  ): Observable<boolean> {
+    this.db.decision.set(patient_uid, judgement);
+    return of(true);
+  }
+
+  public get_patient_decisions(
+    job_uid: string, 
+    patient_uids: string[]
+  ): Observable<Map<string, CohortInclusion>> {
+    if (this.db.decision.size == 0) {
+      let decision = new Map<string, CohortInclusion>;
+      for (let i = 0; i < patient_uids.length; i++) {
+        let patient_uid = patient_uids[i];
+        let pat_decision = this.get_random_decision();
+        decision.set(patient_uid, pat_decision as CohortInclusion);
+      }
+      this.db.decision = decision
+    }
+    return of(this.db.decision as Map<string, CohortInclusion>);
+  }
+
+  /////////////////////////////////////////////////////////
+  // Determination related functions
+  /////////////////////////////////////////////////////////
+
+  update_determination(
+    job_uid: string,
+    criteria_uid: string,
+    patient_uid: string,
+    dtmn: Determination): Observable<Determination> {
+    return of(dtmn); // TODO
   }
 
   get_determinations(
@@ -210,6 +233,10 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(this.db.determinations);
   }
 
+  /////////////////////////////////////////////////////////
+  // Fact related functions
+  /////////////////////////////////////////////////////////
+
   get_facts(
     uid: string, 
     patient_uid: string,
@@ -251,11 +278,21 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(facts);
   }
 
-
   public get_fact_detail(evidence_id: string): Observable<Object> {
     return of({
       "id": evidence_id,
       "meta": {}
     })
+  }
+
+  public get_random_decision(): string {
+    let r = Math.random();
+    if (r < 0.7) {
+      return CohortInclusion.UNJUDGED;
+    } else if (r < 0.95) {
+      return CohortInclusion.EXCLUDE;
+    } else {
+      return CohortInclusion.INCLUDE;
+    }
   }
 }

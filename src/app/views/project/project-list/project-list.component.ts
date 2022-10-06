@@ -36,6 +36,17 @@ export class ProjectListComponent implements OnInit {
     // set the working project
     this.appStatus.setProject(project);
 
+    // // load jobs
+    // this.appStatus.showJobs();
+
+    // // load criteria
+    // this.appStatus.showCriteria();
+
+    // // load Cohort for analysis
+    // this.appStatus.showCohort();
+
+    this.appStatus.loadDataByProject();
+
     // then go to dashboard
     this.appStatus.setView(View.PROJECT_DASHBOARD);
   }

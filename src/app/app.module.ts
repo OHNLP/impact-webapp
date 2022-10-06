@@ -45,6 +45,7 @@ import { ProjectMakerComponent } from './views/project/project-maker/project-mak
 import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { ProjectJobListComponent } from './views/project/project-job-list/project-job-list.component';
 import { BALoginComponent } from './views/user/balogin/balogin.component' 
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { BALoginComponent } from './views/user/balogin/balogin.component'
     MatSelectModule,
     MatInputModule,
     HttpClientModule,
-    NgJsonEditorModule
+    NgJsonEditorModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

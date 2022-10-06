@@ -13,6 +13,8 @@ import { EXAMPLE_PATIENTS } from '../samples/sample-patient';
 import { EXAMPLE_CRITERIA_GERD } from '../samples/sample-criteria';
 import { JobInfo } from '../models/job-info';
 import { EXAMPLE_JOBS } from '../samples/sample-job';
+import { ToastrService } from 'ngx-toastr';
+import { concat, concatMap, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +46,8 @@ export class ApplicationStatusService {
 
   constructor(
     private middleware: MiddlewareAdapterService,
-    @Inject( LOCALE_ID )public locale_id: string
+    @Inject( LOCALE_ID )public locale_id: string,
+    private toastr: ToastrService
   ) {
   }
 
@@ -61,8 +64,6 @@ export class ApplicationStatusService {
     } else {
       this.uwProject = prj;
       this.activeView = View.PROJECT_DASHBOARD;
-      // then, load jobs
-      this.showJobs();
     }
   }
 
@@ -89,6 +90,35 @@ export class ApplicationStatusService {
     }
   }
 
+  public loadDataByProject(): void {
+    if (!this.uwProject) {
+      return;
+    }
+
+    of(this.uwProject.uid).pipe(
+      // first, get all jobs
+      concatMap(project_uid => {
+        return this.middleware.rest.get_jobs(project_uid)
+      }),
+      // second, get the criteria for this project
+      concatMap(jobs => {
+        console.log('* loaded jobs', jobs);
+        this._showJobs(jobs);
+        return this.middleware.rest.get_criteria(this.uwProject!.uid)
+      }),
+      // third, get all the patients based on the last job
+      concatMap(criteria => {
+        console.log('* loaded criteria', criteria);
+        this.uwCriteria = criteria;
+        return this.middleware.rest.get_patients(this.uwProject!.uid)
+      })
+    ).subscribe(patients=>{
+      this.uwCohort = patients;
+      console.log('* loaded last one', patients);
+    });
+
+  }
+
   /////////////////////////////////////////////////////////
   // Job related functions
   /////////////////////////////////////////////////////////
@@ -97,7 +127,9 @@ export class ApplicationStatusService {
       this.uwProject!.uid
     ).subscribe(rsp=>{
       console.log('* created job', rsp);
-      window.alert('Created Job [' + rsp.job_uid + ']');
+      this.toastr.success(
+        "A new job [" + rsp.job_uid + '] is submitted!'
+      );
     })
   }
 
@@ -116,23 +148,56 @@ export class ApplicationStatusService {
 
   public showJobs(): void {
     this.middleware.rest.get_jobs(this.uwProject!.uid).subscribe(rs => {
-      // load jobs
-      this.uwJobs = rs;
-
-      // set the uw job to the last completed
-      if (rs.length > 0) {
-        this.uwJobSelected = this.uwJobs[0];
-      } else {
-        this.uwJobSelected = undefined;
-      }
+      this._showJobs(rs);
     });
+  }
+
+  public _showJobs(jobs: JobInfo[]): void {
+    // load jobs
+    this.uwJobs = jobs;
+
+    // set the uw job to the last completed
+    if (jobs.length > 0) {
+      this.uwJobSelected = this.uwJobs[0];
+    } else {
+      this.uwJobSelected = undefined;
+    }
   }
 
   /////////////////////////////////////////////////////////
   // Cohort related functions
   /////////////////////////////////////////////////////////
   public showCohort(): void {
-    
+    if (this.uwProject) {
+      if (this.uwJobSelected === undefined) {
+        return;
+      }
+
+      // ok, now try to load patients
+      this.middleware.rest.get_patients(
+        this.uwJobSelected!.job_uid
+      ).subscribe(ps => {
+        // set the local cohort first
+        this.uwCohort = ps;
+      })
+
+    }
+  }
+
+  public showDecisions(): void {
+    let pat_uids = this.uwCohort!.map(p=>p.pat_uid);
+    this.middleware.rest.get_patient_decisions(
+      this.uwJobSelected!.job_uid,
+      pat_uids
+    ).subscribe(decisions => {
+      let dd = decisions as Map<string, CohortInclusion>;
+      // update the information of decisions
+      for (let i = 0; i < this.uwCohort!.length; i++) {
+        const pat_uid = this.uwCohort![i].pat_uid;
+        this.uwCohort![i].inclusion = 
+          dd.get(pat_uid) || CohortInclusion.UNJUDGED;
+      }
+    })
   }
 
   /////////////////////////////////////////////////////////
@@ -161,6 +226,28 @@ export class ApplicationStatusService {
     })
   }
 
+  public getNumberInclusionCriteria(): number {
+    if (this.uwCriteria) {
+      if (this.uwCriteria.children) {
+        if (this.uwCriteria.children[0].children) {
+          return this.uwCriteria.children[0].children!.length;
+        }
+      }
+    }
+    return 0
+  }
+
+  public getNumberExclusionCriteria(): number {
+    if (this.uwCriteria) {
+      if (this.uwCriteria.children) {
+        if (this.uwCriteria.children[1].children) {
+          return this.uwCriteria.children[1].children!.length;
+        }
+      }
+    }
+    return 0
+  }
+
   public setDecision(judgement: CohortInclusion): void {
     this.middleware.rest.update_patient_decision(
       this.uwJobSelected!.job_uid,
@@ -168,6 +255,9 @@ export class ApplicationStatusService {
       judgement
     ).subscribe(rsp => {
       console.log('* set decision to ',judgement,' returns:', rsp);
+      this.toastr.success(
+        "The decision is saved."
+      );
     })
   }
 
@@ -182,6 +272,9 @@ export class ApplicationStatusService {
       dtmn
     ).subscribe(rsp => {
       console.log('* set dtmn returns:', rsp);
+      this.toastr.success(
+        "The determination is saved with comment."
+      );
     })
   }
 

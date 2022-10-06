@@ -54,7 +54,7 @@
   </ng-container>
 
   <ng-container matColumnDef="stat1">
-    <th mat-header-cell *matHeaderCellDef>Records</th>
+    <th mat-header-cell *matHeaderCellDef>Age</th>
     <td mat-cell *matCellDef="let pat">
       {{ pat.stat?.n_records }}
     </td>
@@ -67,7 +67,7 @@
         <span class="clr-d-yes">
           {{ pat.stat?.n_criteria_yes }} 
         </span>
-        / 10
+        / {{ appStatus.getNumberInclusionCriteria() }}
       </span>
     </td>
   </ng-container>
@@ -79,7 +79,7 @@
         <span class="clr-d-no">
           {{ pat.stat?.n_criteria_no }}
         </span>
-        / 10
+        / {{ appStatus.getNumberExclusionCriteria() }}
       </span>
     </td>
   </ng-container>

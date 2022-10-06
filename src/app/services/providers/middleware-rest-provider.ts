@@ -10,8 +10,6 @@ export abstract class MiddlewareRestProvider {
   /* ===== Global/User Information Methods ===== */
   public abstract get_username(): string
 
-  // public abstract create_project(): 
-
   /* ===== Job Management Methods ===== */
   public abstract submit_job(
     project_uid: string
@@ -50,7 +48,7 @@ export abstract class MiddlewareRestProvider {
     project_uid: string
   ): Observable<Array<PatInfo>>;
 
-  /* ===== Individual Patient Determination Related Methods =====*/
+  /* ===== Individual Patient Decision Related Methods =====*/
   public abstract get_patient_decisions(
     job_uid: string,
     patient_uids: string[]
@@ -62,6 +60,7 @@ export abstract class MiddlewareRestProvider {
     judgement: CohortInclusion
   ): Observable<boolean>;
 
+  /* ===== Individual Patient Determination Related Methods =====*/
   public abstract get_determinations(
     uid: string, 
     patient_uid: string,
@@ -75,6 +74,7 @@ export abstract class MiddlewareRestProvider {
     dtmn: Determination
   ): Observable<Determination>;
 
+  /* ===== Fact Related Methods =====*/
   public abstract get_facts(
     uid: string, 
     patient_uid: string,

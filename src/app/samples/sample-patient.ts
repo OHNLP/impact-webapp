@@ -13,7 +13,7 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
         'ECOG PS2'
     ],
     stat: {
-        n_records: 100,
+        n_records: 23,
         n_criteria_yes: 4,
         n_criteria_no: 1,
         n_criteria_na: 5,
@@ -32,7 +32,7 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
         'ECOG PS1'
     ],
     stat: {
-        n_records: 105,
+        n_records: 34,
         n_criteria_yes: 4,
         n_criteria_no: 1,
         n_criteria_na: 5,
@@ -50,7 +50,7 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
         'ECOG PS1'
     ],
     stat: {
-        n_records: 132,
+        n_records: 45,
         n_criteria_yes: 4,
         n_criteria_no: 1,
         n_criteria_na: 5,

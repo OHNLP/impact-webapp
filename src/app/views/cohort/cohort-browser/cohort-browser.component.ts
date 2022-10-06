@@ -44,35 +44,13 @@ export class CohortBrowserComponent implements OnInit {
         return;
       }
 
-      // ok, now try to load patients
-      this.middleware.rest.get_patients(
-        this.appStatus.uwJobSelected!.job_uid
-      ).subscribe(ps => {
-        // set the local cohort first
-        this.appStatus.uwCohort = ps;
-
-        // send next request for decisions
-        let pat_uids = ps.map(p=>p.pat_uid);
-        this.middleware.rest.get_patient_decisions(
-          this.appStatus.uwJobSelected!.job_uid,
-          pat_uids
-        ).subscribe(decisions => {
-          let dd = decisions as Map<string, CohortInclusion>;
-          // update the information of decisions
-          for (let i = 0; i < this.appStatus.uwCohort!.length; i++) {
-            const pat_uid = this.appStatus.uwCohort![i].pat_uid;
-            this.appStatus.uwCohort![i].inclusion = 
-              dd.get(pat_uid) || CohortInclusion.UNJUDGED;
-          }
-
-          // finally, update data source
-          this.dataSource.data = this.appStatus.uwCohort!
-        })
-      })
-
+      // finally, update data source with current co
+      if (this.appStatus.uwCohort) {
+        this.dataSource.data = this.appStatus.uwCohort
+      } else {
+        this.dataSource.data = [];
+      }
     }
-
-    this.appStatus.showCohort();
   }
 
   applyFilter(event: Event): void {

@@ -13,473 +13,505 @@ import { faker } from "@faker-js/faker";
 import * as dayjs from "dayjs"
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
-    // need to update this when init
-    public base_url: string = '';
+  // need to update this when init
+  public base_url: string = '';
 
-    constructor(
-        private http: HttpClient,
-    ) {
-        super();
-        this.base_url = environment.apiURL;
+  constructor(
+    private http: HttpClient,
+  ) {
+    super();
+    this.base_url = environment.apiURL;
+  }
+
+  public _get_headers(): HttpHeaders {
+    let auth = localStorage.getItem('header_user_credentials') || '';
+    return new HttpHeaders()
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Authorization', auth);
+  }
+
+  public _handle_error(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {
+    console.error('Error occurred', error);
+
+    if (error.status === 401) {
+      // A client-side or network error occurred. Handle it accordingly.
+      throwError(() => new Error('Username or password is not correct.'));
+
+    } else if (error.status === 0) {
+      return throwError(() => new Error('HTTP Failure. The middleware server is not unavailable or network issue. Please try later or contact the system administrator.'));
+
     }
-
-    public _get_headers(): HttpHeaders {
-        let auth = localStorage.getItem('header_user_credentials') || '';
-        return new HttpHeaders()
-            .set('Access-Control-Allow-Origin', '*')
-            .set('Authorization', auth);
-    }
-
-    public _handle_error(error: HttpErrorResponse, caught: Observable<Object>): ObservableInput<any> {
-        console.error('Error occurred', error);
-
-        if (error.status === 401) {
-          // A client-side or network error occurred. Handle it accordingly.
-          throwError(() => new Error('Username or password is not correct.'));
-
-        } else if (error.status === 0) {
-          return throwError(()=>new Error('HTTP Failure. The middleware server is not unavailable or network issue. Please try later or contact the system administrator.'));
-
-        } 
-        // Return an observable with a user-facing error message.
-        return throwError(() => new Error('Error ['+error.status+'] happened. ' + error.message));
-    }
-
-    public get_username(): string {
-        throw new Error("Method not implemented.");
-    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => new Error('Error [' + error.status + '] happened. ' + error.message));
+  }
 
 
-    public create_project(name: string): Observable<Project> {
-        // create the URL
-        let url = this.base_url + '/_projects/create';
+  /////////////////////////////////////////////////////////
+  // User related functions
+  /////////////////////////////////////////////////////////
 
-        // set the parameters
-        const params = new HttpParams()
-            .set('name', name);
-        // set the request body
-        const body = {
-            name: name
-        };
-        // set the headers
-        const headers = this._get_headers();
+  public get_username(): string {
+    throw new Error("Method not implemented.");
+  }
 
-        // send request and parse the return
-        return this.http.put(url, 
-            body,
-            { "params": params, 'headers': headers })
-            .pipe(
-                catchError(this._handle_error),
-                map(rsp => {
-                let r = rsp as any;
-                let p = {
-                    uid: r.uid,
-                    short_title: r.name,
-                    name: r.name + ' | ' + r.name,
-                    description: r.name,
-                    date_updated: new Date(),
-                    stat: {
-                        n_cohort: -1,
-                        n_records: -1,
-                        n_included: -1,
-                        n_excluded: -1,
-                        n_unjudged: -1
-                    }
-                };
+  /////////////////////////////////////////////////////////
+  // Project related functions
+  /////////////////////////////////////////////////////////
 
-                console.log('* created project', p);
-                return p;
+  public create_project(name: string): Observable<Project> {
+    // create the URL
+    let url = this.base_url + '/_projects/create';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set('name', name);
+    // set the request body
+    const body = {
+      name: name
+    };
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.put(url,
+      body,
+      { "params": params, 'headers': headers })
+      .pipe(
+        catchError(this._handle_error),
+        map(rsp => {
+          let r = rsp as any;
+          let p = {
+            uid: r.uid,
+            short_title: r.name,
+            name: r.name + ' | ' + r.name,
+            description: r.name,
+            date_updated: new Date(),
+            stat: {
+              n_cohort: -1,
+              n_records: -1,
+              n_included: -1,
+              n_excluded: -1,
+              n_unjudged: -1
+            }
+          };
+
+          console.log('* created project', p);
+          return p;
         }));
-    }
+  }
 
-    public get_projects(): Observable<Project[]> {
-        // create the URL
-        let url = this.base_url + '/_projects/';
+  public get_projects(): Observable<Project[]> {
+    // create the URL
+    let url = this.base_url + '/_projects/';
 
-        // set the parameters
-        const params = new HttpParams();
-        // set the headers
-        const headers = this._get_headers();
+    // set the parameters
+    const params = new HttpParams();
+    // set the headers
+    const headers = this._get_headers();
 
-        // send request and parse the return
-        return this.http.get(url, { "params": params, 'headers': headers })
-            .pipe(
-                catchError(this._handle_error),
-                map(rsp => {
-                let rs = rsp as Array<any>;
-                let prjs = [] as Project[];
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers })
+      .pipe(
+        catchError(this._handle_error),
+        map(rsp => {
+          let rs = rsp as Array<any>;
+          let prjs = [] as Project[];
 
-                for (let i = 0; i < rs.length; i++) {
-                    const r = rs[i];
-                    let short_title = r.name.split(' ')[0];
-                    prjs.push({
-                        uid: r.uid,
-                        short_title: short_title,
-                        name: r.name + ' | ' + r.name,
-                        description: r.name,
-                        date_updated: new Date(),
-                        stat: {
-                            n_cohort: 3,
-                            n_records: 1,
-                            n_included: 1,
-                            n_excluded: 1,
-                            n_unjudged: 1
-                        }
-                    })
-                }
+          for (let i = 0; i < rs.length; i++) {
+            const r = rs[i];
+            let short_title = r.name.split(' ')[0];
+            prjs.push({
+              uid: r.uid,
+              short_title: short_title,
+              name: r.name + ' | ' + r.name,
+              description: r.name,
+              date_updated: new Date(),
+              stat: {
+                n_cohort: 3,
+                n_records: 1,
+                n_included: 1,
+                n_excluded: 1,
+                n_unjudged: 1
+              }
+            })
+          }
 
-                console.log('* get_projects', prjs);
-                return prjs;
+          console.log('* get_projects', prjs);
+          return prjs;
         }));
+  }
+
+  /////////////////////////////////////////////////////////
+  // Job related functions
+  /////////////////////////////////////////////////////////
+
+  public submit_job(project_uid: string): Observable<JobInfo> {
+    // create the URL
+    let url = this.base_url + '/_jobs/create';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set("project_uid", project_uid)
+
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.post(
+      url,
+      {},
+      { "params": params, "headers": headers }
+    ).pipe(map(rsp => {
+      let r = rsp as any;
+      console.log('* /_jobs/create', rsp);
+      return {
+        project_uid: r.projectUID,
+        job_uid: r.jobUID,
+        start_date: r.startDate,
+        status: r.status,
+      };
+    }));
+  }
+
+  public cancel_job(job_uid: string): Observable<boolean> {
+    // create the URL
+    let url = this.base_url + '/_jobs/cancel';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set("job_uid", job_uid)
+
+    const body = {
+      job_uid: job_uid
     }
+    // set the headers
+    const headers = this._get_headers();
 
-    public update_patient_decision(
-        job_uid: string, 
-        patient_uid: string, 
-        judgement: CohortInclusion
-    ): Observable<boolean> {
-        // create the URL
-        let url = this.base_url + '/_cohorts/relevance';
+    // send request and parse the return
+    return this.http.post(url, body, { "params": params, "headers": headers }).pipe(map(rsp => {
+      let r = eval("" + rsp);
+      return r;
+    }));
+  }
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("job_uid", job_uid)
-            .set("patient_uid", patient_uid)
-            .set("judgement", judgement);
+  public get_jobs(project_uid: string): Observable<JobInfo[]> {
+    // create the URL
+    let url = this.base_url + '/_jobs/project';
 
-        // set the headers
-        const headers = this._get_headers();
+    // set the parameters
+    const params = new HttpParams()
+      .set("project_uid", project_uid)
+    // set the headers
+    const headers = this._get_headers();
 
-        // send request and parse the return
-        return this.http.post(
-            url, 
-            {},
-            { "params":params, "headers":headers }
-        ).pipe(map(rsp => {
-            console.log('* /_cohorts/relevance = ' + rsp);
-            return true;
-        }));
-    }
+    // send request and parse the return
+    return this.http.get(url, { "params": params, "headers": headers }).pipe(map(rsp => {
+      let rs = rsp as any[];
+      let jobs: JobInfo[] = [];
+      for (let i = 0; i < rs.length; i++) {
+        const r = rs[i];
+        jobs.push({
+          job_uid: r.jobUID,
+          project_uid: r.projectUID,
+          start_date: dayjs(r.startDate).toDate(),
+          status: r.status
+        });
+      }
+      console.log('* get_jobs', jobs);
+      return jobs;
+    }));
+  }
 
-    public get_patient_decisions(job_uid: string, patient_uids: string[]): Observable<Map<string, CohortInclusion>> {
-        // create the URL
-        let url = this.base_url + '/_cohorts/relevance';
+  /////////////////////////////////////////////////////////
+  // Criteria related functions
+  /////////////////////////////////////////////////////////
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("job_uid", job_uid)
-            .appendAll({"patient_uid": patient_uids})
+  public get_criteria(project_uid: string): Observable<CohortDefinition> {
+    // create the URL
+    let url = this.base_url + '/_projects/criterion';
 
-        // set the headers
-        const headers = this._get_headers();
+    // set the parameters
+    const params = new HttpParams()
+      .set("project_uid", project_uid);
 
-        // send request and parse the return
-        return this.http.get(url, { "params":params, "headers":headers }).pipe(map(rsp => {
-            return rsp as Map<string, CohortInclusion>;
-        }));
-    }
+    const headers = this._get_headers();
 
-    public submit_job(project_uid: string): Observable<JobInfo> {
-        // create the URL
-        let url = this.base_url + '/_jobs/create';
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers })
+      .pipe(map(rsp => {
+        let criteria = rsp as CohortDefinition;
+        console.log('* get_criteria', criteria);
+        return criteria;
+      }));
+  }
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("project_uid", project_uid)
+  public update_criteria(project_uid: string, criteria: CohortDefinition): Observable<boolean> {
+    // create the URL
+    let url = this.base_url + '/_projects/criterion';
 
-        // set the headers
-        const headers = this._get_headers();
+    // set the parameters
+    const params = new HttpParams()
+      .set("project_uid", project_uid);
 
-        // send request and parse the return
-        return this.http.post(
-            url, 
-            {},
-            { "params":params, "headers":headers }
-        ).pipe(map(rsp => {
-            let r = rsp as any;
-            console.log('* /_jobs/create', rsp);
-            return {
-                project_uid: r.projectUID,
-                job_uid: r.jobUID,
-                start_date: r.startDate,
-                status: r.status,
-            };
-        }));
-    }
+    const body = criteria;
 
-    public cancel_job(job_uid: string): Observable<boolean> {
-        // create the URL
-        let url = this.base_url + '/_jobs/cancel';
+    const headers = this._get_headers();
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("job_uid", job_uid)
+    // send request and parse the return
+    return this.http.post(url, body, { "params": params, 'headers': headers })
+      .pipe(map(rsp => {
+        let r = rsp as boolean;
+        console.log('* update_criteria', r);
+        return r;
+      }));
+  }
 
-        const body = {
-            job_uid: job_uid
+  /////////////////////////////////////////////////////////
+  // Patient related functions
+  /////////////////////////////////////////////////////////
+
+  public get_patients(job_uid: string): Observable<PatInfo[]> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set("job_uid", job_uid);
+
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers })
+      .pipe(map(rsp => {
+        let rs = rsp as any[];
+        console.log('* get_patients', rs);
+
+        let pats = [] as PatInfo[];
+        for (let i = 0; i < rs.length; i++) {
+          const r = rs[i];
+          pats.push({
+            pat_uid: r['patUID'],
+            name: faker.name.fullName(),
+            inclusion: r['inclusion'],
+
+            // init others
+            labels: [],
+            stat: {
+              n_records: -1,
+              n_criteria_yes: -1,
+              n_criteria_no: -1,
+              n_criteria_na: -1,
+              n_criteria_unknown: -1,
+            }
+          })
         }
-        // set the headers
-        const headers = this._get_headers();
+        return pats;
+      }));
+  }
 
-        // send request and parse the return
-        return this.http.post(url, body, { "params": params, "headers":headers }).pipe(map(rsp => {
-            let r = eval(""+rsp);
-            return r;
-        }));
-    }
+  /////////////////////////////////////////////////////////
+  // Decision related functions
+  /////////////////////////////////////////////////////////
 
-    public get_jobs(project_uid: string): Observable<JobInfo[]> {
-        // create the URL
-        let url = this.base_url + '/_jobs/project';
+  public update_patient_decision(
+    job_uid: string,
+    patient_uid: string,
+    judgement: CohortInclusion
+  ): Observable<boolean> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/relevance';
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("project_uid", project_uid)
-        // set the headers
-        const headers = this._get_headers();
+    // set the parameters
+    const params = new HttpParams()
+      .set("job_uid", job_uid)
+      .set("patient_uid", patient_uid)
+      .set("judgement", judgement);
 
-        // send request and parse the return
-        return this.http.get(url, { "params": params, "headers":headers }).pipe(map(rsp => {
-            let rs = rsp as any[];
-            let jobs: JobInfo[] = [];
-            for (let i = 0; i < rs.length; i++) {
-                const r = rs[i];
-                jobs.push({
-                    job_uid: r.jobUID,
-                    project_uid: r.projectUID,
-                    start_date: dayjs(r.startDate).toDate(),
-                    status: r.status
-                });
-            }
-            console.log('* get_jobs', jobs);
-            return jobs;
-        }));
-    }
+    // set the headers
+    const headers = this._get_headers();
 
-    public get_criteria(project_uid: string): Observable<CohortDefinition> {
-        // create the URL
-        let url = this.base_url + '/_projects/criterion';
+    // send request and parse the return
+    return this.http.post(
+      url,
+      {},
+      { "params": params, "headers": headers }
+    ).pipe(map(rsp => {
+      console.log('* /_cohorts/relevance = ' + rsp);
+      return true;
+    }));
+  }
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("project_uid", project_uid);
+  public get_patient_decisions(job_uid: string, patient_uids: string[]): Observable<Map<string, CohortInclusion>> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/relevance';
 
-        const headers = this._get_headers();
+    // set the parameters
+    const params = new HttpParams()
+      .set("job_uid", job_uid)
+      .appendAll({ "patient_uid": patient_uids })
 
-        // send request and parse the return
-        return this.http.get(url, { "params": params, 'headers': headers })
-            .pipe(map(rsp => {
-                let criteria = rsp as CohortDefinition;
-                console.log('* get_criteria', criteria);
-                return criteria;
-        }));
-    }
+    // set the headers
+    const headers = this._get_headers();
 
-    public update_criteria(project_uid: string, criteria: CohortDefinition): Observable<boolean> {
-        // create the URL
-        let url = this.base_url + '/_projects/criterion';
+    // send request and parse the return
+    return this.http.get(url, { "params": params, "headers": headers }).pipe(map(rsp => {
+      return rsp as Map<string, CohortInclusion>;
+    }));
+  }
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("project_uid", project_uid);
+  /////////////////////////////////////////////////////////
+  // Determination related functions
+  /////////////////////////////////////////////////////////
 
-        const body = criteria;
+  public get_determinations(
+    job_uid: string,
+    patient_uid: string,
+    criteria?: CohortDefinition
+  ): Observable<Determination[]> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/criterion_match_status';
 
-        const headers = this._get_headers();
+    // set the parameters
+    const params = new HttpParams()
+      .set("job_uid", job_uid)
+      .set('person_uid', patient_uid)
+    // set the headers
+    const headers = this._get_headers();
 
-        // send request and parse the return
-        return this.http.post(url, body, { "params": params, 'headers': headers })
-            .pipe(map(rsp => {
-                let r = rsp as boolean;
-                console.log('* update_criteria', r);
-                return r;
-        }));
-    }
-   
-    public get_patients(job_uid: string): Observable<PatInfo[]> {
-        // create the URL
-        let url = this.base_url + '/_cohorts/';
+    // send request and parse the return
+    return this.http.get(
+      url,
+      { "params": params, 'headers': headers }
+    ).pipe(map(rsp => {
+      /*
+          dd = {
+              "additionalProp1": {
+                  "judgement": "JUDGED_MATCH",
+                  "comment": "string"
+              },
+              "additionalProp2": {
+                  "judgement": "JUDGED_MATCH",
+                  "comment": "string"
+              },
+              "additionalProp3": {
+                  "judgement": "JUDGED_MATCH",
+                  "comment": "string"
+              }
+          }
+      */
+      let dd = rsp as Object;
+      let dtmns: Determination[] = [];
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("job_uid", job_uid);
-
-        const headers = this._get_headers();
-
-        // send request and parse the return
-        return this.http.get(url, { "params": params, 'headers': headers })
-            .pipe(map(rsp => {
-                let rs = rsp as any[];
-                console.log('* get_patients', rs);
-
-                let pats = [] as PatInfo[];
-                for (let i = 0; i < rs.length; i++) {
-                    const r = rs[i];
-                    pats.push({
-                        pat_uid: r['patUID'],
-                        name: faker.name.fullName(),
-                        inclusion: r['inclusion'],
-
-                        // init others
-                        labels: [],
-                        stat: {
-                            n_records: -1,
-                            n_criteria_yes: -1,
-                            n_criteria_no: -1,
-                            n_criteria_na: -1,
-                            n_criteria_unknown: -1,
-                        }
-                    })
-                }
-                return pats;
-        }));
-    }
-
-    public get_determinations(
-        job_uid: string, 
-        patient_uid: string,
-        criteria?: CohortDefinition
-    ): Observable<Determination[]> {
-        // create the URL
-        let url = this.base_url + '/_cohorts/criterion_match_status';
-
-        // set the parameters
-        const params = new HttpParams()
-            .set("job_uid", job_uid)
-            .set('person_uid', patient_uid)
-        // set the headers
-        const headers = this._get_headers();
-
-        // send request and parse the return
-        return this.http.get(
-            url, 
-            { "params": params, 'headers': headers }
-        ).pipe(map(rsp => {
-            /*
-                dd = {
-                    "additionalProp1": {
-                        "judgement": "JUDGED_MATCH",
-                        "comment": "string"
-                    },
-                    "additionalProp2": {
-                        "judgement": "JUDGED_MATCH",
-                        "comment": "string"
-                    },
-                    "additionalProp3": {
-                        "judgement": "JUDGED_MATCH",
-                        "comment": "string"
-                    }
-                }
-            */
-            let dd = rsp as Object;
-            let dtmns: Determination[] = [];
-
-            let nodeUID: keyof typeof dd;
-            for (nodeUID in dd) {
-                const r = dd[nodeUID] as any;
-                dtmns.push({
-                    job_uid: job_uid,
-                    patient_uid: patient_uid,
-                    criteria_uid: nodeUID,
-                    judgement: r.judgement,
-                    comment: r.comment,
-                    date_updated: new Date(),
-                });
-            }
-
-            return dtmns;
-        }));
-    }
-    
-    public update_determination(
-        job_uid: string,
-        criteria_uid: string,
-        patient_uid: string,
-        dtmn: Determination): Observable<Determination> {
-        
-        // create the URL
-        let url = this.base_url + '/_cohorts/criterion_match_status';
-
-        // set the parameters
-        const params = new HttpParams()
-            .set("job_uid", job_uid)
-            .set('node_uid', criteria_uid)
-            .set('person_uid', patient_uid)
-        // set the headers
-        const headers = this._get_headers();
-
-        // send request and parse the return
-        return this.http.post(
-            url, 
-            {
-                "judgement": dtmn.judgement,
-                "comment": dtmn.comment
-            },
-            { "params": params, 'headers': headers }
-        ).pipe(map(rsp => {
-            let dd = rsp as Object;
-            if (rsp.hasOwnProperty(patient_uid)) {
-                console.error('* error setting dtmn for criterion!', dd);
-            }
-            return dtmn;
-        }));
+      let nodeUID: keyof typeof dd;
+      for (nodeUID in dd) {
+        const r = dd[nodeUID] as any;
+        dtmns.push({
+          job_uid: job_uid,
+          patient_uid: patient_uid,
+          criteria_uid: nodeUID,
+          judgement: r.judgement,
+          comment: r.comment,
+          date_updated: new Date(),
+        });
       }
 
-    public get_facts(uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
-        // create the URL
-        let url = this.base_url + '/_cohorts/node_evidence';
+      return dtmns;
+    }));
+  }
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("uid", uid)
-            .set('node_uid', criteria_uid)
-            .set('person_uid', patient_uid)
-        // set the headers
-        const headers = this._get_headers();
+  public update_determination(
+    job_uid: string,
+    criteria_uid: string,
+    patient_uid: string,
+    dtmn: Determination): Observable<Determination> {
 
-        // send request and parse the return
-        return this.http.get(url, { "params": params, 'headers': headers }).pipe(map(rsp => {
-            let rs = rsp as Array<any>;
-            let facts = [] as Array<Fact>;
+    // create the URL
+    let url = this.base_url + '/_cohorts/criterion_match_status';
 
-            for (let i = 0; i < rs.length; i++) {
-                facts.push({
-                    evidence_id: 'RND-' + rs[i].evidenceUID,
-                    type: 'lab_result',
-                    date_time: new Date(),
+    // set the parameters
+    const params = new HttpParams()
+      .set("job_uid", job_uid)
+      .set('node_uid', criteria_uid)
+      .set('person_uid', patient_uid)
+    // set the headers
+    const headers = this._get_headers();
 
-                    summary: "", // no 
-                    full_text: "", 
-                    score: rs[i].score,
-                    fhir: {}
-                });
+    // send request and parse the return
+    return this.http.post(
+      url,
+      {
+        "judgement": dtmn.judgement,
+        "comment": dtmn.comment
+      },
+      { "params": params, 'headers': headers }
+    ).pipe(map(rsp => {
+      let dd = rsp as Object;
+      if (rsp.hasOwnProperty(patient_uid)) {
+        console.error('* error setting dtmn for criterion!', dd);
+      }
+      return dtmn;
+    }));
+  }
 
-            }
+  /////////////////////////////////////////////////////////
+  // Fact related functions
+  /////////////////////////////////////////////////////////
 
-            return facts;
-        }));
-    }
+  public get_facts(uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/node_evidence';
 
-    public get_fact_detail(evidence_id: string): Observable<Object> {
-        // create the URL
-        let url = this.base_url + '/_cohorts/evidencebyuid';
+    // set the parameters
+    const params = new HttpParams()
+      .set("uid", uid)
+      .set('node_uid', criteria_uid)
+      .set('person_uid', patient_uid)
+    // set the headers
+    const headers = this._get_headers();
 
-        // set the parameters
-        const params = new HttpParams()
-            .set("evidenceUID", evidence_id)
-        // set the headers
-        const headers = this._get_headers();
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers }).pipe(map(rsp => {
+      let rs = rsp as Array<any>;
+      let facts = [] as Array<Fact>;
 
-        // send request and parse the return
-        return this.http.get(url, { "params": params, 'headers': headers }).pipe(map(rsp => {
-            return rsp;
-        }));
-    }
+      for (let i = 0; i < rs.length; i++) {
+        facts.push({
+          evidence_id: 'RND-' + rs[i].evidenceUID,
+          type: 'lab_result',
+          date_time: new Date(),
+
+          summary: "", // no 
+          full_text: "",
+          score: rs[i].score,
+          fhir: {}
+        });
+
+      }
+
+      return facts;
+    }));
+  }
+
+  public get_fact_detail(evidence_id: string): Observable<Object> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/evidencebyuid';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set("evidenceUID", evidence_id)
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers }).pipe(map(rsp => {
+      return rsp;
+    }));
+  }
 
 }
 
