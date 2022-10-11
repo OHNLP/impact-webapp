@@ -15,7 +15,9 @@ export class PlummerComponent implements OnInit {
     public appStatus: ApplicationStatusService,
     public middleware: MiddlewareAdapterService,
     @Inject( LOCALE_ID )public locale_id: string
-  ) { }
+  ) { 
+    this.appStatus.uwDeterminationLoading = true;
+  }
 
   ngOnInit(): void {
     console.log('* initing plummer');

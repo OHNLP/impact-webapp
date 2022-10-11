@@ -1,4 +1,17 @@
-<div class="menu-bar-box" style="display: flex; flex-direction: row; position: sticky; top: 0; z-index: 999;">
+<div class="menu-bar-box" 
+  style="display: flex; flex-direction: row; position: sticky; top: 0; z-index: 999;">
+
+  <button mat-raised-button
+    [disabled]="appStatus.uwCohortLoading"
+    (click)="onClickRefreshCohort()"
+    class="mr-2">
+    <mat-icon>refresh</mat-icon> 
+    Refresh
+  </button>
+
+  <mat-divider [vertical]="true"></mat-divider>
+
+
   <div style="display: flex; align-items: center;">
     <input type="text" [(ngModel)]="search_keywords"
       #input

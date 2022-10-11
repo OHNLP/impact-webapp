@@ -76,9 +76,9 @@ export abstract class MiddlewareRestProvider {
 
   /* ===== Fact Related Methods =====*/
   public abstract get_facts(
-    uid: string, 
+    job_uid: string, 
+    criteria_uid: string,
     patient_uid: string,
-    criteria_uid: string
   ): Observable<Array<Fact>>;
 
   public abstract get_fact_detail(

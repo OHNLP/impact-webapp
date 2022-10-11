@@ -289,7 +289,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     return this.http.get(url, { "params": params, 'headers': headers })
       .pipe(map(rsp => {
         let rs = rsp as any[];
-        console.log('* get_patients', rs);
+        console.log('* get_patients', rs.length);
 
         let pats = [] as PatInfo[];
         for (let i = 0; i < rs.length; i++) {
@@ -411,9 +411,9 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
       for (nodeUID in dd) {
         const r = dd[nodeUID] as any;
         dtmns.push({
-          job_uid: job_uid,
-          patient_uid: patient_uid,
-          criteria_uid: nodeUID,
+          job_uid: job_uid.toLocaleLowerCase(),
+          patient_uid: patient_uid.toLocaleLowerCase(),
+          criteria_uid: nodeUID.toLocaleLowerCase(),
           judgement: r.judgement,
           comment: r.comment,
           date_updated: new Date(),
@@ -462,13 +462,16 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
   // Fact related functions
   /////////////////////////////////////////////////////////
 
-  public get_facts(uid: string, patient_uid: string, criteria_uid: string): Observable<Fact[]> {
+  public get_facts(job_uid: string, 
+    criteria_uid: string,
+    patient_uid: string, 
+  ): Observable<Fact[]> {
     // create the URL
     let url = this.base_url + '/_cohorts/node_evidence';
 
     // set the parameters
     const params = new HttpParams()
-      .set("uid", uid)
+      .set("job_uid", job_uid)
       .set('node_uid', criteria_uid)
       .set('person_uid', patient_uid)
     // set the headers
@@ -481,8 +484,8 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
 
       for (let i = 0; i < rs.length; i++) {
         facts.push({
-          evidence_id: 'RND-' + rs[i].evidenceUID,
-          type: 'lab_result',
+          evidence_id: '' + rs[i].evidenceUID,
+          type: rs[i].evidenceUID.split(':')[0],
           date_time: new Date(),
 
           summary: "", // no 

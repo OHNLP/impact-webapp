@@ -59,6 +59,10 @@ export class CriteriaTreeNodeComponent implements OnInit {
     return 500 - 120 - 30 - level * 20;
   }
 
+  getDetermination() {
+    
+  }
+
   createDetermination(
     project_uid: string, 
     patient_uid: string, 

@@ -238,9 +238,9 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   /////////////////////////////////////////////////////////
 
   get_facts(
-    uid: string, 
+    job_uid: string, 
+    criteria_uid: string,
     patient_uid: string,
-    criteria_uid: string
   ): Observable<Array<any>> {
     let facts = [] as Array<any>;
     let n_facts = Math.floor(Math.random() * 50);

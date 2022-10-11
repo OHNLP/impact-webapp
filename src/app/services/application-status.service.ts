@@ -6,7 +6,7 @@ import {MiddlewareAdapterService} from "./middleware-adapter.service";
 import { formatDate } from '@angular/common';
 import { CohortDefinition } from '../models/cohort-definition';
 
-import { Determination } from '../models/determination';
+import { Determination, JUDGEMENT_TYPE } from '../models/determination';
 import { Fact } from '../models/clinical-data';
 import { EXAMPLE_PROJECTS } from '../samples/sample-project';
 import { EXAMPLE_PATIENTS } from '../samples/sample-patient';
@@ -29,6 +29,7 @@ export class ApplicationStatusService {
   public uwJobSelected: JobInfo | undefined;
   public uwJobs: JobInfo[] | undefined;
   public uwCohort: PatInfo[] | undefined;
+  public uwCohortLoading: boolean = false;
   public uwPat: PatInfo| undefined;
   public uwCriteria: CohortDefinition| undefined;
   public uwCriteriaAssessing: CohortDefinition| undefined;
@@ -40,6 +41,7 @@ export class ApplicationStatusService {
 
   // for user generated infor
   public uwDeterminationDict: Record<string, Determination> = {};
+  public uwDeterminationLoading: boolean = false
 
   // shortcuts
   public CohortInclusion = CohortInclusion;
@@ -110,11 +112,12 @@ export class ApplicationStatusService {
       concatMap(criteria => {
         console.log('* loaded criteria', criteria);
         this.uwCriteria = criteria;
-        return this.middleware.rest.get_patients(this.uwProject!.uid)
+        this.uwCohortLoading = true;
+        return this.middleware.rest.get_patients(this.uwJobSelected!.job_uid)
       })
     ).subscribe(patients=>{
       this.uwCohort = patients;
-      console.log('* loaded last one', patients);
+      this.uwCohortLoading = false;
     });
 
   }
@@ -173,11 +176,14 @@ export class ApplicationStatusService {
         return;
       }
 
+      this.uwCohortLoading = true;
+
       // ok, now try to load patients
       this.middleware.rest.get_patients(
         this.uwJobSelected!.job_uid
       ).subscribe(ps => {
         // set the local cohort first
+        this.uwCohortLoading = false;
         this.uwCohort = ps;
       })
 
@@ -281,7 +287,7 @@ export class ApplicationStatusService {
 
   public showDeterminations(): void {
     this.middleware.rest.get_determinations(
-      '', // uid
+      this.uwJobSelected!.job_uid, // job_uid
       this.uwPat!.pat_uid,
       this.uwCriteria!
     ).subscribe(ds => {
@@ -289,6 +295,33 @@ export class ApplicationStatusService {
       type dtmnRecord = Record<string, Determination>;
       let dd: dtmnRecord = {};
 
+      function get_nodes(node:any) {
+        var ns: any[] = [];
+        if (node.hasOwnProperty('children')) {
+          for (let i = 0; i < node.children.length; i++) {
+            const c = node.children[i];
+            ns.push(c);
+            var _ns = get_nodes(c);
+            Array.prototype.push.apply(ns, _ns);
+          }
+        }
+
+        return ns;
+      }
+      let nodes = get_nodes(this.uwCriteria);
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        dd[n.nodeUID] = {
+          job_uid: this.uwJobSelected!.job_uid,
+          patient_uid: this.uwPat!.pat_uid,
+          criteria_uid: n.nodeUID,
+          judgement: JUDGEMENT_TYPE.UNJUDGED,
+          comment: '',
+          date_updated: new Date(),
+        };
+      }
+
+      // overwrite 
       for (let i = 0; i < ds.length; i++) {
         // use criteria's id as key
         dd[ds[i].criteria_uid] = ds[i];
@@ -296,6 +329,7 @@ export class ApplicationStatusService {
 
       console.log('* loaded latest determinations', dd);
       this.uwDeterminationDict = dd;
+      this.uwDeterminationLoading = false;
     });
   }
 
@@ -327,9 +361,9 @@ export class ApplicationStatusService {
       return;
     }
     this.middleware.rest.get_facts(
-      '', // job uid
-      '', // node_uid (criteria uid)
-      this.uwCriteriaAssessing.nodeUID
+      this.uwJobSelected!.job_uid, // job uid
+      this.uwCriteriaAssessing.nodeUID, // ode_uid (criteria uid)
+      this.uwPat!.pat_uid, // person_uid
     ).subscribe(facts => {
       // ok // 
       console.log('* get_facts callback: ', facts);

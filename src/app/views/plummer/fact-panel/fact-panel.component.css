@@ -5,8 +5,12 @@
     margin: 0 5px 0 0;
     border-right: 1px solid #CCCCCC;
 }
+.fact-table {
+    width: 100% ;
+}
 .fact-row {
     padding: 0 10px !important;
+    width: calc(100% - 20px);
 }
 .fact-row:hover {
     background-color: whitesmoke;

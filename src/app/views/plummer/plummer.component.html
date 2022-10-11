@@ -1,4 +1,5 @@
-<div id="plummer-wrapper">
+<div id="plummer-wrapper"
+  *ngIf="!appStatus.uwDeterminationLoading">
     <div id="plummer-oper">
         <button class="cdt-btn ml-5"
           (click)="onClickBackToCohort()">

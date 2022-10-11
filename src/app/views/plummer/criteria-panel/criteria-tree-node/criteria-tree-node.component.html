@@ -10,7 +10,7 @@
 
             <div class="tree-node-info-comment" 
                 [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
-                {{ this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].comment }}
+                {{ this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID]?.comment }}
             </div>
         </div>
 

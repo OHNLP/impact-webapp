@@ -71,4 +71,8 @@ export class CohortBrowserComponent implements OnInit {
     this.appStatus.resetPlummer();
   }
 
+  public onClickRefreshCohort(): void {
+    this.appStatus.showCohort();
+  }
+
 }
