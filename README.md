@@ -22,6 +22,28 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
+## Development 
+
+Run Google Chrome without CORS requirements for debugging by adding the `--disable-web-security` flag
+
+On Windows (Please replace the path to `chrome.ext` with the actual path in your environment):
+
+```bash
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
+```
+
+On Ubuntu (make sure the `google-chrome` command is in the `PATH`):
+
+```bash
+google-chrome --disable-web-security
+```
+
+On MacOS:
+
+```bash
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security
+```
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
