@@ -20,7 +20,40 @@ export class FactItemComponent implements OnInit {
 
   onClickViewFullText(): void {
     this.appStatus.uwFact = this.fact;
-    this.appStatus.showFactFullText(this.appStatus.uwFact!);
+    // this.appStatus.showFactDetail(this.appStatus.uwFact!);
+  }
+
+  getFactRecordDate(fact:Fact|undefined): string {
+    let ret = "";
+
+    if (fact == undefined) {
+      return 'NA';
+    }
+
+    if (Object.keys(fact.fhir).length!=0) {
+      if (fact.fhir.hasOwnProperty('recordedDate')) {
+        ret += fact.fhir.recordedDate;
+      }
+    }
+
+    return ret;
+  }
+
+  getFactSummary(fact:Fact|undefined): string {
+    let ret = "";
+
+    if (fact == undefined) {
+      return ret;
+    }
+
+    if (Object.keys(fact.fhir).length!=0) {
+      if (fact.fhir.hasOwnProperty('code')) {
+        if (fact.fhir.code.hasOwnProperty('coding')) {
+            ret += fact.fhir.code.coding.map((c: { display: any; })=>c.display).join('|')
+        }
+      }
+    }
+    return ret;
   }
 
 }

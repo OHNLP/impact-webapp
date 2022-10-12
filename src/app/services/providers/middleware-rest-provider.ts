@@ -48,6 +48,10 @@ export abstract class MiddlewareRestProvider {
     project_uid: string
   ): Observable<Array<PatInfo>>;
 
+  public abstract get_patient_detail(
+    patient_uid: string
+  ): Observable<Object>;
+
   /* ===== Individual Patient Decision Related Methods =====*/
   public abstract get_patient_decisions(
     job_uid: string,
@@ -84,4 +88,8 @@ export abstract class MiddlewareRestProvider {
   public abstract get_fact_detail(
     evidence_id: string
   ): Observable<Object>;
+
+  public abstract get_fact_details(
+    evidence_ids: string[]
+  ): Observable<any>;
 }

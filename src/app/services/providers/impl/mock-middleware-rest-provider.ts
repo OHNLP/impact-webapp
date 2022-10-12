@@ -116,6 +116,15 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   // Patient related functions
   /////////////////////////////////////////////////////////
 
+  public get_patient_detail(patient_uid: string): Observable<Object> {
+    return of({
+      "resourceType":"Person",
+      "id":"PERSON:" + patient_uid,
+      "gender":"female",
+      "birthDate":"1941-12-08"
+    })
+  }
+
   get_patients(project_uid: string): Observable<Array<PatInfo>> {
     if (this.db.patients.length == 0) {
       let ps = JSON.parse(JSON.stringify(EXAMPLE_PATIENTS));
@@ -279,10 +288,47 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   }
 
   public get_fact_detail(evidence_id: string): Observable<Object> {
-    return of({
-      "id": evidence_id,
-      "meta": {}
-    })
+    let d = {} as any;
+    d[evidence_id] = {
+      "resourceType":"Condition",
+      "id":evidence_id,
+      "code":{
+        "coding":[{
+          "system":"https://athena.ohdsi.org/",
+          "code":"12345678",
+          "display":"Name"
+        }]},
+      "subject":{
+        "identifier":{"value":"1234567"}
+      },
+      "recordedDate":"1987-11-01T00:00:00-06:00"
+    }
+    return of(d);
+  }
+
+  public get_fact_details(evidence_ids: string[]): Observable<any> {
+    let d = {} as any;
+
+    for (let i = 0; i < evidence_ids.length; i++) {
+      const evidence_id = evidence_ids[i];
+      d[evidence_id] = {
+        "resourceType":"Condition",
+        "id":evidence_id,
+        "code":{
+          "coding":[{
+            "system":"https://athena.ohdsi.org/",
+            "code": faker.random.numeric(8),
+            "display":"Name"
+          }]},
+        "subject":{
+          "identifier":{
+            "value":faker.random.numeric(7),
+          }
+        },
+        "recordedDate":"1987-11-01T00:00:00-06:00"
+      }
+    }
+    return of(d);
   }
 
   public get_random_decision(): string {

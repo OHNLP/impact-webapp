@@ -3,7 +3,7 @@
     <div class="fact-title"
         (click)="onClickViewFullText()">
         <div class="mr-2">
-            {{ this.appStatus.fmtDate(fact?.date_time) }}
+            {{ getFactRecordDate(fact) }}
         </div>
 
         <div>
@@ -13,7 +13,7 @@
 
     <!-- second row is the summary -->
     <div class="fact-summary"
-        [innerHTML]="fact?.summary">
+        [innerHTML]="getFactSummary(fact)">
     </div>
 
     <!-- then this row is for meta info -->

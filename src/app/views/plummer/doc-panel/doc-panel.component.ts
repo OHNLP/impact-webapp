@@ -26,10 +26,15 @@ export class DocPanelComponent implements OnInit {
       return ''
     }
 
-    if (this.fact.full_text == undefined) {
-      return ''
+    if (Object.keys(this.fact.fhir).length != 0) {
+      // if having FHIR, just show the content for now
+      return JSON.stringify(this.fact.fhir, null, 4);
     }
 
-    return this.fact.full_text;
+    if (this.fact.full_text != undefined) {
+      return this.fact.full_text;
+    }
+
+    return 'NA';
   }
 }

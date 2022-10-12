@@ -274,6 +274,28 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
   /////////////////////////////////////////////////////////
   // Patient related functions
   /////////////////////////////////////////////////////////
+  public get_patient_detail(patient_uid: string): Observable<Object> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/evidencebyuid';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set("evidenceUID", "PERSON:"+patient_uid);
+
+    // get header for this request
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.get(
+      url, 
+      { "params": params, 'headers': headers }
+    ).pipe(map(rsp => {
+      let d = rsp as any;
+      console.log('* get_patient_detail', d);
+      let detail = d['PERSON:' + patient_uid];
+      return detail;
+    }));
+  }
 
   public get_patients(job_uid: string): Observable<PatInfo[]> {
     // create the URL
@@ -511,8 +533,35 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
     const headers = this._get_headers();
 
     // send request and parse the return
-    return this.http.get(url, { "params": params, 'headers': headers }).pipe(map(rsp => {
-      return rsp;
+    return this.http.get(
+      url, 
+      { "params": params, 'headers': headers }
+    ).pipe(map(rsp => {
+      let d = rsp as any;
+      // the returned object should be an dict-like obj
+      let fhir = d[evidence_id];
+
+      return fhir;
+    }));
+  }
+
+  public get_fact_details(evidence_ids: string[]): Observable<any> {
+    // create the URL
+    let url = this.base_url + '/_cohorts/evidencebyuid';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set("evidenceUID", evidence_ids.join(','))
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.get(
+      url, 
+      { "params": params, 'headers': headers }
+    ).pipe(map(rsp => {
+      let d = rsp as any;
+      return d;
     }));
   }
 

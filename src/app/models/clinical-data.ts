@@ -38,7 +38,7 @@ export interface Fact {
   score: number,
 
   // FHIR object for everything
-  fhir: Object
+  fhir: any
 }
 
 export interface FactCollection {

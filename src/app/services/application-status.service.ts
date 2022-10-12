@@ -337,13 +337,27 @@ export class ApplicationStatusService {
 
   }
 
-  public showFactFullText(fact: Fact): void {
+  public showFactDetail(fact: Fact): void {
     this.middleware.rest.get_fact_detail(
       fact.evidence_id
     ).subscribe(rsp => {
+      let d = rsp as any;
       // update the fhir object
-      this.uwFact!.fhir = rsp;
-      console.log('* loaded fact full text', rsp);
+      this.uwFact!.fhir = d;
+      console.log('* loaded fact detail', rsp);
+    });
+  }
+
+  public showFactDetails(facts: Fact[]): void {
+    this.middleware.rest.get_fact_details(
+      facts.map(f=>f.evidence_id)
+    ).subscribe(rsp => {
+      let d = rsp as any;
+      // update the fhir object
+      for (let i = 0; i < this.uwFacts!.length; i++) {
+        this.uwFacts![i].fhir = d[this.uwFacts![i].evidence_id];
+      }
+      console.log('* loaded fact details', rsp);
     });
   }
 
@@ -368,6 +382,9 @@ export class ApplicationStatusService {
       // ok // 
       console.log('* get_facts callback: ', facts);
       this.uwFacts = facts;
+
+      // next send requests for FHIR
+      this.showFactDetails(this.uwFacts);
     });
   }
 
