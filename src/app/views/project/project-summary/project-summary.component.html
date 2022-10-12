@@ -1,10 +1,18 @@
 <div class="grid-container">
-    <h1 class="mat-h1">{{this.appStatus.uwProject?.name}}</h1>
-    
-    <div class="card-100">
-      {{ appStatus.uwProject?.description }}
-    </div>
+  <h1 class="mat-h1">{{this.appStatus.uwProject?.name}}</h1>
 
+  <div class="card-100">
+    {{ appStatus.uwProject?.description }}
+  </div>
+
+  <div *ngIf="isProjectLoading">
+    <h3>
+      Loading project data <i class="fas fa-spinner fa-spin"></i>
+    </h3>
+  </div>
+
+  <div *ngIf="!isProjectLoading"
+    style="width: 100%; display: flex; flex-wrap: wrap;">
     <mat-card class="simple-card card-33">
       <mat-card-header>
         <mat-card-title>
@@ -107,9 +115,7 @@
                   </span>
                 </td>
                 <td>
-                  <button mat-raised-button
-                    class="mr-2"
-                    *ngIf="job.status == JobInfoStatus.COMPLETE"
+                  <button mat-raised-button class="mr-2" *ngIf="job.status == JobInfoStatus.COMPLETE"
                     (click)="onClickSelectJob(job)">
                     Select
                   </button>
@@ -165,22 +171,24 @@
 
 
     <!-- <mat-card class="simple-card card-100">
-      <mat-card-header>
-        <mat-card-title>
-          Statistics by Age
-          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item>Expand</button>
-            <button mat-menu-item>Remove</button>
-          </mat-menu>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="dashboard-card-content">
-        <div [chart]="chartBarAge"></div>
-      </mat-card-content>
-    </mat-card> -->
+        <mat-card-header>
+          <mat-card-title>
+            Statistics by Age
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <div [chart]="chartBarAge"></div>
+        </mat-card-content>
+      </mat-card> -->
 
 
+
+  </div>
 </div>

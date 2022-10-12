@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ApplicationStatusService } from "../../../services/application-status.service";
@@ -11,7 +11,8 @@ import { faker } from '@faker-js/faker';
   templateUrl: './project-summary.component.html',
   styleUrls: ['./project-summary.component.css']
 })
-export class ProjectSummaryComponent implements OnInit {
+export class ProjectSummaryComponent implements OnInit, OnChanges {
+  @Input() isProjectLoading = true;
 
   JobInfoStatus = JobInfoStatus;
 
@@ -32,17 +33,21 @@ export class ProjectSummaryComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
   ) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.drawCharts();
+  }
+
   ngOnInit(): void {
-    this.initCharts();
   }
 
-  initCharts(): void {
-    this.initChartPieIE();
-    this.initChartBarLabel();
-    this.initChartBarAge();
+  drawCharts(): void {
+    this.drawChartPieIE();
+    this.drawChartBarLabel();
+    this.drawChartBarAge();
   }
 
-  initChartPieIE(): void {
+  drawChartPieIE(): void {
+    var stat = this.appStatus.statCohortDecision();
     let chart = new Chart({
       chart: {
         type: 'pie'
@@ -76,15 +81,15 @@ export class ProjectSummaryComponent implements OnInit {
         colorByPoint: true,
         data: [{
           name: 'Included',
-          y: this.appStatus.uwProject?.stat.n_included,
+          y: stat.n_included,
           sliced: true,
           selected: true
         }, {
           name: 'Excluded',
-          y: this.appStatus.uwProject?.stat.n_excluded
+          y: stat.n_excluded
         }, {
           name: 'Unjudged',
-          y: this.appStatus.uwProject?.stat.n_unjudged
+          y: stat.n_unjudged
         }]
       }]
     });
@@ -94,7 +99,7 @@ export class ProjectSummaryComponent implements OnInit {
     this.chartPieIE = chart;
   }
 
-  initChartBarLabel(): void {
+  drawChartBarLabel(): void {
     let data = [];
     let labels = [
       'Check Later', 'Phase II', 'Phase III', 'Phase IV',
@@ -137,7 +142,7 @@ export class ProjectSummaryComponent implements OnInit {
     this.chartBarLabel = chart;
   }
 
-  initChartBarAge(): void {
+  drawChartBarAge(): void {
     let data = [
       5, // '18',
       9, // '18-29',

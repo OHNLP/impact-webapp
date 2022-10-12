@@ -121,6 +121,7 @@
     </app-project-list>
 
     <app-project-summary 
+      [isProjectLoading]="this.appStatus.uwProjectLoading"
       *ngIf="appStatus.activeView === View.PROJECT_DASHBOARD">
     </app-project-summary>
 

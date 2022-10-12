@@ -29,7 +29,7 @@ export class ApplicationStatusService {
   public uwJobSelected: JobInfo | undefined;
   public uwJobs: JobInfo[] | undefined;
   public uwCohort: PatInfo[] | undefined;
-  public uwCohortLoading: boolean = false;
+  public uwProjectLoading: boolean = false;
   public uwPat: PatInfo| undefined;
   public uwCriteria: CohortDefinition| undefined;
   public uwCriteriaAssessing: CohortDefinition| undefined;
@@ -96,6 +96,7 @@ export class ApplicationStatusService {
     if (!this.uwProject) {
       return;
     }
+    this.uwProjectLoading = true;
 
     of(this.uwProject.uid).pipe(
       // first, get all jobs
@@ -112,12 +113,11 @@ export class ApplicationStatusService {
       concatMap(criteria => {
         console.log('* loaded criteria', criteria);
         this.uwCriteria = criteria;
-        this.uwCohortLoading = true;
         return this.middleware.rest.get_patients(this.uwJobSelected!.job_uid)
       })
     ).subscribe(patients=>{
       this.uwCohort = patients;
-      this.uwCohortLoading = false;
+      this.uwProjectLoading = false;
     });
 
   }
@@ -176,18 +176,44 @@ export class ApplicationStatusService {
         return;
       }
 
-      this.uwCohortLoading = true;
+      this.uwProjectLoading = true;
 
       // ok, now try to load patients
       this.middleware.rest.get_patients(
         this.uwJobSelected!.job_uid
       ).subscribe(ps => {
         // set the local cohort first
-        this.uwCohortLoading = false;
+        this.uwProjectLoading = false;
         this.uwCohort = ps;
       })
 
     }
+  }
+
+  public statCohortDecision(): any {
+    let stat = {
+      n_included: 0,
+      n_excluded: 0,
+      n_unjudged: 0
+    }
+
+    if (this.uwCohort == undefined) {
+      return stat;
+    }
+
+    for (let i = 0; i < this.uwCohort.length; i++) {
+      const patient = this.uwCohort[i];
+      
+      if (patient.inclusion == CohortInclusion.INCLUDE) {
+        stat.n_included += 1;
+      } else if (patient.inclusion == CohortInclusion.EXCLUDE) {
+        stat.n_excluded += 1;
+      } else {
+        stat.n_unjudged += 1;
+      }
+    }
+
+    return stat;
   }
 
   public showDecisions(): void {
