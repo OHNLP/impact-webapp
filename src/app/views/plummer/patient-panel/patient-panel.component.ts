@@ -1,4 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import * as dayjs from 'dayjs';
 import { CohortInclusion, PatInfo } from 'src/app/models/pat-info';
 import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
@@ -43,6 +44,46 @@ export class PatientPanelComponent implements OnInit {
     this.appStatus.uwPat!.inclusion = decision;
     // update database
     this.appStatus.setDecision(decision);    
+  }
+
+  public getGender(patient: PatInfo | undefined): string {
+    if (patient === undefined) {
+      return 'NA'
+    }
+    if (Object.keys(patient.fhir).length > 0) {
+      return patient.fhir.gender;
+    }
+    return 'NA'
+  }
+
+  public getAge(patient: PatInfo | undefined): string {
+    if (patient === undefined) {
+      return 'NA'
+    }
+
+    if (Object.keys(patient.fhir).length > 0) {
+      let day_birth = dayjs(patient.fhir.birthDate);
+      let today = dayjs(new Date());
+
+      let age = today.diff(day_birth, 'year');
+
+      return '' + age;
+    }
+
+    return 'NA'
+  }
+
+
+  public getAgeYear(patient: PatInfo | undefined): string {
+    if (patient === undefined) {
+      return 'NA'
+    }
+
+    if (Object.keys(patient.fhir).length > 0) {
+      return patient.fhir.birthDate.split('-')[0];
+    }
+
+    return 'NA'
   }
 
 }

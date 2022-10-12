@@ -12,6 +12,9 @@ export class PatInfo {
     n_criteria_na: number,
     n_criteria_unknown: number,
   }
+
+  // the information from evidence?
+  fhir: any = {}
 }
 
 export enum CohortInclusion {

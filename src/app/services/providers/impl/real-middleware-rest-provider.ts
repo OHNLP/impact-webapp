@@ -318,7 +318,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
           const r = rs[i];
           pats.push({
             pat_uid: r['patUID'],
-            name: faker.name.fullName(),
+            name: r['patUID'],
             inclusion: r['inclusion'],
 
             // init others
@@ -329,7 +329,9 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
               n_criteria_no: -1,
               n_criteria_na: -1,
               n_criteria_unknown: -1,
-            }
+            },
+
+            fhir: {}
           })
         }
         return pats;

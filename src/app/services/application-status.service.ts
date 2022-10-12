@@ -41,7 +41,7 @@ export class ApplicationStatusService {
 
   // for user generated infor
   public uwDeterminationDict: Record<string, Determination> = {};
-  public uwDeterminationLoading: boolean = false
+  public uwPlummerLoading: boolean = false
 
   // shortcuts
   public CohortInclusion = CohortInclusion;
@@ -317,46 +317,49 @@ export class ApplicationStatusService {
       this.uwPat!.pat_uid,
       this.uwCriteria!
     ).subscribe(ds => {
-      // to dictionary
-      type dtmnRecord = Record<string, Determination>;
-      let dd: dtmnRecord = {};
-
-      function get_nodes(node:any) {
-        var ns: any[] = [];
-        if (node.hasOwnProperty('children')) {
-          for (let i = 0; i < node.children.length; i++) {
-            const c = node.children[i];
-            ns.push(c);
-            var _ns = get_nodes(c);
-            Array.prototype.push.apply(ns, _ns);
-          }
-        }
-
-        return ns;
-      }
-      let nodes = get_nodes(this.uwCriteria);
-      for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i];
-        dd[n.nodeUID] = {
-          job_uid: this.uwJobSelected!.job_uid,
-          patient_uid: this.uwPat!.pat_uid,
-          criteria_uid: n.nodeUID,
-          judgement: JUDGEMENT_TYPE.UNJUDGED,
-          comment: '',
-          date_updated: new Date(),
-        };
-      }
-
-      // overwrite 
-      for (let i = 0; i < ds.length; i++) {
-        // use criteria's id as key
-        dd[ds[i].criteria_uid] = ds[i];
-      }
-
-      console.log('* loaded latest determinations', dd);
-      this.uwDeterminationDict = dd;
-      this.uwDeterminationLoading = false;
+      this._showDeterminations(ds);
     });
+  }
+
+  public _showDeterminations(ds: Array<Determination>): void {
+    // to dictionary
+    type dtmnRecord = Record<string, Determination>;
+    let dd: dtmnRecord = {};
+
+    function get_nodes(node:any) {
+      var ns: any[] = [];
+      if (node.hasOwnProperty('children')) {
+        for (let i = 0; i < node.children.length; i++) {
+          const c = node.children[i];
+          ns.push(c);
+          var _ns = get_nodes(c);
+          Array.prototype.push.apply(ns, _ns);
+        }
+      }
+
+      return ns;
+    }
+    let nodes = get_nodes(this.uwCriteria);
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      dd[n.nodeUID] = {
+        job_uid: this.uwJobSelected!.job_uid,
+        patient_uid: this.uwPat!.pat_uid,
+        criteria_uid: n.nodeUID,
+        judgement: JUDGEMENT_TYPE.UNJUDGED,
+        comment: '',
+        date_updated: new Date(),
+      };
+    }
+
+    // overwrite 
+    for (let i = 0; i < ds.length; i++) {
+      // use criteria's id as key
+      dd[ds[i].criteria_uid] = ds[i];
+    }
+
+    console.log('* loaded latest determinations', dd);
+    this.uwDeterminationDict = dd;
   }
 
   public showCriteriaByProject(project_uid: string): void {
@@ -413,6 +416,38 @@ export class ApplicationStatusService {
       this.showFactDetails(this.uwFacts);
     });
   }
+
+  public loadPlummerDataByPatient(): void {
+    if (!this.uwPat) { return; }
+
+    this.uwPlummerLoading = true;
+
+    of(this.uwPat.pat_uid).pipe(
+      // first, get patient details
+      concatMap(patient_uid => {
+        return this.middleware.rest.get_patient_detail(patient_uid)
+      }),
+
+      // second, get the determinations
+      concatMap(patient_fhir => {
+        this.uwPat!.fhir = patient_fhir;
+
+        return this.middleware.rest.get_determinations(
+          this.uwJobSelected!.job_uid, // job_uid
+          this.uwPat!.pat_uid,
+          this.uwCriteria!
+        );
+      })
+    ).subscribe(ds => {
+      this._showDeterminations(ds);
+
+      this.uwPlummerLoading = false;
+    });
+  }
+
+  /////////////////////////////////////////////////////////
+  // Helper related functions
+  /////////////////////////////////////////////////////////
 
   public fmtDate(d:Date|undefined): string {
     if (d === undefined) {

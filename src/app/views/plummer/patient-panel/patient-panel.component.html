@@ -74,13 +74,24 @@
             </div>
         </div>
 
+        <!-- Gender -->
+        <div class="ppi-item">
+            <div class="ppi-item-header">
+                Gender
+            </div>
+            <div class="ppi-item-value">
+                {{ getGender(appStatus.uwPat) }}
+            </div>
+        </div>
+
         <!-- Patient Age -->
         <div class="ppi-item">
             <div class="ppi-item-header">
                 Age
             </div>
             <div class="ppi-item-value">
-                35 (1988)
+                {{ getAge(appStatus.uwPat) }}
+                ({{ getAgeYear(appStatus.uwPat) }})
             </div>
         </div>
 

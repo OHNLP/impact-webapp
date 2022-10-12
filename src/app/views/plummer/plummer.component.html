@@ -1,5 +1,14 @@
 <div id="plummer-wrapper"
-  *ngIf="!appStatus.uwDeterminationLoading">
+  *ngIf="appStatus.uwPlummerLoading">
+  <div class="grid-container">
+    <h3 class="ml-2">
+      Loading determination data ... <i class="fas fa-spinner fa-spin"></i>
+    </h3>
+  </div>
+</div>
+
+<div id="plummer-wrapper"
+  *ngIf="!appStatus.uwPlummerLoading">
     <div id="plummer-oper">
         <button class="cdt-btn ml-5"
           (click)="onClickBackToCohort()">

@@ -50,7 +50,7 @@ export abstract class MiddlewareRestProvider {
 
   public abstract get_patient_detail(
     patient_uid: string
-  ): Observable<Object>;
+  ): Observable<any>;
 
   /* ===== Individual Patient Decision Related Methods =====*/
   public abstract get_patient_decisions(

@@ -120,7 +120,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of({
       "resourceType":"Person",
       "id":"PERSON:" + patient_uid,
-      "gender":"female",
+      "gender": "female",
       "birthDate":"1941-12-08"
     })
   }
@@ -149,7 +149,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
             n_criteria_no: parseInt(faker.random.numeric()),
             n_criteria_na: parseInt(faker.random.numeric()),
             n_criteria_unknown: parseInt(faker.random.numeric()),
-          }
+          },
+          fhir: {}
         });
         
       }

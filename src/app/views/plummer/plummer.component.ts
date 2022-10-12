@@ -16,17 +16,21 @@ export class PlummerComponent implements OnInit {
     public middleware: MiddlewareAdapterService,
     @Inject( LOCALE_ID )public locale_id: string
   ) { 
-    this.appStatus.uwDeterminationLoading = true;
+    this.appStatus.uwPlummerLoading = true;
   }
 
   ngOnInit(): void {
     console.log('* initing plummer');
+    // get the patient
 
     // get the criteria / refresh the criteria
     this.appStatus.showCriteria();
 
     // get the determinations
-    this.appStatus.showDeterminations();
+    // this.appStatus.showDeterminations();
+    
+    // get determinations and other information
+    this.appStatus.loadPlummerDataByPatient();
   }
 
   onClickBackToCohort(): void {

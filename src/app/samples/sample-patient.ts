@@ -18,7 +18,8 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
         n_criteria_no: 1,
         n_criteria_na: 5,
         n_criteria_unknown: 0,
-    }
+    },
+    fhir: {}
 },
 {
     pat_uid: '52b4a04b-c7a1-4239-9ea0-6f5a92814cbd',
@@ -37,7 +38,8 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
         n_criteria_no: 1,
         n_criteria_na: 5,
         n_criteria_unknown: 0,
-    }
+    },
+    fhir: {}
 },
 {
     pat_uid: '62b4a04b-c7a1-4239-9ea0-6f5a92814cbe',
@@ -55,6 +57,7 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
         n_criteria_no: 1,
         n_criteria_na: 5,
         n_criteria_unknown: 0,
-    }
+    },
+    fhir: {}
 },
 ];
