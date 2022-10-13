@@ -514,7 +514,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
           evidence_id: '' + rs[i].evidenceUID,
           data_source: data_source,
           type: type,
-          date_time: new Date(),
+          date_time: new Date(0),
 
           summary: "", // no 
           full_text: "",

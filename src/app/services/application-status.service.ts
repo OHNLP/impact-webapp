@@ -398,7 +398,7 @@ export class ApplicationStatusService {
     if (fact === undefined) {
       return;
     }
-    if (fact.fhir.hasOwnProperty('recordedData')) {
+    if (fact.fhir.hasOwnProperty('recordedDate')) {
       fact.date_time = dayjs(fact.fhir.recordedDate).toDate();
 
     } else if (fact.fhir.hasOwnProperty('issued')) {
