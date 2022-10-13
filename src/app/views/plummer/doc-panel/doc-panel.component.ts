@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Fact } from 'src/app/models/clinical-data';
+import { EntityType } from 'src/app/models/cohort-definition';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 
@@ -20,19 +21,59 @@ export class DocPanelComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getHTML(): string {
+  toggleRawJSON(): void {
+    this.appStatus.uwDocShowRawJSON = !this.appStatus.uwDocShowRawJSON;
+  }
 
-    if (this.fact == undefined) {
+  getRawJSON(fact: Fact | undefined): string {
+    if (fact == undefined) {
       return ''
     }
 
-    if (Object.keys(this.fact.fhir).length != 0) {
-      // if having FHIR, just show the content for now
-      return JSON.stringify(this.fact.fhir, null, 4);
+    return "<pre class='raw-json'>" +
+      JSON.stringify(fact.fhir, null, 2) +
+      "</pre>";
+  }
+
+  getHTML(fact: Fact | undefined): string {
+
+    if (fact == undefined) {
+      return ''
     }
 
-    if (this.fact.full_text != undefined) {
-      return this.fact.full_text;
+    if (Object.keys(fact.fhir).length != 0) {
+      // if having FHIR, just show the content for now
+      if (fact.type == EntityType.OBSERVATION) {
+        return `
+        <h3>${fact.type}</h3>
+        <p>Issued: ${fact.fhir.issued}</p>
+        <p>Patient ID: ${fact.fhir.subject.identifier.value}</p>
+        <dl>
+           <dt>${fact.fhir.code.coding[0].display}</dt>
+           <dd>${fact.fhir.valueString}</dd>
+        </dl>
+        `
+      }
+
+      if (fact.type == EntityType.CONDITION) {
+        return `
+        <h3>${fact.type}</h3>
+        <p>Recorded Date: ${fact.fhir.recordedDate}</p>
+        <p>Patient ID: ${fact.fhir.subject.identifier.value}</p>
+        <dl>
+           <dt>${fact.fhir.code.coding[0].display}</dt>
+           <dd>${fact.fhir.valueString}</dd>
+        </dl>
+        `
+      }
+
+      return "<pre class='raw-json'>" +
+      JSON.stringify(fact.fhir, null, 4) +
+      "</pre>";
+    }
+
+    if (fact.full_text != undefined) {
+      return fact.full_text;
     }
 
     return 'NA';

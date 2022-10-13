@@ -24,9 +24,16 @@
     display: flex;
     justify-content: space-between;
 }
+.fact-title-item {
+    margin-right: 5px;
+}
 .fact-info {
     font-size: 11px;
     color: #999999;
+}
+.fact-score {
+    font-size: 11px;
+    color: #AAAAAA;
 }
 .fact-oper {
     display: none;

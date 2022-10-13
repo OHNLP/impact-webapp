@@ -15,6 +15,7 @@ import { JobInfo } from '../models/job-info';
 import { EXAMPLE_JOBS } from '../samples/sample-job';
 import { ToastrService } from 'ngx-toastr';
 import { concat, concatMap, of } from 'rxjs';
+import * as dayjs from 'dayjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,7 @@ export class ApplicationStatusService {
   public uwCriteriaAssessing: CohortDefinition| undefined;
   public uwCriteriaUseEditorMode: boolean = false;
   public uwFact: Fact | undefined;
+  public uwDocShowRawJSON: boolean = true;
   
   // for facts
   public uwFacts: Fact[] | undefined;
@@ -385,9 +387,28 @@ export class ApplicationStatusService {
       // update the fhir object
       for (let i = 0; i < this.uwFacts!.length; i++) {
         this.uwFacts![i].fhir = d[this.uwFacts![i].evidence_id];
+        // update the date information
+        this.updateFactDateByFHIR(this.uwFacts![i]);
       }
       console.log('* loaded fact details', rsp);
     });
+  }
+
+  public updateFactDateByFHIR(fact: Fact|undefined): void {
+    if (fact === undefined) {
+      return;
+    }
+    if (fact.fhir.hasOwnProperty('recordedData')) {
+      fact.date_time = dayjs(fact.fhir.recordedDate).toDate();
+
+    } else if (fact.fhir.hasOwnProperty('issued')) {
+      fact.date_time = dayjs(fact.fhir.issued).toDate();
+
+    } else if (fact.fhir.hasOwnProperty('dateAsserted')) {
+      fact.date_time = dayjs(fact.fhir.dateAsserted).toDate();
+
+    }
+    return;
   }
 
   public clearFacts(): void {

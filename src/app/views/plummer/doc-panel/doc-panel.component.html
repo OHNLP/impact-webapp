@@ -21,18 +21,40 @@
         <div class="panel-header-right">
     
             <div class="panel-header-btn">
-                <button class="cdt-btn">
+                
+                <button [matMenuTriggerFor]="menu" class="cdt-btn">
                     <i class="fas fa-bars"></i>
                 </button>
+                <!-- <button mat-icon-button 
+                     
+                    aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button> -->
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item
+                        (click)="toggleRawJSON()">
+                        <mat-icon>code</mat-icon>
+                        <span>
+                            Toggle Raw JSON Display
+                        </span>
+                    </button>
+                </mat-menu>
+
             </div>
 
         </div>
     </div>
 
     <div class="panel-body">
-        <mat-card *ngIf="getHTML() != ''">
+        <mat-card *ngIf="appStatus.uwDocShowRawJSON">
             <mat-card-content class="card-content">
-                <div [innerHTML]="getHTML()"></div>
+                <div class="doc-raw-json" 
+                    [innerHTML]="getRawJSON(fact)"></div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="!appStatus.uwDocShowRawJSON">
+            <mat-card-content class="card-content">
+                <div [innerHTML]="getHTML(fact)"></div>
             </mat-card-content>
         </mat-card>
     </div>

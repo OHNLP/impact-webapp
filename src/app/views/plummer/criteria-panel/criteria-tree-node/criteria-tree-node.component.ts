@@ -105,6 +105,9 @@ export class CriteriaTreeNodeComponent implements OnInit {
   }
 
   appendDeterminationComment(dtmn:Determination, c:string): void {
+    if (dtmn.comment == null) {
+      dtmn.comment = '';
+    }
     dtmn.comment += c + '\n';
   }
 

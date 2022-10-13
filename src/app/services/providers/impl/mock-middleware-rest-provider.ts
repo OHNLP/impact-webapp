@@ -255,9 +255,9 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     let facts = [] as Array<any>;
     let n_facts = Math.floor(Math.random() * 50);
     let fact_types = [
-      'lab_result',
-      'clinical_note',
-      'other_document'
+      'OBSERVATION',
+      'PERSON',
+      'CONDITION'
     ];
     for (let i = 0; i < n_facts; i++) {
       let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
@@ -272,7 +272,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         text + '\n' + 
         faker.lorem.lines(50);
       facts.push({
-        evidence_id: 'RND-' + Math.random(),
+        evidence_id: 'ehr:'+ft+':' + faker.random.numeric(7),
+        data_source: 'ehr',
         type: ft,
         date_time: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
 

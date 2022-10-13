@@ -6,3 +6,11 @@
 
     flex-grow: 1;
 }
+.doc-raw-json {
+    width: 100%;
+}
+.doc-raw-json pre {
+    width: 100%;
+    white-space: pre-wrap !important;
+    font-size: 11px;
+}

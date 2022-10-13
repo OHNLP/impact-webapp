@@ -24,6 +24,7 @@ export interface Fact {
   // evidence_id
   evidence_id: string,
   type: string,
+  data_source: string,
   date_time: Date,
   summary: string,
 

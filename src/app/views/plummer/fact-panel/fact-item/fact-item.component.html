@@ -2,11 +2,16 @@
     <!-- first row is about the key information -->
     <div class="fact-title"
         (click)="onClickViewFullText()">
-        <div class="mr-2">
+        <div class="fact-title-item">
             {{ getFactRecordDate(fact) }}
         </div>
 
-        <div>
+        <div class="fact-title-item">
+            <i class="fas fa-laptop-medical"></i>
+            {{ getFactDS(fact) }}
+        </div>
+
+        <div class="fact-title-item">
             {{ fact?.type }}
         </div>
     </div>
@@ -18,8 +23,8 @@
 
     <!-- then this row is for meta info -->
     <div class="fact-last">
-        <div class="fact-info">
-            {{ fact?.score }}
+        <div class="fact-score">
+            {{ getFactScore(fact) }}
         </div>
     
         <!-- last row is about the opers -->

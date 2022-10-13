@@ -26,6 +26,11 @@ a:hover {
   text-decoration: underline;
 }
 
+pre.raw-json {
+  white-space: pre-wrap !important;
+  font-size: 11px;
+}
+
 /* fix for angular */
 
 .mat-paginator-page-size-label {

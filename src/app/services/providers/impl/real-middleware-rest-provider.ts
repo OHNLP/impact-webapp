@@ -439,7 +439,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
           patient_uid: patient_uid.toLocaleLowerCase(),
           criteria_uid: nodeUID.toLocaleLowerCase(),
           judgement: r.judgement,
-          comment: r.comment,
+          comment: r.comment == null? "": r.comment,
           date_updated: new Date(),
         });
       }
@@ -507,9 +507,13 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
       let facts = [] as Array<Fact>;
 
       for (let i = 0; i < rs.length; i++) {
+        let EUIDs = rs[i].evidenceUID.split(':');
+        let data_source = EUIDs[0];
+        let type = EUIDs[1];
         facts.push({
           evidence_id: '' + rs[i].evidenceUID,
-          type: rs[i].evidenceUID.split(':')[0],
+          data_source: data_source,
+          type: type,
           date_time: new Date(),
 
           summary: "", // no 
