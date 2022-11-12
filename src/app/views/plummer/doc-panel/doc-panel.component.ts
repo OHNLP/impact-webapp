@@ -111,6 +111,16 @@ export class DocPanelComponent implements OnInit {
       `;
     }
 
+    if (fact.type == EntityType.DIAGNOSIS) {
+      let note_data = this.highlight_parse_fhir_note(fact.fhir);
+      return `
+        <h3>${fact.type}</h3>
+        <p>Date: ${fact.fhir.date}</p>
+        <h4>Content</h4>
+        <pre class="note">${note_data}</pre>
+      `;
+    }
+
     if (fact.type == EntityType.MEDICATION) {
       let note_data = this.highlight_parse_fhir_note(fact.fhir);
       return `
