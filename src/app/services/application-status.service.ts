@@ -36,7 +36,7 @@ export class ApplicationStatusService {
   public uwCriteriaAssessing: CohortDefinition| undefined;
   public uwCriteriaUseEditorMode: boolean = false;
   public uwFact: Fact | undefined;
-  public uwDocShowRawJSON: boolean = true;
+  public uwDocShowRawJSON: boolean = false;
   
   // for facts
   public uwFacts: Fact[] | undefined;
@@ -406,6 +406,9 @@ export class ApplicationStatusService {
 
     } else if (fact.fhir.hasOwnProperty('dateAsserted')) {
       fact.date_time = dayjs(fact.fhir.dateAsserted).toDate();
+
+    } else if (fact.fhir.hasOwnProperty('date')) {
+      fact.date_time = dayjs(fact.fhir.date).toDate();
 
     }
     return;

@@ -54,7 +54,9 @@
         </mat-card>
         <mat-card *ngIf="!appStatus.uwDocShowRawJSON">
             <mat-card-content class="card-content">
-                <div [innerHTML]="getHTML(fact)"></div>
+                <div class="doc-note"
+                    [innerHTML]="getHTML(fact)">
+                </div>
             </mat-card-content>
         </mat-card>
     </div>

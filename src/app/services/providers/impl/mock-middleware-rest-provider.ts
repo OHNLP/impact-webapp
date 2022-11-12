@@ -13,6 +13,7 @@ import { JobInfo, JobInfoStatus } from "src/app/models/job-info";
 import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
+import { EXAMPLE_DOC_FHIR_NLP_CONDITION } from 'src/app/samples/sample-doc';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
@@ -262,6 +263,9 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     for (let i = 0; i < n_facts; i++) {
       let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
       let ftc = 'ehr';
+      if (Math.random()<0.5) {
+        ftc = 'nlp';
+      }
       let text = faker.lorem.lines(2);
       let ps = text.split(' ');
       let kw = ps[Math.floor(ps.length/2)];
@@ -314,24 +318,60 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
     for (let i = 0; i < evidence_ids.length; i++) {
       const evidence_id = evidence_ids[i];
-      d[evidence_id] = {
-        "resourceType":"Condition",
-        "id":evidence_id,
-        "code":{
-          "coding":[{
-            "system":"https://athena.ohdsi.org/",
-            "code": faker.random.numeric(8),
-            "display":"Name"
-          }]},
-        "subject":{
-          "identifier":{
-            "value":faker.random.numeric(7),
-          }
-        },
-        "recordedDate":"1987-11-01T00:00:00-06:00"
+
+      let obj = {};
+      if (evidence_id.startsWith('nlp')) {
+        obj = this._get_fact_detail_by_nlp(evidence_id);
+
+      } else {
+        obj = {
+          "resourceType":"Condition",
+          "id":evidence_id,
+          "code":{
+            "coding":[{
+              "system":"https://athena.ohdsi.org/",
+              "code": faker.random.numeric(8),
+              "display":"Name"
+            }]},
+          "subject":{
+            "identifier":{
+              "value":faker.random.numeric(7),
+            }
+          },
+          "recordedDate":"1987-11-01T00:00:00-06:00"
+        }
       }
+      d[evidence_id] = obj;
     }
     return of(d);
+  }
+
+  private _get_fact_detail_by_nlp(evidence_id: string): any {
+    if (evidence_id.indexOf('CONDITION')>=0) {
+      let d = JSON.parse(JSON.stringify(EXAMPLE_DOC_FHIR_NLP_CONDITION));
+      // update some values
+      d['id'] = evidence_id;
+      d['contained'][0]['id'] = evidence_id;
+
+      return d;
+    }
+
+    return {
+      "resourceType":"Condition",
+      "id":evidence_id,
+      "code":{
+        "coding":[{
+          "system":"https://athena.ohdsi.org/",
+          "code": faker.random.numeric(8),
+          "display":"Name"
+        }]},
+      "subject":{
+        "identifier":{
+          "value":faker.random.numeric(7),
+        }
+      },
+      "recordedDate":"1987-11-01T00:00:00-06:00"
+    }
   }
 
   public get_random_decision(): string {

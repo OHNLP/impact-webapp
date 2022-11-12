@@ -33,4 +33,52 @@ When signs and symptoms do occur, they can include:
             [256, 267]]
     }
 }
-]
+];
+
+
+export const EXAMPLE_DOC_FHIR_NLP_CONDITION = {
+    "resourceType": "DocumentReference",
+    "id": "nlp:CONDITION:2061494",
+    "contained": [
+      {
+        "resourceType": "Condition",
+        "id": "nlp:CONDITION:2061494",
+        "extension": [
+          {
+            "url": "nlp:offset",
+            "valueString": "3"
+          },
+          {
+            "url": "nlp:text",
+            "valueString": "GERD"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "https://athena.ohdsi.org/",
+              "code": "318800",
+              "display": "Gastroesophageal reflux disease"
+            }
+          ]
+        },
+        "subject": {
+          "identifier": {
+            "value": "2653712"
+          }
+        },
+        "recordedDate": "2012-02-01T13:37:00-06:00"
+      }
+    ],
+    "masterIdentifier": {
+      "value": "1251860861"
+    },
+    "date": "2012-02-01T13:37:00.000-06:00",
+    "content": [
+      {
+        "attachment": {
+          "data": "IzEgR0VSRApQYXRpZW50IGhhcyBrbm93biBHRVJELiAKQ3VycmVudGx5LCBzeW1wdG9tcyBhcmUgd2VsbCBjb250cm9sbGVkIG9uIG9tZXByYXpvbGUgMjAgbWcgZGFpbHkuCgojMiBIeXBlcnRlbnNpb24KUGF0aWVudCdzIGJsb29kIHByZXNzdXJlcyBoYXZlIGJlZW4gd2VsbCBjb250cm9sbGVkIG9uIGxpc2lub3ByaWwuICAKSGUgaXMgbm90IGhhdmluZyBhbnkgY2hlc3QgcGFpbiwgcGFscGl0YXRpb25zLCBQTkQsIG9yIG9ydGhvcG5lYS4="
+        }
+      }
+    ]
+  }
