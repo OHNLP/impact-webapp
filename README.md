@@ -12,7 +12,17 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Due to the setting `baseHref` is `/`, a parameter must be added to build to generate a relative-path-workable build:
+
+```
+ng build --base-href="./"
+```
+
+Then you can serve the build in a sub-folder than root folder. For example:
+
+```
+https://example.com/CDT/
+```
 
 ## Running unit tests
 
