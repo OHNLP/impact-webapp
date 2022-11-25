@@ -14,9 +14,28 @@ import { EXAMPLE_PATIENTS } from 'src/app/samples/sample-patient';
 import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 import { EXAMPLE_DOC_FHIR_NLP_CONDITION } from 'src/app/samples/sample-doc';
+import { DataSource } from 'src/app/models/data-source';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
+  /////////////////////////////////////////////////////////
+  // Data source related functions
+  /////////////////////////////////////////////////////////
+  public get_project_data_sources(project_uid: string): Observable<DataSource[]> {
+    throw new Error('Method not implemented.');
+  }
+  public get_all_data_sources(): Observable<DataSource[]> {
+    throw new Error('Method not implemented.');
+  }
+  public update_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
+    throw new Error('Method not implemented.');
+  }
+  public get_job_data_sources(job_uid: string): Observable<DataSource[]> {
+    throw new Error('Method not implemented.');
+  }
+
+
+  
   // copy an data obj
   public cps(obj: any): any { return JSON.parse(JSON.stringify(obj)); }
 
@@ -178,7 +197,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     patient_uids: string[]
   ): Observable<Map<string, CohortInclusion>> {
     if (this.db.decision.size == 0) {
-      let decision = new Map<string, CohortInclusion>;
+      let decision = new Map<string, CohortInclusion>();
+      // let decision = new Map<string, CohortInclusion>;
       for (let i = 0; i < patient_uids.length; i++) {
         let patient_uid = patient_uids[i];
         let pat_decision = this.get_random_decision();

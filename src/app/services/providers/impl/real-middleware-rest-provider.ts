@@ -11,12 +11,29 @@ import { JobInfo } from "src/app/models/job-info";
 import { environment } from "src/environments/environment";
 import { faker } from "@faker-js/faker";
 import * as dayjs from "dayjs"
+import { DataSource } from "src/app/models/data-source";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+
+  /////////////////////////////////////////////////////////
+  // Data source related functions
+  /////////////////////////////////////////////////////////
+  public get_project_data_sources(project_uid: string): Observable<DataSource[]> {
+    throw new Error("Method not implemented.");
+  }
+  public get_all_data_sources(): Observable<DataSource[]> {
+    throw new Error("Method not implemented.");
+  }
+  public update_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
+    throw new Error("Method not implemented.");
+  }
+  public get_job_data_sources(job_uid: string): Observable<DataSource[]> {
+    throw new Error("Method not implemented.");
+  }
 
   // need to update this when init
   public base_url: string = '';

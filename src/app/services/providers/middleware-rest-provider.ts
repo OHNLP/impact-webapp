@@ -1,12 +1,19 @@
 import {CohortDefinition} from "../../models/cohort-definition";
 import {CohortInclusion, PatInfo} from "../../models/pat-info";
-import {ClinicalDocument, Fact, StructuredData} from "../../models/clinical-data";
+import {Fact} from "../../models/clinical-data";
 import {Project} from "../../models/project";
 import { Observable } from "rxjs";
 import { Determination } from "../../models/determination";
 import { JobInfo } from "src/app/models/job-info";
+import { DataSource } from "src/app/models/data-source";
 
 export abstract class MiddlewareRestProvider {
+  /* Data Source Config Methods */
+  public abstract get_project_data_sources(project_uid: string): Observable<Array<DataSource>>
+  public abstract get_all_data_sources(): Observable<Array<DataSource>>
+  public abstract update_data_sources(project_uid: string, dss: Array<DataSource>): Observable<Array<DataSource>>
+  public abstract get_job_data_sources(job_uid: string): Observable<Array<DataSource>>
+
   /* ===== Global/User Information Methods ===== */
   public abstract get_username(): string
 
