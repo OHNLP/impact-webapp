@@ -15,6 +15,9 @@ export enum View {
 
   // for reviewing patient
   PLUMMER,
+
+  // for data source management
+  DATA_SOURCE_EDITOR,
 }
 
 export enum PatientView {

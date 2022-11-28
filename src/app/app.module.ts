@@ -46,6 +46,7 @@ import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { ProjectJobListComponent } from './views/project/project-job-list/project-job-list.component';
 import { BALoginComponent } from './views/user/balogin/balogin.component' 
 import { ToastrModule } from 'ngx-toastr';
+import { DataSourceEditorComponent } from './views/data-source-editor/data-source-editor.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { ToastrModule } from 'ngx-toastr';
     FactItemComponent,
     ProjectMakerComponent,
     ProjectJobListComponent,
-    BALoginComponent
+    BALoginComponent,
+    DataSourceEditorComponent
   ],
   imports: [
     MatStepperModule,

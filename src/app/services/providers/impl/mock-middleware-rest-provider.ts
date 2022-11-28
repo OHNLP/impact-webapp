@@ -15,6 +15,7 @@ import { EXAMPLE_JOBS } from 'src/app/samples/sample-job';
 import { v4 as uuid } from 'uuid';
 import { EXAMPLE_DOC_FHIR_NLP_CONDITION } from 'src/app/samples/sample-doc';
 import { DataSource } from 'src/app/models/data-source';
+import { EXAMPLE_DATA_SOURCES } from 'src/app/samples/sample-ds';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
 
@@ -46,7 +47,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     patients: [],
     determinations: [],
     decision: new Map<string, CohortInclusion>(),
-    criteria: this.cps(EXAMPLE_CRITERIA_GERD)
+    criteria: this.cps(EXAMPLE_CRITERIA_GERD),
+    ds: this.cps(EXAMPLE_DATA_SOURCES)
   }
 
   public randomEnumValue(enumeration:any): any {

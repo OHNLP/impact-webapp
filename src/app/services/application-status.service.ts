@@ -16,6 +16,7 @@ import { EXAMPLE_JOBS } from '../samples/sample-job';
 import { ToastrService } from 'ngx-toastr';
 import { concat, concatMap, of } from 'rxjs';
 import * as dayjs from 'dayjs';
+import { DataSource } from '../models/data-source';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,9 @@ export class ApplicationStatusService {
   public uwCriteriaUseEditorMode: boolean = false;
   public uwFact: Fact | undefined;
   public uwDocShowRawJSON: boolean = false;
+
+  // for data sources
+  public uwAllDataSources: DataSource[] | undefined;
   
   // for facts
   public uwFacts: Fact[] | undefined;
@@ -466,6 +470,12 @@ export class ApplicationStatusService {
       this._showDeterminations(ds);
 
       this.uwPlummerLoading = false;
+    });
+  }
+
+  public loadAllDataSources(): void {
+    this.middleware.rest.get_all_data_sources().subscribe(ds => {
+      this.uwAllDataSources = ds;
     });
   }
 

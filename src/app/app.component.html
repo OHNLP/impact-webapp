@@ -66,6 +66,14 @@
       </a>
 
       <a mat-list-item 
+        (click)="appStatus.activeView = View.DATA_SOURCE_EDITOR"
+         *ngIf="displayProjectSuboptions()">
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-icon>storage</mat-icon>
+        Data Source
+      </a>
+
+      <a mat-list-item 
         (click)="appStatus.activeView = View.PROJECT_QUERY_DEFINITION"
          *ngIf="displayProjectSuboptions()">
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -140,6 +148,10 @@
     <app-plummer 
       *ngIf="appStatus.activeView === View.PLUMMER">
     </app-plummer>
+
+    <app-data-source-editor 
+      *ngIf="appStatus.activeView === View.DATA_SOURCE_EDITOR">
+    </app-data-source-editor>
 
   </mat-sidenav-content>
 

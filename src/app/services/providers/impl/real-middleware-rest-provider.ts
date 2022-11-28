@@ -25,12 +25,31 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
   public get_project_data_sources(project_uid: string): Observable<DataSource[]> {
     throw new Error("Method not implemented.");
   }
+
   public get_all_data_sources(): Observable<DataSource[]> {
-    throw new Error("Method not implemented.");
+    // create the URL
+    let url = this.base_url + '/_projects/available_data_sources';
+
+    // set the parameters
+    const params = new HttpParams();
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers })
+      .pipe(
+        catchError(this._handle_error),
+        map(rsp => {
+          let ds = rsp as Array<DataSource>;
+          console.log('* get_all_data_sources', ds);
+          return ds;
+        }));
   }
+
   public update_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
     throw new Error("Method not implemented.");
   }
+  
   public get_job_data_sources(job_uid: string): Observable<DataSource[]> {
     throw new Error("Method not implemented.");
   }
