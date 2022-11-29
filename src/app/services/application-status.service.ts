@@ -41,6 +41,10 @@ export class ApplicationStatusService {
 
   // for data sources
   public uwAllDataSources: DataSource[] | undefined;
+
+  // for UMLS Code search
+  public uwIsSearchingUMLSCodes: boolean = false;
+  public uwUMLSCodes: string[] | undefined;
   
   // for facts
   public uwFacts: Fact[] | undefined;
@@ -55,7 +59,7 @@ export class ApplicationStatusService {
   constructor(
     private middleware: MiddlewareAdapterService,
     @Inject( LOCALE_ID )public locale_id: string,
-    private toastr: ToastrService
+    public toastr: ToastrService
   ) {
   }
 
@@ -552,5 +556,16 @@ export class ApplicationStatusService {
 
   public saveDetermination(dtmn: Determination): void {
 
+  }
+
+  public searchUMLSCodes(keyword: string): void {
+    this.uwIsSearchingUMLSCodes = true;
+    this.middleware.rest.get_umls_codes_by_keyword(keyword).subscribe(rs => {
+      this.uwUMLSCodes = rs;
+      this.uwIsSearchingUMLSCodes = false;
+      this.toastr.success(
+        "Found " + rs.length + ' UMLS CUIs'
+      );
+    });
   }
 }

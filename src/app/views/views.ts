@@ -1,5 +1,7 @@
 export enum View {
   GLOBAL_DASHBOARD,
+
+  // project related
   PROJECT_LIST,
   PROJECT_JOB_LIST,
   PROJECT_DASHBOARD,

@@ -18,6 +18,9 @@ import { DataSource } from "src/app/models/data-source";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+  public get_umls_codes_by_keyword(keyword: string): Observable<any[]> {
+    throw new Error("Method not implemented.");
+  }
 
   /////////////////////////////////////////////////////////
   // Data source related functions

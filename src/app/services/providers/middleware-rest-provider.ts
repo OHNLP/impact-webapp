@@ -99,4 +99,9 @@ export abstract class MiddlewareRestProvider {
   public abstract get_fact_details(
     evidence_ids: string[]
   ): Observable<any>;
+
+  /* ===== UMLS Related Methods =====*/
+  public abstract get_umls_codes_by_keyword(
+    keyword: string
+  ): Observable<any[]>;
 }

@@ -79,13 +79,103 @@
 </div>
 
 
-<div class="editor-box" *ngIf="this.appStatus.uwCriteriaUseEditorMode">
+<div *ngIf="this.appStatus.uwCriteriaUseEditorMode"
+  class="editor-box d-flex flex-row"
+  style="height: calc( 100% - 65px); overflow-y: hidden;">
   
-<json-editor
-  #editor
-  [data]="this.appStatus.uwCriteria!" 
-  [options]="editorOptions"
-  (change)="onChangeJSONEditor($event)">
-</json-editor>
+  <div class="json-editor-box">
+    <json-editor
+      #editor
+      [data]="this.appStatus.uwCriteria!" 
+      [options]="editorOptions"
+      (change)="onChangeJSONEditor($event)">
+    </json-editor>
 
+  </div>
+
+  <div class="json-helper-box">
+
+    <mat-accordion multi>
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>domain</mat-icon>
+            <b>
+              Phenotype Definition Conversion
+            </b>
+          </mat-panel-title>
+          <mat-panel-description>
+            
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        
+        <div>
+          <p>
+            Input phenotype name and get UMLS CUIs:
+          </p>
+          <mat-form-field class="example-full-width">
+            <mat-label>Phenotype Name</mat-label>
+            <input matInput 
+              placeholder="E.g., HIV" 
+              value=""
+              [(ngModel)]="phenotype_keyword">
+            <button *ngIf="phenotype_keyword" 
+              matSuffix 
+              mat-icon-button 
+              aria-label="Clear" 
+              (click)="phenotype_keyword=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        
+          <button mat-button 
+            mat-raised-button
+            class="ml-2"
+            (click)="searchUMLSCodes()">
+            <mat-icon>search</mat-icon>
+            Search
+          </button>
+
+          <button mat-button 
+            mat-raised-button
+            class="ml-2"
+            (click)="copyUMLSCodes()">
+            <mat-icon>file_copy</mat-icon>
+            Copy as a list
+          </button>
+
+        </div>
+
+        <div *ngIf="this.appStatus.uwIsSearchingUMLSCodes"
+          class="panel-result-list-box">
+          Searching ...
+        </div>
+
+        <div *ngIf="!this.appStatus.uwIsSearchingUMLSCodes"
+          class="panel-result-list-box"
+          [innerHTML]="getUMLSCodeList()">
+        </div>
+
+
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>
+              library_books
+            </mat-icon>
+            <b>
+              Phenotype Library
+            </b>
+          </mat-panel-title>
+          <mat-panel-description>
+            
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>I'm visible because I am open</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>

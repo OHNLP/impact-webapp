@@ -215,6 +215,10 @@ pre.raw-json {
 
   display: flex;
   flex-direction: row;
+
+  position: sticky;
+  top: 0;
+  z-index: 99;
 }
 
 .ppi-item {

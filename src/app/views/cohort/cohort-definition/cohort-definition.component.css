@@ -25,3 +25,23 @@
   height: 100%;
   padding: 10px;
 }
+
+.json-editor-box {
+  width: 800px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.json-helper-box {
+  width: calc( 100% - 810px);
+  margin: 0 0 0 10px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.panel-result-list-box {
+  width: 100%;
+  height: auto;
+  max-height: 800px;
+  padding: 5px;
+}

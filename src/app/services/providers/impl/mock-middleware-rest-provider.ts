@@ -18,6 +18,15 @@ import { DataSource } from 'src/app/models/data-source';
 import { EXAMPLE_DATA_SOURCES } from 'src/app/samples/sample-ds';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  public get_umls_codes_by_keyword(keyword: string): Observable<any[]> {
+    var rs = [];
+    var n = Math.floor(Math.random() * 10 + 3);
+    for (let i = 0; i < n; i++) {
+      let code = faker.random.numeric(8);
+      rs.push(code);
+    }
+    return of(rs);
+  }
 
   /////////////////////////////////////////////////////////
   // Data source related functions

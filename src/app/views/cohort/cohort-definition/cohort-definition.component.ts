@@ -12,6 +12,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {ApplicationStatusService} from "../../../services/application-status.service";
 import {MiddlewareAdapterService} from "../../../services/middleware-adapter.service";
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
+import { MatAccordion } from '@angular/material/expansion';
+import {Clipboard} from '@angular/cdk/clipboard';
 
 export const base_empty_criteria = [
   {
@@ -37,6 +39,9 @@ export class CohortDefinitionComponent implements OnInit {
 
   hasChanged: boolean = false;
 
+  // for searching phenotype
+  public phenotype_keyword: string = '';
+
   /** The TreeControl controls the expand/collapse state of tree nodes.  */
   treeControl: NestedTreeControl<CohortDefinition, CohortDefinition>;
 
@@ -56,7 +61,8 @@ export class CohortDefinitionComponent implements OnInit {
   constructor(
     public appStatus: ApplicationStatusService,
     public middleware: MiddlewareAdapterService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private clipboard: Clipboard
   ) {
 
     // init the json editor
@@ -89,6 +95,34 @@ export class CohortDefinitionComponent implements OnInit {
     } else {
       throw new Error("Cohort definition attempted without active project")
     }
+  }
+
+  /////////////////////////////////////////////////////////
+  // UMLS CUI related functions
+  /////////////////////////////////////////////////////////
+
+  getUMLSCodeList(): string {
+    if (this.appStatus.uwUMLSCodes == undefined) {
+      return '';
+    }
+    // ok, it's not null now
+    return this.appStatus.uwUMLSCodes.join(', ');
+  }
+
+  searchUMLSCodes(): void {
+    this.appStatus.searchUMLSCodes(
+      this.phenotype_keyword
+    );
+  }
+
+  copyUMLSCodes(): void {
+    let codes = this.getUMLSCodeList();
+    this.clipboard.copy(codes);
+
+    // toast
+    this.appStatus.toastr.success(
+      'Copied to clipboard!'
+    );
   }
 
   /////////////////////////////////////////////////////////
