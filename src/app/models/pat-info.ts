@@ -2,6 +2,7 @@ export class PatInfo {
   pat_uid: string = 'PATIENT_ID'
   name: string = 'PATIENT_NAME'
   inclusion: CohortInclusion = CohortInclusion.UNJUDGED
+  match: CohortMatch = CohortMatch.UNKNOWN
 
   // optional
   labels?: string[]
@@ -21,4 +22,10 @@ export enum CohortInclusion {
   UNJUDGED = "UNJUDGED",
   INCLUDE = "INCLUDE",
   EXCLUDE = "EXCLUDE"
+}
+
+export enum CohortMatch {
+  MATCHED = "C_MATCHED",
+  UNMATCHED = "C_UNMATCHED",
+  UNKNOWN = "C_UNKNOWN",
 }

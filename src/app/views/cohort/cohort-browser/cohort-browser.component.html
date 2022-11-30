@@ -16,7 +16,7 @@
     <input type="text" [(ngModel)]="search_keywords"
       #input
       (keyup)="applyFilter($event)"
-      style="height: 36px; line-height: 36px; width: 500px;"
+      style="height: 36px; line-height: 36px; width: 200px;"
       class=""
       placeholder="Search Keywords">
 
@@ -30,26 +30,50 @@
   <mat-divider [vertical]="true"></mat-divider>
 
   <button mat-raised-button
-    class="ml-2 mr-2">
+    class="ml-2">
     <mat-icon>create_new_folder</mat-icon> 
-    Import Patients
+    Import
   </button>
 
-  <mat-divider [vertical]="true"></mat-divider>
-
-  <button mat-raised-button
-    class="ml-2 mr-2">
+  <button mat-raised-button 
+    class="ml-2 mr-2"
+    [matMenuTriggerFor]="export_menu">
     <mat-icon>download</mat-icon> 
-    Export as XLSX
+    Export
   </button>
+  <mat-menu #export_menu="matMenu">
+    <button mat-menu-item>
+      As Excel File
+    </button>
+    <button mat-menu-item>
+      As JSON File
+    </button>
+  </mat-menu>
 
 
   <mat-divider [vertical]="true"></mat-divider>
 
-  <mat-radio-group aria-label="Select an option">
-    <mat-radio-button value="1">Included Only</mat-radio-button>
-    <mat-radio-button value="2">All Patients</mat-radio-button>
-  </mat-radio-group>
+  <div style="display: flex; align-items: center; padding: 0 10px;">
+
+    <label for="" class="mr-2">
+      Filters: 
+    </label>
+
+    <mat-radio-group aria-label="Select an option"
+      [(ngModel)]="filter_match" (change)="updateFilters()">
+      <mat-radio-button value="only_matched"  
+        class="mr-2"
+        >
+        Only Matched
+      </mat-radio-button>
+      <mat-radio-button value="all"
+        class="mr-2">
+        All Patients
+      </mat-radio-button>
+    </mat-radio-group>
+
+
+  </div>
 
 </div>
 
@@ -75,13 +99,6 @@
     </td>
   </ng-container>
 
-  <ng-container matColumnDef="stat1">
-    <th mat-header-cell *matHeaderCellDef>Age</th>
-    <td mat-cell *matCellDef="let pat">
-      {{ pat.stat?.n_records }}
-    </td>
-  </ng-container>
-
   <ng-container matColumnDef="stat2">
     <th mat-header-cell *matHeaderCellDef>Inclusion Criteria</th>
     <td mat-cell *matCellDef="let pat">
@@ -102,6 +119,27 @@
           {{ pat.stat?.n_criteria_no }}
         </span>
         / {{ appStatus.getNumberExclusionCriteria() }}
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="nlp_rst">
+    <th mat-header-cell *matHeaderCellDef>Match</th>
+    <td mat-cell *matCellDef="let pat">
+      <span *ngIf="calcMatch(pat) == 'Matched'"
+        class="clr-d-yes">
+        <i class="fas fa-user"></i>
+        {{ calcMatch(pat) }}
+      </span>
+      <span *ngIf="calcMatch(pat) == 'Unmatched'"
+        class="clr-d-no">
+        <i class="fas fa-user-slash"></i>
+        {{ calcMatch(pat) }}
+      </span>
+      <span *ngIf="calcMatch(pat) == 'Unknown'"
+        class="clr-d-na">
+        <i class="far fa-question-circle"></i>
+        {{ calcMatch(pat) }}
       </span>
     </td>
   </ng-container>

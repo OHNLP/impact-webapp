@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import {MiddlewareRestProvider} from "../middleware-rest-provider";
 import {CohortDefinition} from "../../../models/cohort-definition";
-import {CohortInclusion, PatInfo} from "../../../models/pat-info";
+import {CohortInclusion, CohortMatch, PatInfo} from "../../../models/pat-info";
 import {AnnotatableText, ClinicalDocument, Fact, StructuredData} from "../../../models/clinical-data";
 import {Project} from "../../../models/project";
 import { Determination, JUDGEMENT_TYPE } from "src/app/models/determination";
@@ -195,19 +195,26 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
         'Type 1 Diabetes', 'Type 2 Diabetes',
         'ANC>10000', '>10 Lines', 'ECOG PS3', 'ECOG PS4'
       ];
+
       for (let i = 0; i < 50000; i++) {
         let labels = sample_labels.sort(() => 0.5 - Math.random()).slice(0, 2);
+        let n_criteria_yes = Math.floor(Math.random() * 2.1) + 2; // range [2, 4]
+        let n_criteria_no = Math.floor(Math.random() * 5);  // range (0, 5)
+        let n_criteria_na = 13 - n_criteria_yes - n_criteria_no;
+        let match = this.calc_match(n_criteria_yes, n_criteria_no);
         ps.push({
-          pat_uid: uuid(),
+          pat_uid: uuid().split('-')[0],
           name: faker.name.fullName(),
-          inclusion: this.get_random_decision() as CohortInclusion,
+          inclusion: this.get_random_decision(n_criteria_no) as CohortInclusion,
+          match: match,
 
           labels: labels,
           stat: {
             n_records: parseInt(faker.random.numeric(2)),
-            n_criteria_yes: parseInt(faker.random.numeric()),
-            n_criteria_no: parseInt(faker.random.numeric()),
-            n_criteria_na: parseInt(faker.random.numeric()),
+            n_criteria_yes: n_criteria_yes,
+            n_criteria_no: n_criteria_no,
+            n_criteria_na: n_criteria_na,
+            // why unknown?
             n_criteria_unknown: parseInt(faker.random.numeric()),
           },
           fhir: {}
@@ -217,6 +224,16 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       this.db.patients = ps;
     }
     return of(this.db.patients);
+  }
+
+  calc_match(n_y:number, n_n:number): CohortMatch {
+    if (n_n > 0) {
+      return CohortMatch.UNMATCHED;
+    }
+    if (n_y == 4) {
+      return CohortMatch.MATCHED;
+    }
+    return CohortMatch.UNKNOWN;
   }
 
   /////////////////////////////////////////////////////////
@@ -241,7 +258,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       // let decision = new Map<string, CohortInclusion>;
       for (let i = 0; i < patient_uids.length; i++) {
         let patient_uid = patient_uids[i];
-        let pat_decision = this.get_random_decision();
+        let pat_decision = this.get_random_decision(-1);
         decision.set(patient_uid, pat_decision as CohortInclusion);
       }
       this.db.decision = decision
@@ -434,14 +451,29 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     }
   }
 
-  public get_random_decision(): string {
+  public get_random_decision(n_criteria_no: number): string {
     let r = Math.random();
-    if (r < 0.7) {
-      return CohortInclusion.UNJUDGED;
-    } else if (r < 0.95) {
-      return CohortInclusion.EXCLUDE;
+    if (n_criteria_no == -1) {
+      if (r < 0.7) {
+        return CohortInclusion.UNJUDGED;
+      } else if (r < 0.95) {
+        return CohortInclusion.EXCLUDE;
+      } else {
+        return CohortInclusion.INCLUDE;
+      }
+
+    } else if (n_criteria_no == 0) {
+      if (r < 0.7) {
+        return CohortInclusion.UNJUDGED;
+      } else {
+        return CohortInclusion.INCLUDE;
+      }
     } else {
-      return CohortInclusion.INCLUDE;
+      if (r < 0.95) {
+        return CohortInclusion.EXCLUDE;
+      } else {
+        return CohortInclusion.UNJUDGED;
+      }
     }
   }
 }

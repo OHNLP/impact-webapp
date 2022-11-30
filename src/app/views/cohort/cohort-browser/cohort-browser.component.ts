@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {CohortInclusion, PatInfo} from "../../../models/pat-info";
+import {CohortInclusion, CohortMatch, PatInfo} from "../../../models/pat-info";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {ApplicationStatusService} from "../../../services/application-status.service";
@@ -16,13 +16,20 @@ export class CohortBrowserComponent implements OnInit {
   // Tracks whether changes to cohort relevance have been made
   private dirty: boolean = false 
   public search_keywords: string = '';
+  public filter_match: string = 'all';
 
   public CohortInclusion = CohortInclusion
 
   displayedColumns: string[] = [
-    'mrn', 'name', 
-    'stat1', 'stat2', 'stat3', 
-    'status', 'label', 'actions'
+    'mrn',  // Patient ID or MRN
+    'name', // Patient Name
+    // 'stat1', // Age
+    'stat2', // N inclusion matched
+    'stat3', // N exclusion matched
+    'nlp_rst', // the NLP result
+    'status', // Decision
+    'label', // User customized labels
+    'actions' // Actions
   ]
   
   public dataSource!: MatTableDataSource<PatInfo>;
@@ -53,14 +60,41 @@ export class CohortBrowserComponent implements OnInit {
     }
   }
 
+  calcMatch(pat: PatInfo): string {
+    if (pat.stat!.n_criteria_no > 0) {
+      return 'Unmatched';
+    } else if (pat.match == CohortMatch.MATCHED) {
+      return 'Matched';
+    } else {
+      return 'Unknown';
+    }
+  }
+
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.updateFilters();
   }
 
   clearFilter(event: Event): void {
     this.search_keywords = '';
-    this.dataSource.filter = '';
+    this.updateFilters();
+  }
+
+  updateFilters(): void {
+    // get filter text
+    let f_text = this.search_keywords.trim().toLowerCase();
+    console.log("* updateFilters: " + this.filter_match + ', ' + f_text);
+    
+    if (this.filter_match == 'all') {
+      this.dataSource.filter = f_text;
+      
+    } else if (this.filter_match == 'only_matched') {
+      this.dataSource.filter = f_text + ' ' + CohortMatch.MATCHED;
+
+    } else {
+      this.dataSource.filter = f_text;
+    }
   }
 
   public openPlummer(pat: PatInfo): void {

@@ -1,7 +1,7 @@
 import { Fact } from "src/app/models/clinical-data";
 import { CohortDefinition } from "src/app/models/cohort-definition";
 import { Determination } from "src/app/models/determination";
-import { CohortInclusion, PatInfo } from "src/app/models/pat-info";
+import { CohortInclusion, CohortMatch, PatInfo } from "src/app/models/pat-info";
 import { Project } from "src/app/models/project";
 import { MiddlewareRestProvider } from "../middleware-rest-provider";
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -370,6 +370,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
             pat_uid: r['patUID'],
             name: r['patUID'],
             inclusion: r['inclusion'],
+            match: CohortMatch.UNKNOWN,
 
             // init others
             labels: [],
