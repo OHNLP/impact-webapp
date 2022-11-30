@@ -38,6 +38,7 @@ export class ApplicationStatusService {
   public uwCriteriaUseEditorMode: boolean = false;
   public uwFact: Fact | undefined;
   public uwDocShowRawJSON: boolean = false;
+  public uwAdjudicationMode: boolean = false;
 
   // for data sources
   public uwAllDataSources: DataSource[] | undefined;
@@ -271,6 +272,19 @@ export class ApplicationStatusService {
       this.toastr.success("Saved the criteria updates.");
       console.log('* saved current criteria', rsp);
     })
+  }
+
+  public getNumberDeterminedCriteria(pat: PatInfo): number {
+    return pat.stat!.n_criteria_yes + 
+      pat.stat!.n_criteria_no + 
+      pat.stat!.n_criteria_na;
+  }
+
+  public getNumberAllCriteria(): number {
+    let n_inc = this.getNumberInclusionCriteria();
+    let n_exc = this.getNumberExclusionCriteria();
+    
+    return n_inc + n_exc;
   }
 
   public getNumberInclusionCriteria(): number {

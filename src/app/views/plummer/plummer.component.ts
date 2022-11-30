@@ -37,4 +37,8 @@ export class PlummerComponent implements OnInit {
     this.appStatus.activeView = View.COHORT_BROWSER;
     this.appStatus.uwPat = undefined;
   }
+
+  toggleAdjudicationMode(): void {
+    
+  }
 }

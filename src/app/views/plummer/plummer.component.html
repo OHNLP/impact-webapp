@@ -28,9 +28,17 @@
 
         <div class="divider"></div>
         
-        <button class="cdt-btn mr-5">
+        <button class="cdt-btn">
             <i class="fas fa-external-link-square-alt"></i>
             View in EHR
+        </button>
+
+        <div class="divider"></div>
+        
+        <button class="cdt-btn"
+          (click)="toggleAdjudicationMode()">
+            <i class="fa fa-people-arrows"></i>
+            Adjudication
         </button>
 
         <div class="divider"></div>
@@ -40,7 +48,9 @@
             Export as XLSX
         </button>
 
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <button mat-icon-button 
+          [matMenuTriggerFor]="menu" 
+          aria-label="Show more actions">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">

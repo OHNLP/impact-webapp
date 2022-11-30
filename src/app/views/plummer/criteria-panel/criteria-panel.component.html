@@ -9,7 +9,10 @@
                     Eligibility Checklist
                 </div>
                 <div class="panel-header-subtitle">
-                    4 / 5 determined
+                    {{ this.appStatus.getNumberDeterminedCriteria(this.appStatus.uwPat!) }}
+                    /
+                    {{ this.appStatus.getNumberAllCriteria() }} 
+                    determined
                 </div>
             </div>
     
