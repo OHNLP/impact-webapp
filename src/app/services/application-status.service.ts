@@ -45,6 +45,10 @@ export class ApplicationStatusService {
   // for UMLS Code search
   public uwIsSearchingUMLSCodes: boolean = false;
   public uwUMLSCodes: string[] | undefined;
+
+  // for Phenotype search
+  public uwIsSearchingPhenoReps: boolean = false;
+  public uwPhenoReps: CohortDefinition[] | undefined;
   
   // for facts
   public uwFacts: Fact[] | undefined;
@@ -565,6 +569,17 @@ export class ApplicationStatusService {
       this.uwIsSearchingUMLSCodes = false;
       this.toastr.success(
         "Found " + rs.length + ' UMLS CUIs'
+      );
+    });
+  }
+
+  public searchPhenotypeReps(keyword: string): void {
+    this.uwIsSearchingPhenoReps = true;
+    this.middleware.rest.get_pheno_reps_by_keyword(keyword).subscribe(rs => {
+      this.uwPhenoReps = rs;
+      this.uwIsSearchingPhenoReps = false;
+      this.toastr.success(
+        "Found " + rs.length + ' Phenotype Representations'
       );
     });
   }

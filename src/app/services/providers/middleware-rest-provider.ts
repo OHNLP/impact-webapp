@@ -104,4 +104,9 @@ export abstract class MiddlewareRestProvider {
   public abstract get_umls_codes_by_keyword(
     keyword: string
   ): Observable<any[]>;
+
+  /* ===== PhenoRepSearch Related Methods =====*/
+  public abstract get_pheno_reps_by_keyword(
+    keyword: string
+  ): Observable<CohortDefinition[]>;
 }

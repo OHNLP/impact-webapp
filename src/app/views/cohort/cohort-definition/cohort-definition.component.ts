@@ -41,6 +41,7 @@ export class CohortDefinitionComponent implements OnInit {
 
   // for searching phenotype
   public phenotype_keyword: string = '';
+  public library_keyword: string = '';
 
   /** The TreeControl controls the expand/collapse state of tree nodes.  */
   treeControl: NestedTreeControl<CohortDefinition, CohortDefinition>;
@@ -97,6 +98,27 @@ export class CohortDefinitionComponent implements OnInit {
     }
   }
 
+  shareCohortDef(): void {
+    var ret = window.prompt('');
+  }
+
+  /////////////////////////////////////////////////////////
+  // Phenotype lib related functions
+  /////////////////////////////////////////////////////////
+  searchPhenotypeReps(): void {
+    this.appStatus.searchPhenotypeReps(
+      this.library_keyword
+    );
+  }
+
+  copyPhenotypeRep(def: CohortDefinition): void {
+
+  }
+
+  getPhenotypeRepJSONStr(def: CohortDefinition): string {
+    return JSON.stringify(def, null, 2);
+  }
+
   /////////////////////////////////////////////////////////
   // UMLS CUI related functions
   /////////////////////////////////////////////////////////
@@ -116,7 +138,12 @@ export class CohortDefinitionComponent implements OnInit {
   }
 
   copyUMLSCodes(): void {
-    let codes = this.getUMLSCodeList();
+    if (this.appStatus.uwUMLSCodes == undefined) {
+      return;
+    }
+    // ok, it's not null now, add " to each
+    let codes = this.appStatus.uwUMLSCodes.map(v => '"' + v + '"').join(', ');
+
     this.clipboard.copy(codes);
 
     // toast

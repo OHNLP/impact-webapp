@@ -18,6 +18,17 @@ import { DataSource } from "src/app/models/data-source";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+
+  /////////////////////////////////////////////////////////
+  // Phenotype Rep search related functions
+  /////////////////////////////////////////////////////////
+  public get_pheno_reps_by_keyword(keyword: string): Observable<CohortDefinition[]> {
+    throw new Error("Method not implemented.");
+  }
+
+  /////////////////////////////////////////////////////////
+  // UMLS CUI search related functions
+  /////////////////////////////////////////////////////////
   public get_umls_codes_by_keyword(keyword: string): Observable<any[]> {
     throw new Error("Method not implemented.");
   }

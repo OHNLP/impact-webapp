@@ -15,12 +15,12 @@
     Toggle Editor
   </button>
 
-  <!-- <button mat-raised-button
+  <button mat-raised-button
     class="mr-2"
-    (click)="resetTreeEmpty()">
-    <mat-icon>refresh</mat-icon>
-    Reset to Empty
-  </button> -->
+    (click)="shareCohortDef()">
+    <mat-icon>share</mat-icon>
+    Share
+  </button>
 </div>
 
 
@@ -116,7 +116,7 @@
           <mat-form-field class="example-full-width">
             <mat-label>Phenotype Name</mat-label>
             <input matInput 
-              placeholder="E.g., HIV" 
+              placeholder="E.g., GERD" 
               value=""
               [(ngModel)]="phenotype_keyword">
             <button *ngIf="phenotype_keyword" 
@@ -156,10 +156,10 @@
           [innerHTML]="getUMLSCodeList()">
         </div>
 
-
-
       </mat-expansion-panel>
 
+
+      <!-- the panel for Phenotype search -->
       <mat-expansion-panel expanded>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -174,8 +174,78 @@
             
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <p>I'm visible because I am open</p>
+
+        <p>
+          Search shared phenotype representations 
+        </p>
+
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Keyword</mat-label>
+            <input matInput 
+              placeholder="E.g., GERD" 
+              value=""
+              [(ngModel)]="library_keyword">
+            <button *ngIf="library_keyword" 
+              matSuffix 
+              mat-icon-button 
+              aria-label="Clear" 
+              (click)="library_keyword=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        
+          <button mat-button 
+            mat-raised-button
+            class="ml-2"
+            (click)="searchPhenotypeReps()">
+            <mat-icon>search</mat-icon>
+            Search
+          </button>
+
+        </div>
+
+        <div *ngIf="this.appStatus.uwIsSearchingPhenoReps"
+          class="panel-result-list-box">
+          Searching ...
+        </div>
+
+        <div *ngIf="!this.appStatus.uwIsSearchingPhenoReps"
+          class="panel-result-list-box">
+          <mat-accordion>
+
+            <mat-expansion-panel
+              *ngFor="let def of this.appStatus.uwPhenoReps">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="mat-panel-title">
+                  <button mat-button 
+                    mat-raised-button                    
+                    (click)="copyPhenotypeRep(def)">
+                    <mat-icon>file_copy</mat-icon>
+                    Copy
+                  </button>
+                  &nbsp;
+                  &nbsp;
+                  {{ def['title'] }}
+                </mat-panel-title>
+                
+                <mat-panel-description>
+                </mat-panel-description>
+
+              </mat-expansion-panel-header>
+
+              <pre [innerHTML]="getPhenotypeRepJSONStr(def)"></pre>
+
+            </mat-expansion-panel>
+
+          </mat-accordion>
+          
+        </div>
+
+
       </mat-expansion-panel>
+
+
     </mat-accordion>
   </div>
 </div>

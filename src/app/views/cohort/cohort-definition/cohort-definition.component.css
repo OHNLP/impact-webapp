@@ -45,3 +45,6 @@
   max-height: 800px;
   padding: 5px;
 }
+.mat-panel-title {
+  padding: 1px 0;
+}

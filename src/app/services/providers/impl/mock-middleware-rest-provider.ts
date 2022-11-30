@@ -18,6 +18,35 @@ import { DataSource } from 'src/app/models/data-source';
 import { EXAMPLE_DATA_SOURCES } from 'src/app/samples/sample-ds';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+
+  /////////////////////////////////////////////////////////
+  // Phenotype Rep search related functions
+  /////////////////////////////////////////////////////////
+  private _make_fake_title(w: string): string {
+    var n_left = Math.floor(Math.random() * 3 + 1);
+    var n_right = Math.floor(Math.random() * 3 + 1);
+    var title = faker.lorem.sentence(n_left) + " " + w + " " +
+                faker.lorem.sentence(n_right);
+
+    return title;
+  }
+
+  public get_pheno_reps_by_keyword(keyword: string): Observable<CohortDefinition[]> {
+    var rs = [] as CohortDefinition[];
+    var n = Math.floor(Math.random() * 6 + 1);
+    for (let i = 0; i < n; i++) {
+      let rep = this.cps(
+        EXAMPLE_CRITERIA_GERD.children![0].children![1].children![0]
+      )
+      rep.title = this._make_fake_title(keyword);
+      rs.push(rep);
+    }
+    return of(rs);
+  }
+
+  /////////////////////////////////////////////////////////
+  // UMLS CUI search related functions
+  /////////////////////////////////////////////////////////
   public get_umls_codes_by_keyword(keyword: string): Observable<any[]> {
     var rs = [];
     var n = Math.floor(Math.random() * 10 + 3);
