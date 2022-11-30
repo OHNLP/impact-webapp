@@ -1,13 +1,13 @@
 <div class="menu-bar-box" 
   style="display: flex; flex-direction: row; position: sticky; top: 0; z-index: 999;">
 
-  <button mat-raised-button
+  <!-- <button mat-raised-button
     [disabled]="appStatus.uwProjectLoading"
     (click)="onClickRefreshCohort()"
     class="mr-2">
     <mat-icon>refresh</mat-icon> 
     Refresh
-  </button>
+  </button> -->
 
   <mat-divider [vertical]="true"></mat-divider>
 
@@ -42,6 +42,15 @@
     <mat-icon>download</mat-icon> 
     Export as XLSX
   </button>
+
+
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button value="1">Included Only</mat-radio-button>
+    <mat-radio-button value="2">All Patients</mat-radio-button>
+  </mat-radio-group>
+
 </div>
 
 
