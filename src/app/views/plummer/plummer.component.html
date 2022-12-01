@@ -1,9 +1,22 @@
 <div id="plummer-wrapper"
   *ngIf="appStatus.uwPlummerLoading">
-  <div class="grid-container">
-    <h3 class="ml-2">
-      Loading determination data ... <i class="fas fa-spinner fa-spin"></i>
+  <div class="grid-container p-2">
+    <h3>
+      Loading determination data ... 
+      <i class="fas fa-spinner fa-spin"></i>
     </h3>
+    <div *ngIf="this.appStatus.uwAdjudicationMode">
+      <p>
+        If the loading time is too long, 
+        you can turn off the adjudication mode to go back to review mode.
+      </p>
+      <mat-slide-toggle
+        [(ngModel)]="this.appStatus.uwAdjudicationMode"
+        (change)="toggleAdjudicationMode()">
+        <i class="fa fa-people-arrows"></i>
+        Adjudication Mode
+      </mat-slide-toggle>
+    </div>
   </div>
 </div>
 
@@ -34,12 +47,13 @@
         </button>
 
         <div class="divider"></div>
-        
-        <button class="cdt-btn"
-          (click)="toggleAdjudicationMode()">
-            <i class="fa fa-people-arrows"></i>
-            Adjudication
-        </button>
+
+        <mat-slide-toggle
+          [(ngModel)]="this.appStatus.uwAdjudicationMode"
+          (change)="toggleAdjudicationMode()">
+          <i class="fa fa-people-arrows"></i>
+          Adjudication Mode
+        </mat-slide-toggle>
 
         <div class="divider"></div>
         

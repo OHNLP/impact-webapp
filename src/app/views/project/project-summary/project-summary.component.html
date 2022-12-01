@@ -5,7 +5,8 @@
     {{ appStatus.uwProject?.description }}
   </div>
 
-  <div *ngIf="isProjectLoading">
+  <div *ngIf="isProjectLoading"
+    class="p-2">
     <h3>
       Loading project data ... <i class="fas fa-spinner fa-spin"></i>
     </h3>

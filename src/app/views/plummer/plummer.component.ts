@@ -39,6 +39,18 @@ export class PlummerComponent implements OnInit {
   }
 
   toggleAdjudicationMode(): void {
-    
+    // this.appStatus.uwAdjudicationMode = !this.appStatus.uwAdjudicationMode;
+    console.log('* toggle ADJ mode:', this.appStatus.uwAdjudicationMode);
+
+    if (!this.appStatus.uwAdjudicationMode) {
+      // the adjudication mode is turned off
+      this.appStatus.uwPlummerLoading = false;
+      return;
+    }
+
+    // need to load other determinations
+    this.appStatus.uwPlummerLoading = true;
+
+    // 
   }
 }

@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "@angular/Material/prebuilt-themes/deeppurple-amber.css";
 @import "~jsoneditor/dist/jsoneditor.min.css";
 @import '~ngx-toastr/toastr';
 
@@ -151,6 +153,18 @@ pre.raw-json {
 .cdt-btn-w20 {
   width: 20px;
 }
+
+.p-1 { padding: 1em !important; }
+.p-2 { padding: 2em !important; }
+.p-3 { padding: 3em !important; }
+
+.pl-1 { padding-left: 1em !important; }
+.pl-2 { padding-left: 2em !important; }
+.pl-3 { padding-left: 3em !important; }
+
+.pr-1 { padding-right: 1em !important; }
+.pr-2 { padding-right: 2em !important; }
+.pr-3 { padding-right: 3em !important; }
 
 .ml-2 {
   margin-left: 1em !important;

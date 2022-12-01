@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {RouterModule} from "@angular/router";
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
@@ -84,6 +85,7 @@ import { DataSourceEditorComponent } from './views/data-source-editor/data-sourc
     MatIconModule,
     MatListModule,
     MatRadioModule,
+    MatSlideToggleModule,
     RouterModule,
     MatGridListModule,
     MatCardModule,
