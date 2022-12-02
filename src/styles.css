@@ -7,7 +7,21 @@
 textarea.jsoneditor-text {
   min-height: 500px;
 }
-
+.jsoneditor {
+  border: 1px solid #efefef;
+}
+.jsoneditor-menu {
+  background-color: #dddddd;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jsoneditor-menu button {
+  color: #000;
+  background-color: #bebebe;
+}
+.jsoneditor-frame button {
+  background-color: transparent;
+}
+/* general settings */
 html,
 body {
   height: 100%;
