@@ -35,7 +35,7 @@
     Import
   </button>
 
-  <button mat-raised-button 
+  <!-- <button mat-raised-button 
     class="ml-2 mr-2"
     [matMenuTriggerFor]="export_menu">
     <mat-icon>download</mat-icon> 
@@ -48,8 +48,20 @@
     <button mat-menu-item>
       As JSON File
     </button>
-  </mat-menu>
+  </mat-menu> -->
 
+
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <div style="display: flex; align-items: center; padding: 0 10px;">
+
+  <mat-slide-toggle
+    [(ngModel)]="this.appStatus.uwAdjudicationMode"
+    (change)="toggleAdjudicationMode()">
+    <i class="fa fa-people-arrows"></i>
+    Adjudication Mode
+  </mat-slide-toggle>
+</div>
 
   <mat-divider [vertical]="true"></mat-divider>
 

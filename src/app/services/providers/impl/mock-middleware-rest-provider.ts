@@ -308,7 +308,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
           user_uid: EXAMPLE_USERS[0].uid,
           judgement: jg,
 
-          comment: faker.lorem.lines(1),
+          // comment: faker.lorem.lines(1),
+          comment: '',
           date_updated: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
         });
       }
@@ -369,7 +370,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
             user_uid: EXAMPLE_USERS[j].uid,
             judgement: jg,
 
-            comment: faker.lorem.lines(1),
+            comment: '',
+            // comment: faker.lorem.lines(1),
             date_updated: faker.date.between(
               '2010-01-01T00:00:00.000Z', 
               '2022-12-31T00:00:00.000Z'
@@ -399,8 +401,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       'PERSON',
       'CONDITION'
     ];
+    let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
     for (let i = 0; i < n_facts; i++) {
-      let ft = fact_types[Math.floor(Math.random() * fact_types.length)];
       let ftc = 'ehr';
       if (Math.random()<0.5) {
         ftc = 'nlp';
@@ -447,7 +449,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
       "subject":{
         "identifier":{"value":"1234567"}
       },
-      "recordedDate":"1987-11-01T00:00:00-06:00"
+      "recordedDate": faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z')
     }
     return of(d);
   }
@@ -468,16 +470,16 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
           "id":evidence_id,
           "code":{
             "coding":[{
-              "system":"https://athena.ohdsi.org/",
+              "system": "https://athena.ohdsi.org/",
               "code": faker.random.numeric(8),
-              "display":"Name"
+              "display": "Name"
             }]},
           "subject":{
             "identifier":{
-              "value":faker.random.numeric(7),
+              "value": faker.random.numeric(7),
             }
           },
-          "recordedDate":"1987-11-01T00:00:00-06:00"
+          "recordedDate": faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z')
         }
       }
       d[evidence_id] = obj;
@@ -509,7 +511,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
           "value":faker.random.numeric(7),
         }
       },
-      "recordedDate":"1987-11-01T00:00:00-06:00"
+      "recordedDate": faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z')
     }
   }
 

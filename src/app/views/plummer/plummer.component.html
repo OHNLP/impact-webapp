@@ -34,14 +34,16 @@
         <div style="margin: 0 10px;">
             Actions:
         </div>
-        <button class="cdt-btn">
+
+        <!-- <button class="cdt-btn">
             <i class="fa fa-save"></i>
             Save Determinations
-        </button>
+        </button> -->
 
-        <div class="divider"></div>
+        <!-- <div class="divider"></div> -->
         
-        <button class="cdt-btn">
+        <button class="cdt-btn"
+          (click)="view_in_ehr()">
             <i class="fas fa-external-link-square-alt"></i>
             View in EHR
         </button>
@@ -57,12 +59,13 @@
 
         <div class="divider"></div>
         
-        <button class="cdt-btn mr-5">
+        <button class="cdt-btn mr-5"
+          (click)="export_as_xls()">
             <i class="fas fa-file-export"></i>
-            Export as XLSX
+            Export
         </button>
 
-        <button mat-icon-button 
+        <!-- <button mat-icon-button 
           [matMenuTriggerFor]="menu" 
           aria-label="Show more actions">
             <mat-icon>more_vert</mat-icon>
@@ -74,7 +77,7 @@
                 Export to Other System
               </span>
             </button>
-          </mat-menu>
+          </mat-menu> -->
         
     </div>
 

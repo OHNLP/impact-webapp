@@ -54,4 +54,12 @@ export class PlummerComponent implements OnInit {
     // load data
     this.appStatus.showAdjudications();
   }
+
+  view_in_ehr(): void {
+    this.appStatus.toastr.success('Open the patient profile in EHR system.');
+  }
+
+  export_as_xls(): void {
+    
+  }
 }

@@ -25,6 +25,9 @@ export class LabelBoxComponent implements OnInit {
   }
 
   onClickDeleteLabel(lbl: string): void {
+    let idx = this.appStatus.uwPat!.labels!.indexOf(lbl);
+    delete this.appStatus.uwPat!.labels![idx];
 
+    this.appStatus.toastr.success('Removed label [' + lbl + ']');
   }
 }

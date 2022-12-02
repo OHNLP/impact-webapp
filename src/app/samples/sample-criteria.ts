@@ -42,7 +42,7 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
             {
               "nodeUID": "cb8274b5-302a-43dc-b852-817653be600f",
               "nodeType": "ENTITY",
-              "title": "a. Gastroesophageal reflux disease defined by diagnosis",
+              "title": "a. Gastroesophageal reflux disease",
               "description": "Gastroesophageal reflux disease defined by diagnosis. ICD-9: 530.81, ICD-10: K21.9",
               "type": "CONDITION",
               "components": [
@@ -62,7 +62,7 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
             {
               "nodeUID": "5d65c3fa-a262-4182-b2c3-b28a884dde59",
               "nodeType": "ENTITY",
-              "title": "b. GERD defined by drug, >= 3 months over 5 years",
+              "title": "b. GERD defined by drug duration",
               "description": "GERD defined by drug, duration of use >= 3 months over the last 5 years. Medication includes: omeprazole, esomeprazole, pantoprazole, rabeprazole, dexlansoprazole, lansoprazole, ranitidine, famotidine, cimetidine",
               "type": "MEDICATION",
               "components": [
@@ -97,7 +97,7 @@ export const EXAMPLE_CRITERIA_GERD: CohortDefinition =
             {
               "nodeUID": "e3e63c9d-396f-4109-8d28-3e96cf07af05",
               "nodeType": "ENTITY",
-              "title": "c. GERD defined by prior endoscopic diagnosis of erosive esophagitis",
+              "title": "c. GERD defined by prior endoscopic diagnosis",
               "description": "GERD defined by prior endoscopic diagnosis of erosive esophagitis. ICD-9: 530.19, ICD-10: K21.0",
               "type": "CONDITION",
               "components": [

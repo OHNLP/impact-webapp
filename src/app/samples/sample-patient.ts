@@ -10,7 +10,6 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
 
     labels: [
         'GERD', 
-        'WARFARIN',
         'ECOG PS2'
     ],
     stat: {
@@ -31,7 +30,6 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
 
     labels: [
         'GERD', 
-        'COUMADIN',
         'ECOG PS1'
     ],
     stat: {
@@ -51,7 +49,7 @@ export const EXAMPLE_PATIENTS: PatInfo[] = [
     match: CohortMatch.UNKNOWN,
 
     labels: [
-        'WARFARIN',
+        'GERD', 
         'ECOG PS1'
     ],
     stat: {

@@ -109,4 +109,6 @@ export class CohortBrowserComponent implements OnInit {
     this.appStatus.showCohort();
   }
 
+  toggleAdjudicationMode(): void {
+  }
 }
