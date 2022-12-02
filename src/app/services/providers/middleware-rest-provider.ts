@@ -73,10 +73,17 @@ export abstract class MiddlewareRestProvider {
 
   /* ===== Individual Patient Determination Related Methods =====*/
   public abstract get_determinations(
-    uid: string, 
+    job_uid: string, 
     patient_uid: string,
     criteria?: CohortDefinition
   ): Observable<Array<Determination>>;
+
+  public abstract get_adjudications(
+    job_uid: string, 
+    patient_uid: string,
+    criteria: CohortDefinition,
+    dtmn_dict: any
+  ): Observable<any>;
 
   public abstract update_determination(
     job_uid: string,

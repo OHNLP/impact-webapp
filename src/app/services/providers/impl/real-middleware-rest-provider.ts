@@ -18,6 +18,10 @@ import { DataSource } from "src/app/models/data-source";
 })
 
 export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
+  public get_adjudications(job_uid: string, patient_uid: string, criteria: CohortDefinition, dtmn_dict: any): Observable<any> {
+    throw new Error("Method not implemented.");
+  }
+
 
   /////////////////////////////////////////////////////////
   // Phenotype Rep search related functions
@@ -485,10 +489,13 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
       let nodeUID: keyof typeof dd;
       for (nodeUID in dd) {
         const r = dd[nodeUID] as any;
+        let user_uid = '' + localStorage.getItem('username');
         dtmns.push({
           job_uid: job_uid.toLocaleLowerCase(),
           patient_uid: patient_uid.toLocaleLowerCase(),
           criteria_uid: nodeUID.toLocaleLowerCase(),
+          // get current user
+          user_uid: user_uid,
           judgement: r.judgement,
           comment: r.comment == null? "": r.comment,
           date_updated: new Date(),
@@ -532,6 +539,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
       return dtmn;
     }));
   }
+
 
   /////////////////////////////////////////////////////////
   // Fact related functions

@@ -1,10 +1,30 @@
 <div class="node-content">
-    <div class="tree-node-info">
+    <div class="tree-node-info"
+        [class.tree-node-info-adjmode]="this.appStatus.uwAdjudicationMode">
         <div>
             <div class="tree-node-info-title"
                 [class.active-tree-node-info-title]="this.appStatus.uwCriteriaAssessing?.nodeUID === node?.criteria?.nodeUID"
                 (click)="onClickTreeNode(node)"
                 [ngStyle]="{'width.px':getNodeWidth(node?.level)}">
+
+                <span *ngIf="this.appStatus.uwAdjudicationMode">
+                    
+                    <span *ngIf="this.appStatus.calcAgreement(node!.criteria!.nodeUID) === JUDGEMENT_AGREEMENT.AGREED"
+                        class="clr-d-yes">
+                        <i class="fas fa-check-double"></i>
+                    </span>
+
+                    <span *ngIf="this.appStatus.calcAgreement(node!.criteria!.nodeUID) === JUDGEMENT_AGREEMENT.DISAGREED"
+                        class="clr-d-no">
+                        <i class="fas fa-exchange-alt"></i>
+                    </span>
+
+                    <span *ngIf="this.appStatus.calcAgreement(node!.criteria!.nodeUID) === JUDGEMENT_AGREEMENT.INSUFFICIENT"
+                        class="clr-d-na">
+                        <i class="far fa-question-circle"></i>
+                    </span>
+                </span>
+
                 {{ node?.criteria?.title }}
             </div>
 
@@ -19,7 +39,13 @@
 
             <div class="tree-node-info-dtmns tree-node-dtmn-signs">
 
-                <div class="node-dtmn">
+                <div *ngIf="this.appStatus.uwAdjudicationMode && this.appStatus.uwCriteriaAssessing?.nodeUID === node?.criteria?.nodeUID"
+                    class="node-label-left">
+                    <i class="fas fa-user-md"></i>
+                    {{ this.appStatus.getUsername() }}
+                </div>
+
+                <!-- <div class="node-dtmn">
                     <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.JUDGED_MATCH"
                         class="clr-d-yes">
                         <i class="fas fa-check-circle"></i>
@@ -31,8 +57,10 @@
                     <div *ngIf="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].judgement === JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP"
                         class="clr-d-may-yes" style="position: relative;">
                         <i class="far fa-question-circle"></i>
-                        <span class="nlp-icon">NLP</span>
                     </div>
+                </div> -->
+                <div class="node-dtmn"
+                    [innerHTML]="get_icon_by_judgement(this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID], 'yes')">
                 </div>
 
                 <div class="node-dtmn">
@@ -58,6 +86,37 @@
                 </div>
 
             </div>
+
+
+
+            <div *ngIf="this.appStatus.uwAdjudicationMode && this.appStatus.uwCriteriaAssessing?.nodeUID === node?.criteria?.nodeUID">
+                <div *ngFor="let ur_jg of this.appStatus.uwAdjudicationDict[node!.criteria!.nodeUID] | keyvalue">
+                    <div class="tree-node-info-dtmns tree-node-dtmn-signs tree-node-dtmn-signs-compare">
+
+                        <div class="node-label-left">
+                            <i class="far fa-user-circle"></i>
+                            {{ ur_jg.key }}
+                        </div>
+
+                        <div class="node-dtmn"
+                            [innerHTML]="get_icon_by_judgement(ur_jg.value, 'yes')">
+                        </div>
+                        <div class="node-dtmn"
+                            [innerHTML]="get_icon_by_judgement(ur_jg.value, 'no')">
+                        </div>
+                        <div class="node-dtmn"
+                            [innerHTML]="get_icon_by_judgement(ur_jg.value, 'na')">
+                        </div>
+                        <div class="node-dtmn"
+                            [innerHTML]="get_icon_by_judgement(ur_jg.value, 'unk')">
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+
+
+
 
             <div class="tree-node-info-dtmns tree-node-dtmn-opers">
 
@@ -131,6 +190,19 @@
                 [(ngModel)]="this.appStatus.uwDeterminationDict[node?.criteria!.nodeUID].comment"
                 (change)="onChangeComment($event)"
                 placeholder="Please leave any comments for this criteria if needed" rows="3"></textarea>
+        </div>
+    </div>
+
+    <div *ngIf="this.appStatus.uwAdjudicationMode && this.appStatus.uwCriteriaAssessing?.nodeUID === node?.criteria?.nodeUID" 
+        class="tree-node-user-comment">
+        <div *ngFor="let ur_jg of this.appStatus.uwAdjudicationDict[node!.criteria!.nodeUID] | keyvalue"
+            class="tree-node-dtmn-signs-compare pt-1 fs-12">
+            <i>
+                <i class="far fa-user-circle"></i>
+                {{ ur_jg.key }}'s comments:
+            </i> <br>
+            <div [innerHTML]="get_comment(ur_jg.value)">
+            </div>
         </div>
     </div>
 </div>

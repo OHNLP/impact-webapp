@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTree, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { CohortDefinition } from 'src/app/models/cohort-definition';
-import { JUDGEMENT_TYPE } from 'src/app/models/determination';
+import { JUDGEMENT_AGREEMENT, JUDGEMENT_TYPE } from 'src/app/models/determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 
@@ -25,6 +25,9 @@ import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.se
 export class CriteriaTreeTableComponent implements OnInit {
   @ViewChild('tree') tree!: MatTree<any>;
   @Input() criteria?: CohortDefinition 
+
+  JUDGEMENT_TYPE = JUDGEMENT_TYPE
+  JUDGEMENT_AGREEMENT = JUDGEMENT_AGREEMENT
 
   /** Transform the data to something the tree can read. */
   transformer(node: CohortDefinition, level: number): FlatTreeNode {

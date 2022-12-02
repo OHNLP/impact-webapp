@@ -16,8 +16,10 @@ import { v4 as uuid } from 'uuid';
 import { EXAMPLE_DOC_FHIR_NLP_CONDITION } from 'src/app/samples/sample-doc';
 import { DataSource } from 'src/app/models/data-source';
 import { EXAMPLE_DATA_SOURCES } from 'src/app/samples/sample-ds';
+import { EXAMPLE_USERS } from 'src/app/samples/sample-user';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
+  
 
   /////////////////////////////////////////////////////////
   // Phenotype Rep search related functions
@@ -72,8 +74,6 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   public get_job_data_sources(job_uid: string): Observable<DataSource[]> {
     throw new Error('Method not implemented.');
   }
-
-
   
   // copy an data obj
   public cps(obj: any): any { return JSON.parse(JSON.stringify(obj)); }
@@ -83,7 +83,8 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     projects: this.cps(EXAMPLE_PROJECTS),
     jobs: this.cps(EXAMPLE_JOBS),
     patients: [],
-    determinations: [],
+    determinations: new Map<string, []>(),
+    adjudications: new Map<string, []>(),
     decision: new Map<string, CohortInclusion>(),
     criteria: this.cps(EXAMPLE_CRITERIA_GERD),
     ds: this.cps(EXAMPLE_DATA_SOURCES)
@@ -283,42 +284,103 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     patient_uid: string,
     criteria?: CohortDefinition
   ): Observable<Array<Determination>> {
-    if (this.db.determinations.length == 0) {
 
+    if (this.db.determinations.hasOwnProperty(patient_uid)) {
+      // ok, just return at last
+    } else {
+      // too bad, no such patient yet, let's create
       var nodes = [];
-      function get_nodes(node:any) {
-        var ns: any[] = [];
-        if (node.hasOwnProperty('children')) {
-          for (let i = 0; i < node.children.length; i++) {
-            const c = node.children[i];
-            ns.push(c);
-            var _ns = get_nodes(c);
-            Array.prototype.push.apply(ns, _ns);
-          }
-        }
-
-        return ns;
-      }
-      nodes = get_nodes(criteria);
+      nodes = this._get_nodes(criteria);
       console.log('* flatten criteria', nodes);
 
       let dtmns:any = [];
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
+        let jg = this.randomEnumValue(JUDGEMENT_TYPE);
+        // more
+
         dtmns.push({
           job_uid: job_uid,
           patient_uid: patient_uid,
           criteria_uid: n.nodeUID,
-          judgement: this.randomEnumValue(JUDGEMENT_TYPE),
+
+          // just use this example user
+          user_uid: EXAMPLE_USERS[0].uid,
+          judgement: jg,
+
           comment: faker.lorem.lines(1),
           date_updated: faker.date.between('2010-01-01T00:00:00.000Z', '2022-12-31T00:00:00.000Z'),
         });
       }
+      // ok, save this dtmns for later use
+      this.db.determinations.set(patient_uid, dtmns);
+    }
+    return of(this.db.determinations.get(patient_uid) as Array<Determination>);
 
-      this.db.determinations = dtmns;
+  }
+
+  private _get_nodes(node:any) {
+    var ns: any[] = [];
+    if (node.hasOwnProperty('children')) {
+      for (let i = 0; i < node.children.length; i++) {
+        const c = node.children[i];
+        ns.push(c);
+        var _ns = this._get_nodes(c);
+        Array.prototype.push.apply(ns, _ns);
+      }
     }
 
-    return of(this.db.determinations);
+    return ns;
+  }
+
+  public get_adjudications(
+    job_uid: string, 
+    patient_uid: string, 
+    criteria: CohortDefinition,
+    dtmn_dict: any,
+  ): Observable<any> {
+    if (this.db.adjudications.hasOwnProperty(patient_uid)) {
+      // ok, just return at last
+    } else {
+      // too bad, no such patient yet, let's create
+      var nodes = [];
+      nodes = this._get_nodes(criteria);
+      console.log('* flatten criteria', nodes);
+
+      // now, create determinations by others
+      // skip the first user, just create others
+      let other_dtmns:any = {};
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        other_dtmns[n.nodeUID] = {}
+        for (let j = 1; j < EXAMPLE_USERS.length; j++) {
+          // set this user to this criteria
+          let jg = this.randomEnumValue(JUDGEMENT_TYPE);
+          if (Math.random()<0.95) {
+            // for most of case, just stay the same judgement
+            jg = dtmn_dict[n.nodeUID].judgement;
+          }
+          other_dtmns[n.nodeUID][EXAMPLE_USERS[j].uid] = {
+            job_uid: job_uid,
+            patient_uid: patient_uid,
+            criteria_uid: n.nodeUID,
+
+            // just use this example user
+            user_uid: EXAMPLE_USERS[j].uid,
+            judgement: jg,
+
+            comment: faker.lorem.lines(1),
+            date_updated: faker.date.between(
+              '2010-01-01T00:00:00.000Z', 
+              '2022-12-31T00:00:00.000Z'
+            ),
+          };
+        }
+      }
+      // ok, save this dtmns for later use
+      this.db.adjudications.set(patient_uid, other_dtmns);
+    }
+    return of(this.db.adjudications.get(patient_uid));
   }
 
   /////////////////////////////////////////////////////////

@@ -51,6 +51,7 @@ export class PlummerComponent implements OnInit {
     // need to load other determinations
     this.appStatus.uwPlummerLoading = true;
 
-    // 
+    // load data
+    this.appStatus.showAdjudications();
   }
 }

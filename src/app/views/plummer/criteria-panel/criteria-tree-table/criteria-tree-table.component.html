@@ -66,6 +66,7 @@
             matTreeNodePadding 
             matTreeNodePaddingIndent="20"
             [class.active-mat-tree-node]="this.appStatus.uwCriteriaAssessing?.nodeUID === node.criteria.nodeUID"
+            [class.bg-d-no]="this.appStatus.uwAdjudicationMode && this.appStatus.calcAgreement(node!.criteria!.nodeUID) === JUDGEMENT_AGREEMENT.DISAGREED"
             [ngStyle]="{'height':this.appStatus.uwCriteriaAssessing?.nodeUID === node.criteria.nodeUID? 'auto':'30px'}">
             <!-- use a disabled button to provide padding for tree leaf -->
             <button mat-icon-button disabled></button>

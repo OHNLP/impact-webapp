@@ -194,6 +194,12 @@ pre.raw-json {
   font-size: 12px;
 }
 
+.bg-d-yes {
+  background-color: #d6f0d0 !important;
+}
+.bg-d-no {
+  background-color: #f1d5d5 !important;
+}
 .clr-d-yes {
   color: #41992b;
 }

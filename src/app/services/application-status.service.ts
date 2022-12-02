@@ -6,7 +6,7 @@ import {MiddlewareAdapterService} from "./middleware-adapter.service";
 import { formatDate } from '@angular/common';
 import { CohortDefinition } from '../models/cohort-definition';
 
-import { Determination, JUDGEMENT_TYPE } from '../models/determination';
+import { Determination, JUDGEMENT_AGREEMENT, JUDGEMENT_TYPE } from '../models/determination';
 import { Fact } from '../models/clinical-data';
 import { EXAMPLE_PROJECTS } from '../samples/sample-project';
 import { EXAMPLE_PATIENTS } from '../samples/sample-patient';
@@ -38,7 +38,12 @@ export class ApplicationStatusService {
   public uwCriteriaUseEditorMode: boolean = false;
   public uwFact: Fact | undefined;
   public uwDocShowRawJSON: boolean = false;
+  
+  // for user generated infor
+  public uwPlummerLoading: boolean = false;
+  public uwDeterminationDict: Record<string, Determination> = {};
   public uwAdjudicationMode: boolean = false;
+  public uwAdjudicationDict: Record<string, any> = {};
 
   // for data sources
   public uwAllDataSources: DataSource[] | undefined;
@@ -54,10 +59,6 @@ export class ApplicationStatusService {
   // for facts
   public uwFacts: Fact[] | undefined;
 
-  // for user generated infor
-  public uwDeterminationDict: Record<string, Determination> = {};
-  public uwPlummerLoading: boolean = false
-
   // shortcuts
   public CohortInclusion = CohortInclusion;
 
@@ -70,6 +71,10 @@ export class ApplicationStatusService {
 
   public setView(view: View): void {
     this.activeView = view;
+  }
+
+  public getUsername(): string {
+    return '' + localStorage.getItem('username');
   }
 
   /////////////////////////////////////////////////////////
@@ -370,10 +375,17 @@ export class ApplicationStatusService {
     let nodes = get_nodes(this.uwCriteria);
     for (let i = 0; i < nodes.length; i++) {
       const n = nodes[i];
+
+      // get current user UID
+      let user_uid = '' + localStorage.getItem('username');
+
+      // TODO update this UID if it is in return obj
       dd[n.nodeUID] = {
         job_uid: this.uwJobSelected!.job_uid,
         patient_uid: this.uwPat!.pat_uid,
         criteria_uid: n.nodeUID,
+        // get the uid from local
+        user_uid: user_uid,
         judgement: JUDGEMENT_TYPE.UNJUDGED,
         comment: '',
         date_updated: new Date(),
@@ -389,6 +401,84 @@ export class ApplicationStatusService {
     console.log('* loaded latest determinations', dd);
     this.uwDeterminationDict = dd;
   }
+
+  public showAdjudications(): void {
+    this.middleware.rest.get_adjudications(
+      this.uwJobSelected!.job_uid, // job_uid
+      this.uwPat!.pat_uid,
+      this.uwCriteria!,
+      this.uwDeterminationDict
+    ).subscribe(ds => {
+      this._showAdjudications(ds);
+      // update the loading status
+      this.uwPlummerLoading = false;
+    });
+  }
+
+  public _showAdjudications(ds: any): void {
+    // to dictionary
+    type dtmnRecord = Record<string, any>;
+    let dd: dtmnRecord = {};
+
+    function get_nodes(node:any) {
+      var ns: any[] = [];
+      if (node.hasOwnProperty('children')) {
+        for (let i = 0; i < node.children.length; i++) {
+          const c = node.children[i];
+          ns.push(c);
+          var _ns = get_nodes(c);
+          Array.prototype.push.apply(ns, _ns);
+        }
+      }
+
+      return ns;
+    }
+    let nodes = get_nodes(this.uwCriteria);
+
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      // TODO update this UID if it is in return obj
+      dd[n.nodeUID] = ds[n.nodeUID];
+    }
+
+    console.log('* loaded latest adjudication', dd);
+    this.uwAdjudicationDict = dd;
+  }
+
+  public calcAgreement(criteria_uid: string): JUDGEMENT_AGREEMENT {
+    let my_dtmn = this.uwDeterminationDict[criteria_uid].judgement;
+    let n = 0;
+    for (const user_uid in this.uwAdjudicationDict[criteria_uid]) {
+      let ot_dtmn = this.uwAdjudicationDict[criteria_uid][user_uid].judgement;
+      if (!this.isEqualDtmn(my_dtmn, ot_dtmn)) {
+        return JUDGEMENT_AGREEMENT.DISAGREED;
+      }
+      n += 1;
+    }
+    if (n == 0) {
+      return JUDGEMENT_AGREEMENT.INSUFFICIENT;
+    }
+    
+    return JUDGEMENT_AGREEMENT.AGREED;
+  }
+
+  public isEqualDtmn(dtmn_a: JUDGEMENT_TYPE, dtmn_b: JUDGEMENT_TYPE): boolean {
+    if (dtmn_a == dtmn_b) {
+      return true;
+    }
+
+    if ([JUDGEMENT_TYPE.JUDGED_MATCH, 
+         JUDGEMENT_TYPE.EVIDENCE_FOUND,
+         JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP].indexOf(dtmn_a) >= 0 &&
+         [JUDGEMENT_TYPE.JUDGED_MATCH, 
+          JUDGEMENT_TYPE.EVIDENCE_FOUND,
+          JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP].indexOf(dtmn_b) >= 0) {
+      return true;
+    }
+
+    return false;
+  }
+
 
   public showCriteriaByProject(project_uid: string): void {
 
@@ -597,4 +687,6 @@ export class ApplicationStatusService {
       );
     });
   }
+
+  
 }

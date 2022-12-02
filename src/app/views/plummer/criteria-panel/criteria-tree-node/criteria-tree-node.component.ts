@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTree } from '@angular/material/tree';
 import { CohortDefinition, NodeType } from 'src/app/models/cohort-definition';
-import { Determination, JUDGEMENT_TYPE } from 'src/app/models/determination';
+import { Determination, JUDGEMENT_AGREEMENT, JUDGEMENT_TYPE } from 'src/app/models/determination';
 import { ApplicationStatusService } from 'src/app/services/application-status.service';
 import { MiddlewareAdapterService } from 'src/app/services/middleware-adapter.service';
 import { FlatTreeNode } from '../criteria-tree-table/criteria-tree-table.component';
@@ -16,6 +16,7 @@ export class CriteriaTreeNodeComponent implements OnInit {
   @Input() node?: FlatTreeNode
 
   JUDGEMENT_TYPE = JUDGEMENT_TYPE
+  JUDGEMENT_AGREEMENT = JUDGEMENT_AGREEMENT
 
   constructor(
     public appStatus: ApplicationStatusService, 
@@ -69,10 +70,13 @@ export class CriteriaTreeNodeComponent implements OnInit {
     criteria_uid: string, 
     judgement?: JUDGEMENT_TYPE ) 
   {
+    let user_uid = '' + localStorage.getItem('username');
     return {
       job_uid: project_uid,
       patient_uid: patient_uid,
       criteria_uid: criteria_uid,
+
+      user_uid: user_uid,
       judgement: JUDGEMENT_TYPE.UNJUDGED,
 
       // user created information
@@ -131,5 +135,56 @@ export class CriteriaTreeNodeComponent implements OnInit {
 
   onChangeJudgement(): void {
 
+  }
+
+  get_comment(dtmn: any): string {
+    return "" + dtmn.comment;
+  }
+
+  get_icon_by_judgement(dtmn: any, type: string): string {
+    if (type == 'yes') {
+
+      if (dtmn.judgement == JUDGEMENT_TYPE.JUDGED_MATCH) {
+        return '<i class="fas fa-check-circle clr-d-yes"></i>';
+        
+      } else if (dtmn.judgement == JUDGEMENT_TYPE.EVIDENCE_FOUND) {
+        return '<i class="far fa-question-circle clr-d-may-yes"></i>';
+
+      } else if (dtmn.judgement == JUDGEMENT_TYPE.EVIDENCE_FOUND_NLP) {
+        return '<i class="far fa-question-circle clr-d-may-yes"></i>';
+
+      } else {
+        return '&nbsp;';
+      }
+
+    } 
+
+    if (type == 'no') {
+      if (dtmn.judgement == JUDGEMENT_TYPE.JUDGED_MISMATCH) {
+        return '<i class="fas fa-times-circle clr-d-no"></i>';
+  
+      } else if (dtmn.judgement == JUDGEMENT_TYPE.NO_EVIDENCE_FOUND) {
+        return '<i class="far fa-question-circle clr-d-may-no"></i>';
+        
+      } else {
+        return '&nbsp;';
+      }
+    }
+    
+    if (type == 'na') {
+
+      if (dtmn.judgement == JUDGEMENT_TYPE.JUDGED_NO_EVIDENCE) {
+        return '<i class="fas fa-minus-circle clr-d-na"></i>';
+        
+      } else {
+        return '&nbsp;';
+      }
+    }
+
+    if (dtmn.judgement == JUDGEMENT_TYPE.UNJUDGED) {
+      return '<i class="far fa-question-circle clr-d-na"></i>';
+    }
+
+    return '&nbsp;'
   }
 }
