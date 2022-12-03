@@ -37,10 +37,17 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     var rs = [] as CohortDefinition[];
     var n = Math.floor(Math.random() * 6 + 1);
     for (let i = 0; i < n; i++) {
+      let idx = i;
+      if (idx > 2) { 
+        // because we only have 3 sample
+        idx = 2; 
+      }
       let rep = this.cps(
-        EXAMPLE_CRITERIA_GERD.children![0].children![1].children![0]
+        EXAMPLE_CRITERIA_GERD.children![0].children![1].children![idx]
       )
-      rep.title = this._make_fake_title(keyword);
+      if (i > 2) {
+        rep.title = this._make_fake_title(keyword);
+      }
       rs.push(rep);
     }
     return of(rs);
