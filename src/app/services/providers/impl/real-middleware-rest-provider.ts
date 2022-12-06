@@ -41,7 +41,48 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
   // Data source related functions
   /////////////////////////////////////////////////////////
   public get_project_data_sources(project_uid: string): Observable<DataSource[]> {
-    throw new Error("Method not implemented.");
+    // create the URL
+    let url = this.base_url + '/_projects/data_sources';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set('project_uid', project_uid);
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers })
+      .pipe(
+        catchError(this._handle_error),
+        map(rsp => {
+          let ds = rsp as Array<DataSource>;
+          console.log('* get_project_data_sources', ds);
+          return ds;
+        }));
+  }
+
+  public update_project_data_sources(project_uid: string, dss: DataSource[]): Observable<boolean> {
+    // create the URL
+    let url = this.base_url + '/_projects/data_sources';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set('project_uid', project_uid);
+
+    // set the body
+    const body = dss;
+
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.post(url, body, { "params": params, 'headers': headers })
+      .pipe(
+        catchError(this._handle_error),
+        map(rsp => {
+          console.log('* update_project_data_sources: ', rsp);
+          return rsp;
+        }));
   }
 
   public get_all_data_sources(): Observable<DataSource[]> {
@@ -63,13 +104,26 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
           return ds;
         }));
   }
-
-  public update_project_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
-    throw new Error("Method not implemented.");
-  }
   
   public get_job_data_sources(job_uid: string): Observable<DataSource[]> {
-    throw new Error("Method not implemented.");
+    // create the URL
+    let url = this.base_url + '/_jobs/data_sources';
+
+    // set the parameters
+    const params = new HttpParams()
+      .set('job_uid', job_uid);
+    // set the headers
+    const headers = this._get_headers();
+
+    // send request and parse the return
+    return this.http.get(url, { "params": params, 'headers': headers })
+      .pipe(
+        catchError(this._handle_error),
+        map(rsp => {
+          let ds = rsp as Array<DataSource>;
+          console.log('* get_job_data_sources', ds);
+          return ds;
+        }));
   }
 
   // need to update this when init

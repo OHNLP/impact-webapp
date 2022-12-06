@@ -48,6 +48,12 @@ export class DataSourceEditorComponent implements OnInit {
     this.hasChanged = true;
   }
 
+  onClickRefresh(): void {
+    this.appStatus.loadAllDataSources();
+    this.appStatus.loadPrjDataSources();
+    this.appStatus.loadJobDataSources();
+  }
+
   onClickSaveChanges(): void {
     let obj = this.editor!.get() as unknown as DataSource[];
     console.log('* changed PrjDS JSON', obj);

@@ -77,9 +77,9 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     return of(this.db.ds);
   }
 
-  public update_project_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
+  public update_project_data_sources(project_uid: string, dss: DataSource[]): Observable<boolean> {
     this.db.ds = dss as never[];
-    return of(this.db.ds);
+    return of(true);
   }
 
   public get_job_data_sources(job_uid: string): Observable<DataSource[]> {

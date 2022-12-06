@@ -591,6 +591,7 @@ export class ApplicationStatusService {
     this.middleware.rest.get_all_data_sources().subscribe(ds => {
       console.log('* loaded all data sources', ds);
       this.uwAllDataSources = ds;
+      this.toastr.success('Loaded all avaiable data sources');
     });
   }
 
@@ -600,6 +601,7 @@ export class ApplicationStatusService {
     ).subscribe(ds => {
       console.log('* loaded project data sources', ds);
       this.uwPrjDataSources = ds;
+      this.toastr.success('Loaded project data sources');
     });
   }
 
@@ -609,7 +611,7 @@ export class ApplicationStatusService {
       this.uwPrjDataSources!
     ).subscribe(ds => {
       console.log('* saved project data sources', ds);
-      this.uwPrjDataSources = ds;
+      this.toastr.success('Updated project data sources');
     });
   }
 
@@ -619,6 +621,7 @@ export class ApplicationStatusService {
     ).subscribe(ds => {
       console.log('* loaded job data sources', ds);
       this.uwJobDataSources = ds;
+      this.toastr.success('Loaded job data sources');
     });
   }
 

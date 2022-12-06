@@ -9,10 +9,21 @@ import { DataSource } from "src/app/models/data-source";
 
 export abstract class MiddlewareRestProvider {
   /* Data Source Config Methods */
-  public abstract get_project_data_sources(project_uid: string): Observable<Array<DataSource>>
-  public abstract get_all_data_sources(): Observable<Array<DataSource>>
-  public abstract update_project_data_sources(project_uid: string, dss: Array<DataSource>): Observable<Array<DataSource>>
-  public abstract get_job_data_sources(job_uid: string): Observable<Array<DataSource>>
+  public abstract get_project_data_sources(
+    project_uid: string
+  ): Observable<Array<DataSource>>
+
+  public abstract get_all_data_sources(
+  ): Observable<Array<DataSource>>
+
+  public abstract update_project_data_sources(
+    project_uid: string, 
+    dss: Array<DataSource>
+  ): Observable<boolean>
+
+  public abstract get_job_data_sources(
+    job_uid: string
+  ): Observable<Array<DataSource>>
 
   /* ===== Global/User Information Methods ===== */
   public abstract get_username(): string
