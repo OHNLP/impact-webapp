@@ -69,17 +69,21 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   /////////////////////////////////////////////////////////
   // Data source related functions
   /////////////////////////////////////////////////////////
-  public get_project_data_sources(project_uid: string): Observable<DataSource[]> {
-    throw new Error('Method not implemented.');
-  }
   public get_all_data_sources(): Observable<DataSource[]> {
-    throw new Error('Method not implemented.');
+    return of(EXAMPLE_DATA_SOURCES);
   }
-  public update_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
-    throw new Error('Method not implemented.');
+
+  public get_project_data_sources(project_uid: string): Observable<DataSource[]> {
+    return of(this.db.ds);
   }
+
+  public update_project_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
+    this.db.ds = dss as never[];
+    return of(this.db.ds);
+  }
+
   public get_job_data_sources(job_uid: string): Observable<DataSource[]> {
-    throw new Error('Method not implemented.');
+    return of(this.db.ds);
   }
   
   // copy an data obj
@@ -94,7 +98,7 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
     adjudications: new Map<string, []>(),
     decision: new Map<string, CohortInclusion>(),
     criteria: this.cps(EXAMPLE_CRITERIA_GERD),
-    ds: this.cps(EXAMPLE_DATA_SOURCES)
+    ds: []
   }
 
   public randomEnumValue(enumeration:any): any {

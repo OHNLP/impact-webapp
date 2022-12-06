@@ -37,7 +37,7 @@ export class CohortDefinitionComponent implements OnInit {
   /** Reference to the Tree itself */
   @ViewChild('tree') tree!: MatTree<any>;
 
-  hasChanged: boolean = false;
+  public hasChanged: boolean = false;
 
   // for searching phenotype
   public phenotype_keyword: string = '';

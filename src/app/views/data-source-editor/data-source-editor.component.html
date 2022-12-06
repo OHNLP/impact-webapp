@@ -1,1 +1,45 @@
-<p>data-source-editor works!</p>
+<div class="menu-bar-box" 
+  style="display: flex; flex-direction: row; position: sticky; top: 0; z-index: 999;">
+  <button mat-raised-button
+    class="ml-2">
+    <mat-icon>refresh</mat-icon>
+    Refresh
+  </button>
+
+  <button *ngIf="hasChanged"
+    mat-raised-button
+    (click)="onClickSaveChanges()"
+    class="ml-2"
+    style="color:red;">
+      <mat-icon>save</mat-icon>
+      Save Changes
+  </button>
+
+</div>
+
+
+<div class="grid-container d-flex flex-row"
+    style="height: calc(100% - 80px);">
+
+    <div class="ds-panel">
+        <h3>Current Project Data Sources</h3>
+        <json-editor
+            #editor
+            [data]="this.appStatus.uwPrjDataSources!" 
+            [options]="editorOptions"
+            (change)="onChangeJSONEditor($event)">
+        </json-editor>
+    </div>
+
+    <div class="ds-panel">
+        <h3>Current Job Data Sources</h3>
+        <div class="doc-raw-json" 
+            [innerHTML]="getRawJSON(this.appStatus.uwJobDataSources)"></div>
+    </div>
+
+    <div class="ds-panel">
+        <h3>All Available Data Sources</h3>
+        <div class="doc-raw-json" 
+            [innerHTML]="getRawJSON(this.appStatus.uwAllDataSources)"></div>
+    </div>
+</div>

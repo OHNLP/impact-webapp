@@ -47,6 +47,8 @@ export class ApplicationStatusService {
 
   // for data sources
   public uwAllDataSources: DataSource[] | undefined;
+  public uwPrjDataSources: DataSource[] | undefined;
+  public uwJobDataSources: DataSource[] | undefined;
 
   // for UMLS Code search
   public uwIsSearchingUMLSCodes: boolean = false;
@@ -587,7 +589,36 @@ export class ApplicationStatusService {
 
   public loadAllDataSources(): void {
     this.middleware.rest.get_all_data_sources().subscribe(ds => {
+      console.log('* loaded all data sources', ds);
       this.uwAllDataSources = ds;
+    });
+  }
+
+  public loadPrjDataSources(): void {
+    this.middleware.rest.get_project_data_sources(
+      this.uwProject!.uid
+    ).subscribe(ds => {
+      console.log('* loaded project data sources', ds);
+      this.uwPrjDataSources = ds;
+    });
+  }
+
+  public savePrjDataSources(): void {
+    this.middleware.rest.update_project_data_sources(
+      this.uwProject!.uid,
+      this.uwPrjDataSources!
+    ).subscribe(ds => {
+      console.log('* saved project data sources', ds);
+      this.uwPrjDataSources = ds;
+    });
+  }
+
+  public loadJobDataSources(): void {
+    this.middleware.rest.get_job_data_sources(
+      this.uwJobSelected!.job_uid
+    ).subscribe(ds => {
+      console.log('* loaded job data sources', ds);
+      this.uwJobDataSources = ds;
     });
   }
 

@@ -64,7 +64,7 @@ export class RealMiddlewareRestProvider extends MiddlewareRestProvider {
         }));
   }
 
-  public update_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
+  public update_project_data_sources(project_uid: string, dss: DataSource[]): Observable<DataSource[]> {
     throw new Error("Method not implemented.");
   }
   

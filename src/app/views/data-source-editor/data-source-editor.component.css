@@ -1,0 +1,8 @@
+.ds-panel {
+    width: 33%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-right: 1px solid #dfdfdf;
+    padding: 5px;
+}

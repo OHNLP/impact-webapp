@@ -9,5 +9,10 @@ export const EXAMPLE_DATA_SOURCES: DataSource[] = [{
     name: "Data Source B for Note Data",
     description: "OHDSI CDM representation of Text EHR data from a sample cohort",
     backendID: "nlp"
+},
+{
+    name: "Data Source C for Note Data",
+    description: "OHDSI CDM representation of lab data from a sample cohort",
+    backendID: "ctd"
 }
 ];
