@@ -17,6 +17,7 @@ import { EXAMPLE_DOC_FHIR_NLP_CONDITION } from 'src/app/samples/sample-doc';
 import { DataSource } from 'src/app/models/data-source';
 import { EXAMPLE_DATA_SOURCES } from 'src/app/samples/sample-ds';
 import { EXAMPLE_USERS } from 'src/app/samples/sample-user';
+import { EXAMPLE_PHENOTYPE_UMLSCUIS } from 'src/app/samples/sample-phenotype';
 
 export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   
@@ -57,13 +58,14 @@ export class MockMiddlewareRestProvider extends MiddlewareRestProvider {
   // UMLS CUI search related functions
   /////////////////////////////////////////////////////////
   public get_umls_codes_by_keyword(keyword: string): Observable<any[]> {
-    var rs = [];
-    var n = Math.floor(Math.random() * 10 + 3);
-    for (let i = 0; i < n; i++) {
-      let code = faker.random.numeric(8);
-      rs.push(code);
-    }
-    return of(rs);
+    // var rs = [];
+    // var n = Math.floor(Math.random() * 10 + 3);
+    // for (let i = 0; i < n; i++) {
+    //   let code = faker.random.numeric(8);
+    //   rs.push(code);
+    // }
+    // return of(rs);
+    return of(EXAMPLE_PHENOTYPE_UMLSCUIS);
   }
 
   /////////////////////////////////////////////////////////

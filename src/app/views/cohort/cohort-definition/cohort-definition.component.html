@@ -154,8 +154,44 @@
         </div>
 
         <div *ngIf="!this.appStatus.uwIsSearchingUMLSCodes"
-          class="panel-result-list-box"
-          [innerHTML]="getUMLSCodeList()">
+          class="panel-result-list-box">
+          <table mat-table [dataSource]="dataSourceUMLSCodes"
+            style="width: 100%;">
+            <!-- first Column -->
+            <ng-container matColumnDef="sourceUMLSCUI">
+              <th mat-header-cell *matHeaderCellDef>UMLS Code</th>
+              <td mat-cell *matCellDef="let element"> {{element.sourceUMLSCUI}} </td>
+            </ng-container>
+
+            <!-- 2 Column -->
+            <ng-container matColumnDef="representation">
+              <th mat-header-cell *matHeaderCellDef>Representation </th>
+              <td mat-cell *matCellDef="let element"> {{ element.representation }} </td>
+            </ng-container>
+
+            <!-- 3 Column -->
+            <ng-container matColumnDef="reperesentationDescription">
+              <th mat-header-cell *matHeaderCellDef>Description </th>
+              <td mat-cell *matCellDef="let element"> {{ element.reperesentationDescription }} </td>
+            </ng-container>
+
+            <!-- action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-button 
+                  mat-raised-button
+                  class="ml-2"
+                  (click)="copyUMLSCode(element)">
+                  <mat-icon>file_copy</mat-icon>
+                  Copy Code
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSearchUMLSCodes"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSearchUMLSCodes;"></tr>
+          </table>
         </div>
 
       </mat-expansion-panel>
@@ -214,7 +250,41 @@
 
         <div *ngIf="!this.appStatus.uwIsSearchingPhenoReps"
           class="panel-result-list-box">
-          <mat-accordion>
+
+          <table mat-table [dataSource]="dataSourcePhenoReps"
+            style="width: 100%;">
+
+            <!-- 1 Column -->
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>Type</th>
+              <td mat-cell *matCellDef="let element"> {{ element.type }} </td>
+            </ng-container>
+
+            <!-- 2 Column -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef>Title</th>
+              <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+
+            <!-- action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-button 
+                  mat-raised-button
+                  class="ml-2"
+                  (click)="copyPhenotypeRep(element)">
+                  <mat-icon>file_copy</mat-icon>
+                  Copy
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSearchPhenoReps"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSearchPhenoReps;"></tr>
+          </table>
+
+          <!-- <mat-accordion>
 
             <mat-expansion-panel
               *ngFor="let def of this.appStatus.uwPhenoReps">
@@ -240,7 +310,7 @@
 
             </mat-expansion-panel>
 
-          </mat-accordion>
+          </mat-accordion> -->
           
         </div>
 

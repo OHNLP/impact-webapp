@@ -1,6 +1,6 @@
 import { PhenotypeRep } from "../models/phenotype";
 
-export const EXAMPLE_PHENOTYPES: PhenotypeRep[] = [
+export const EXAMPLE_PHENOTYPE_UMLSCUIS: PhenotypeRep[] = [
     {
         "dataSourceID": ["ohdsi_epic_clarity", "ohdsi_nlp"],
         "sourceUMLSCUI": "C0017168",

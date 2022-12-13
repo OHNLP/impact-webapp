@@ -700,22 +700,26 @@ export class ApplicationStatusService {
 
   }
 
-  public searchUMLSCodes(keyword: string): void {
+  public searchUMLSCodes(keyword: string, callback: Function): void {
     this.uwIsSearchingUMLSCodes = true;
     this.middleware.rest.get_umls_codes_by_keyword(keyword).subscribe(rs => {
       this.uwUMLSCodes = rs;
       this.uwIsSearchingUMLSCodes = false;
+      // do something.
+      callback()
       this.toastr.success(
         "Found " + rs.length + ' UMLS CUIs'
       );
     });
   }
 
-  public searchPhenotypeReps(keyword: string): void {
+  public searchPhenotypeReps(keyword: string, callback: Function): void {
     this.uwIsSearchingPhenoReps = true;
     this.middleware.rest.get_pheno_reps_by_keyword(keyword).subscribe(rs => {
       this.uwPhenoReps = rs;
       this.uwIsSearchingPhenoReps = false;
+      // do something.
+      callback()
       this.toastr.success(
         "Found " + rs.length + ' Phenotype Representations'
       );

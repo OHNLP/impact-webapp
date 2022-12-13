@@ -14,6 +14,7 @@ import {MiddlewareAdapterService} from "../../../services/middleware-adapter.ser
 import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 import { MatAccordion } from '@angular/material/expansion';
 import {Clipboard} from '@angular/cdk/clipboard';
+import { MatTableDataSource } from '@angular/material/table';
 
 export const base_empty_criteria = [
   {
@@ -41,7 +42,22 @@ export class CohortDefinitionComponent implements OnInit {
 
   // for searching phenotype
   public phenotype_keyword: string = '';
+  public displayedColumnsSearchUMLSCodes: string[] = [
+    'sourceUMLSCUI',
+    'representation',
+    'reperesentationDescription',
+    'action'
+  ];
+  public dataSourceUMLSCodes!:MatTableDataSource<any>;
+
+
   public library_keyword: string = '';
+  public displayedColumnsSearchPhenoReps: string[] = [
+    'type',
+    'title',
+    'action'
+  ];
+  public dataSourcePhenoReps!:MatTableDataSource<any>;
 
   /** The TreeControl controls the expand/collapse state of tree nodes.  */
   treeControl: NestedTreeControl<CohortDefinition, CohortDefinition>;
@@ -77,6 +93,9 @@ export class CohortDefinitionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataSourceUMLSCodes = new MatTableDataSource();
+    this.dataSourcePhenoReps = new MatTableDataSource();
+    // this.dataSourceUMLSCodes.paginator = this.paginator;
 
     if (this.appStatus.uwProject) {
       // this.unmodifiedTree = 
@@ -106,8 +125,13 @@ export class CohortDefinitionComponent implements OnInit {
   // Phenotype lib related functions
   /////////////////////////////////////////////////////////
   searchPhenotypeReps(): void {
+    let _this = this;
     this.appStatus.searchPhenotypeReps(
-      this.library_keyword
+      this.library_keyword,
+      function() {
+        _this.dataSourcePhenoReps.data = _this.appStatus.uwPhenoReps!;
+        console.log('* updated phenotype reps:', _this.dataSourcePhenoReps);
+      }
     );
   }
 
@@ -132,9 +156,18 @@ export class CohortDefinitionComponent implements OnInit {
   }
 
   searchUMLSCodes(): void {
+    let _this = this;
     this.appStatus.searchUMLSCodes(
-      this.phenotype_keyword
+      this.phenotype_keyword,
+      function() {
+        _this.dataSourceUMLSCodes.data = _this.appStatus.uwUMLSCodes!;
+        console.log('* updated phenotype code:', _this.dataSourceUMLSCodes);
+      }
     );
+  }
+
+  copyUMLSCode(elm: any): void {
+    console.log('* copied UMLS Code:', elm)
   }
 
   copyUMLSCodes(): void {
