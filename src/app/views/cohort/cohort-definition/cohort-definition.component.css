@@ -48,3 +48,8 @@
 .mat-panel-title {
   padding: 1px 0;
 }
+
+.ds-data-source-label {
+  font-style: italic;
+  font-size: 0.85em;
+}

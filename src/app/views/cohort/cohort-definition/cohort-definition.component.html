@@ -166,14 +166,23 @@
             <!-- 2 Column -->
             <ng-container matColumnDef="representation">
               <th mat-header-cell *matHeaderCellDef>Representation </th>
-              <td mat-cell *matCellDef="let element"> {{ element.representation }} </td>
+              <td mat-cell *matCellDef="let element">
+                {{ element.representation }} 
+                <span class="ds-data-source-label">
+                  @{{ fmtDS(element.dataSourceID) }}
+                </span>
+                <br>
+                {{ element.reperesentationDescription }}
+              </td>
             </ng-container>
-
-            <!-- 3 Column -->
+<!-- 
+            3 Column
             <ng-container matColumnDef="reperesentationDescription">
               <th mat-header-cell *matHeaderCellDef>Description </th>
-              <td mat-cell *matCellDef="let element"> {{ element.reperesentationDescription }} </td>
-            </ng-container>
+              <td mat-cell *matCellDef="let element">
+                {{ element.reperesentationDescription }}
+              </td>
+            </ng-container> -->
 
             <!-- action Column -->
             <ng-container matColumnDef="action">

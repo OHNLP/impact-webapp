@@ -45,7 +45,7 @@ export class CohortDefinitionComponent implements OnInit {
   public displayedColumnsSearchUMLSCodes: string[] = [
     'sourceUMLSCUI',
     'representation',
-    'reperesentationDescription',
+    // 'reperesentationDescription',
     'action'
   ];
   public dataSourceUMLSCodes!:MatTableDataSource<any>;
@@ -141,6 +141,10 @@ export class CohortDefinitionComponent implements OnInit {
 
   getPhenotypeRepJSONStr(def: CohortDefinition): string {
     return JSON.stringify(def, null, 2);
+  }
+
+  fmtDS(ds: string[]): string {
+    return ds.join(', ');
   }
 
   /////////////////////////////////////////////////////////
