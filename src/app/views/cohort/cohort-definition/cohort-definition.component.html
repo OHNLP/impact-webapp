@@ -25,8 +25,25 @@
 
 
 
-<div class="editor-box" *ngIf="!this.appStatus.uwCriteriaUseEditorMode">
+<div class="editor-box d-flex flex-row"
+  style="height: calc( 100% - 65px); overflow-y: hidden;">
+
+  <!-- for viewer mode -->
+  <div *ngIf="this.appStatus.uwCriteriaUseEditorMode"
+    class="json-editor-box">
+      <json-editor
+        #editor
+        [data]="this.appStatus.uwCriteria!" 
+        [options]="editorOptions"
+        (change)="onChangeJSONEditor($event)">
+      </json-editor>
   
+  </div>
+  
+  <!-- for editor mode -->
+  <div *ngIf="!this.appStatus.uwCriteriaUseEditorMode"
+    class="json-editor-box">
+
   <mat-tree [dataSource]="dataSource" 
     [treeControl]="treeControl" 
     #tree 
@@ -75,21 +92,6 @@
       </div>
     </mat-nested-tree-node>
   </mat-tree>
-
-</div>
-
-
-<div *ngIf="this.appStatus.uwCriteriaUseEditorMode"
-  class="editor-box d-flex flex-row"
-  style="height: calc( 100% - 65px); overflow-y: hidden;">
-  
-  <div class="json-editor-box">
-    <json-editor
-      #editor
-      [data]="this.appStatus.uwCriteria!" 
-      [options]="editorOptions"
-      (change)="onChangeJSONEditor($event)">
-    </json-editor>
 
   </div>
 
@@ -248,4 +250,5 @@
 
     </mat-accordion>
   </div>
+
 </div>
