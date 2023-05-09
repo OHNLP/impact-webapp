@@ -1,6 +1,14 @@
-# CohortRecruitmentTool
+# IMPACT Web App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.3.
+
+# How to deploy?
+
+This application is initialized and scaffolded using Angular CLI. 
+You can use Angular CLI commands to build and deploy the built release to any web server, such as [Apache](https://httpd.apache.org/) and [Nginx](https://www.nginx.com/). 
+For more details, please check the manual on [Project Wiki](https://github.com/OHNLP/impact-webapp/wiki/Manual).
+
+# How to develop?
 
 ## Development server
 
